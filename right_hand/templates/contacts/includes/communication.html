@@ -1,0 +1,5 @@
+<p>{{ communication.type }}
+<p><a href={% url 'contacts:contacts_profile' communication.contact.pk %}>{{ communication.contact.name }}</a>
+<p>Последняя коммуникация - {{ communication.pub_date }}
+
+

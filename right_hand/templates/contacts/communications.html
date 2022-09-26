@@ -1,0 +1,9 @@
+{% extends 'contacts/base_contacts.html' %}
+{% block content %}
+  <p><a href="{% url 'contacts:communications_new' %}">Новая коммуникация</a>
+  <ul>
+    {% for communication in communications %}
+      <li>{% include 'contacts/includes/communication.html' %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

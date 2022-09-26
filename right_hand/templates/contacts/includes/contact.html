@@ -1,0 +1,7 @@
+<a href={% url 'contacts:contacts_profile' contact.pk %}>{{ contact.name }}</a>
+<p>Email - {{ contact.email }}
+<p>Член семьи - {{ contact.is_family }}
+<p>Частота общения, дней - {{ contact.frequency_of_communications_days }}
+<p>День рождения - {{ contact.date_date_of_birthday }}
+
+

@@ -1,0 +1,5 @@
+{% extends 'contacts/base_contacts.html' %}
+{% block content %}
+  <a href={% url 'contacts:communications_new_with_contact' contact.pk %}>Новая коммуникация с контактом</a>
+  <p>{% include 'contacts/includes/contact.html' %}
+{% endblock %}

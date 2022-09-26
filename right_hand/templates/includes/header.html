@@ -1,0 +1,13 @@
+{% load static %}
+<nav>
+  <ul class="nav nav-pills">
+    <li class="nav-item"> 
+      <a class="nav-link 
+        {% if request.resolver_match.view_name  == 'contacts:contacts' %}
+          active
+        {% endif %}"
+        href="{% url 'contacts:contacts' %}"
+        >Контакты</a>
+    </li>
+  </ul>
+</nav>
