@@ -17,8 +17,9 @@ class CommunicationForm(forms.ModelForm):
     class Meta:
         model = Communication
         fields = (
-            "type",
-            "contact",
+            'type',
+            'contact',
+            'info',
         )
 
 
@@ -26,5 +27,6 @@ class CommunicationFormWithoutContact(forms.ModelForm):
     class Meta:
         model = Communication
         fields = (
-            "type",
+            'type',
+            'info',
         )

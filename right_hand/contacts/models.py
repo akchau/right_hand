@@ -1,10 +1,10 @@
 from django.db import models
 
 TYPE_OF_COMMUNICATIONS = [
-    ('Phone', 'Phone'),
-    ('Meeting', 'Meeting'),
-    ('Chat', 'Chat'),
-    ('Video', 'Video'),
+    ('Звонок', 'Звонок'),
+    ('Встреча', 'Встреча'),
+    ('Переписка', 'Переписка'),
+    ('Видео-звонок', 'Видео-звонок'),
 ]
 
 
@@ -33,7 +33,7 @@ class Communication(models.Model):
     """Модель коммуникации."""
 
     type = models.CharField(
-        max_length=10,
+        max_length=20,
         choices=TYPE_OF_COMMUNICATIONS,
     )
 
@@ -46,4 +46,11 @@ class Communication(models.Model):
     pub_date = models.DateTimeField(
         "Дата коммуникации.",
         auto_now_add=True,
+    )
+    info = models.TextField(
+        "Описание коммуникации",
+        help_text="Добавьте описние",
+        blank=True,
+        null=True,
+        default="Нет описания",
     )

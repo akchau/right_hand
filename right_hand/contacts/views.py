@@ -24,12 +24,15 @@ def contacts_profile(request, pk):
     """Страничка конаткта."""
     template = "contacts/contact_profile.html"
     contact = get_object_or_404(Contact, pk=pk)
+    communications = Communication.objects.filter(
+        contact=contact).order_by('-pub_date')
     title = f'{contact.name}'
     header = title
     context = {
         'title': title,
         'header': header,
         'contact': contact,
+        'communications': communications,
     }
     return render(request, template, context)
 
@@ -95,9 +98,9 @@ def communications_new_with_contact(request, pk):
     )
     if form.is_valid():
         new_communication = form.save(commit=False)
-        new_communication.contact = Contact.objects.filter(pk=pk)
+        new_communication.contact = Contact.objects.get(pk=pk)
         form.save(commit=True)
-        return redirect("contacts:contact_profile", pk=pk)
+        return redirect("contacts:contacts_profile", pk=pk)
     template = "contacts/communications_new_with.html"
     title = "Новая коммуникация c контактом."
     action = "Добавьте новую коммуникацию c контактом."
