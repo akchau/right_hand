@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .forms import (ContactForm,
                     CommunicationForm,
                     CommunicationFormWithoutContact)
-from .models import Communication, Contact
+from .models import Communication, Company, Contact
 
 
 def contacts(request):
@@ -62,7 +62,7 @@ def communications(request):
     template = "contacts/communications.html"
     title = 'Мои коммуникации.'
     header = title
-    communications = Communication.objects.all()
+    communications = Communication.objects.all().order_by('-pub_date')
     context = {
         'title': title,
         'header': header,
@@ -110,5 +110,33 @@ def communications_new_with_contact(request, pk):
         "form": form,
         "action": action,
         "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def partners(request):
+    """Все компании."""
+    template = "contacts/companies.html"
+    title = 'Все компании.'
+    header = title
+    companies = Company.objects.all()
+    context = {
+        'title': title,
+        'header': header,
+        'companies': companies,
+    }
+    return render(request, template, context)
+
+
+def partner_profile(request, pk):
+    """Профиль компании."""
+    template = "contacts/company_profile.html"
+    company = get_object_or_404(Company, pk=pk)
+    title = 'Профиль компании.'
+    header = title
+    context = {
+        'title': title,
+        'header': header,
+        'company': company,
     }
     return render(request, template, context)

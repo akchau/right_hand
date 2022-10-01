@@ -1,0 +1,8 @@
+{% extends 'contacts/base_contacts.html' %}
+{% block content %}
+  <ul>
+    {% for company in companies %}
+      <li>{% include 'contacts/includes/company_short.html' %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

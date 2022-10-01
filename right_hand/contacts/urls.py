@@ -23,4 +23,14 @@ urlpatterns = [
         views.communications_new_with_contact,
         name='communications_new_with_contact'
     ),
+    path(
+        'partners/',
+        views.partners,
+        name='partners'
+    ),
+    path(
+        'partners/<int:pk>/',
+        views.partner_profile,
+        name='partner_profile'
+    ),
 ]
