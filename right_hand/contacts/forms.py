@@ -10,6 +10,9 @@ class ContactForm(forms.ModelForm):
             "name",
             "email",
             "is_family",
+            "date_of_birthday",
+            "frequency_of_communications_days",
+            "company",
         )
 
 
@@ -29,4 +32,14 @@ class CommunicationFormWithoutContact(forms.ModelForm):
         fields = (
             'type',
             'info',
+        )
+
+
+class ContactFormWithoutPartner(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = (
+            "name",
+            "email",
+            "is_family",
         )

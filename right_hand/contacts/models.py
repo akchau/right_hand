@@ -8,54 +8,6 @@ TYPE_OF_COMMUNICATIONS = [
 ]
 
 
-class Contact(models.Model):
-    """Модель контакта."""
-
-    name = models.CharField(
-        "Имя контакта.",
-        max_length=200,
-        help_text="Укажите название группы.",
-    )
-    is_family = models.BooleanField(
-        "Член семьи.",
-        help_text="Член семьи.",
-    )
-    email = models.EmailField(default="email@email.ru")
-    frequency_of_communications_days = models.IntegerField(blank=True)
-    date_of_birthday = models.DateTimeField(
-        "Дата рождения.",
-        blank=True,
-        default="2011-09-29"
-    )
-
-
-class Communication(models.Model):
-    """Модель коммуникации."""
-
-    type = models.CharField(
-        max_length=20,
-        choices=TYPE_OF_COMMUNICATIONS,
-    )
-
-    contact = models.ForeignKey(
-        Contact,
-        on_delete=models.CASCADE,
-        related_name="communication",
-        verbose_name="Контакт",
-    )
-    pub_date = models.DateTimeField(
-        "Дата коммуникации.",
-        auto_now_add=True,
-    )
-    info = models.TextField(
-        "Описание коммуникации",
-        help_text="Добавьте описние",
-        blank=True,
-        null=True,
-        default="Нет описания",
-    )
-
-
 class Company(models.Model):
     """Модель компании."""
     inn = models.CharField("ИНН", max_length=10)
@@ -85,3 +37,69 @@ class Company(models.Model):
     )
     bic = models.CharField("БИК", max_length=9)
     head_of_company = models.CharField("ФИО руководителя", max_length=200)
+
+    def __str__(self):
+        return self.short_name
+
+
+class Contact(models.Model):
+    """Модель контакта."""
+
+    name = models.CharField(
+        "Имя контакта.",
+        max_length=200,
+        help_text="Укажите название группы.",
+    )
+    is_family = models.BooleanField(
+        "Член семьи.",
+        help_text="Член семьи.",
+    )
+    email = models.EmailField(default="email@email.ru")
+    frequency_of_communications_days = models.IntegerField(blank=True)
+    date_of_birthday = models.DateTimeField(
+        "Дата рождения.",
+        blank=True,
+        null=True,
+        default="2011-09-29",
+    )
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.SET_NULL,
+        related_name="company",
+        verbose_name="Компания",
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Communication(models.Model):
+    """Модель коммуникации."""
+
+    type = models.CharField(
+        max_length=20,
+        choices=TYPE_OF_COMMUNICATIONS,
+    )
+
+    contact = models.ForeignKey(
+        Contact,
+        on_delete=models.CASCADE,
+        related_name="communication",
+        verbose_name="Контакт",
+    )
+    pub_date = models.DateTimeField(
+        "Дата коммуникации.",
+        auto_now_add=True,
+    )
+    info = models.TextField(
+        "Описание коммуникации",
+        help_text="Добавьте описние",
+        blank=True,
+        null=True,
+        default="Нет описания",
+    )
+
+    def __str__(self):
+        return f"{self.type} - {self.contact}"

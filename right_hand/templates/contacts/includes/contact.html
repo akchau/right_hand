@@ -3,5 +3,10 @@
 <p>Член семьи - {{ contact.is_family }}
 <p>Частота общения, дней - {{ contact.frequency_of_communications_days }}
 <p>День рождения - {{ contact.date_date_of_birthday }}
+{% if contact.company %}
+    <p><a href={% url 'contacts:partner_profile' contact.company.pk %}>Компания - {{ contact.company.short_name }}</a>
+{% else %}
+    <p>Компания - Не указана</a>
+{% endif %}
 
 
