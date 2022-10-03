@@ -201,3 +201,53 @@ def contact_edit(request, pk):
         "pk": pk,
     }
     return render(request, template, context)
+
+
+def partner_edit(request, pk):
+    partner = get_object_or_404(Company, pk=pk)
+    form = PartnerForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=partner,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("contacts:partner_profile", pk=pk)
+    title = "Редактирование компании."
+    header = title
+    action = "Редактируйте данные компании."
+    template = "contacts/partner_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def communication_edit(request, pk):
+    communication = get_object_or_404(Communication, pk=pk)
+    form = CommunicationForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=communication,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("contacts:communications")
+    title = "Редактирование коммуникации."
+    header = title
+    action = "Редактируйте коммуникацию."
+    template = "contacts/communications_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)

@@ -17,3 +17,5 @@
 <p>БИК - {{ company.cor_acount }}
 <h5>Руководитель</h5>
 <p>Руководитель - {{ company.head_of_company }}
+<p><small><a href={% url 'contacts:partner_edit' company.pk %}>Редактировать</a></small>
+<small><a href={% url 'contacts:partner_delete' company.pk %}>Удалить</a></small>

@@ -29,7 +29,7 @@ urlpatterns = [
         name='partners'
     ),
     path(
-        'partners/<int:pk>/',
+        'partner/<int:pk>/',
         views.partner_profile,
         name='partner_profile'
     ),
@@ -58,5 +58,15 @@ urlpatterns = [
         'contact/<int:pk>/edit/',
         views.contact_edit,
         name='contact_edit'
+    ),
+    path(
+        'partner/<int:pk>/edit/',
+        views.partner_edit,
+        name='partner_edit'
+    ),
+    path(
+        'communication/<int:pk>/edit/',
+        views.communication_edit,
+        name='communication_edit'
     ),
 ]

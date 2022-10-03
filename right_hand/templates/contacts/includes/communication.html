@@ -3,5 +3,6 @@
 <p>{{ communication.pub_date }}
 <p>Описание: {{ communication.info }}
 <p><small><a href={% url 'contacts:communication_delete' communication.pk %}>Удалить</a></small>
+<small><a href={% url 'contacts:communication_edit' communication.pk %}>Редактировать</a></small>
 
 
