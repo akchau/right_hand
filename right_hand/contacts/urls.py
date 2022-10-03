@@ -7,7 +7,7 @@ app_name = 'contacts'
 urlpatterns = [
     path('contacts/', views.contacts, name='contacts'),
     path(
-        'contacts/<int:pk>/',
+        'contact/<int:pk>/',
         views.contacts_profile,
         name='contacts_profile'
     ),
@@ -43,5 +43,15 @@ urlpatterns = [
         'partners/<int:pk>/delete/',
         views.partner_delete,
         name='partner_delete'
+    ),
+    path(
+        'contacts/<int:pk>/delete/',
+        views.contact_delete,
+        name='contact_delete'
+    ),
+    path(
+        'communications/<int:pk>/delete/',
+        views.communication_delete,
+        name='communication_delete'
     ),
 ]

@@ -1,6 +1,7 @@
 {% extends 'contacts/base_contacts.html' %}
 {% block content %}
   <a href={% url 'contacts:communications_new_with_contact' contact.pk %}>Новая коммуникация с контактом</a>
+  <a href={% url 'contacts:contact_delete' contact.pk %}>Удалить контакт</a>
   <p>{% include 'contacts/includes/contact.html' %}
   <h1>История общения</h1>
   <p>{% for communication in communications %}

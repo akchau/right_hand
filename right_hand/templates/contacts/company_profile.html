@@ -1,5 +1,4 @@
 {% extends 'contacts/base_contacts.html' %}
 {% block content %}
-  <a href={% url 'contacts:partner_delete' company.pk %}>Удалить компанию</a>
   {% include 'contacts/includes/company.html' %}
 {% endblock %}

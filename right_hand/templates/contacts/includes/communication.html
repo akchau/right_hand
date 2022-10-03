@@ -2,5 +2,6 @@
 <p><a href={% url 'contacts:contacts_profile' communication.contact.pk %}>{{ communication.contact.name }}</a>
 <p>{{ communication.pub_date }}
 <p>Описание: {{ communication.info }}
+<p><small><a href={% url 'contacts:communication_delete' communication.pk %}>Удалить</a></small>
 
 

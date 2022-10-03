@@ -166,3 +166,13 @@ def partner_new(request):
 def partner_delete(request, pk):
     Company.objects.get(pk=pk).delete()
     return redirect("contacts:partners")
+
+
+def contact_delete(request, pk):
+    Contact.objects.get(pk=pk).delete()
+    return redirect("contacts:contacts")
+
+
+def communication_delete(request, pk):
+    Communication.objects.get(pk=pk).delete()
+    return redirect("contacts:communications")
