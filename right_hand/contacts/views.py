@@ -161,3 +161,8 @@ def partner_new(request):
         "action": action,
     }
     return render(request, template, context)
+
+
+def partner_delete(request, pk):
+    Company.objects.get(pk=pk).delete()
+    return redirect("contacts:partners")

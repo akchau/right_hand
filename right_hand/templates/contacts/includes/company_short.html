@@ -1,2 +1,2 @@
-<h3>{{ company.short_name }}</h3>
+<h3><a href={% url 'contacts:partner_profile' company.pk %}>{{ company.short_name }}</a></h3>
 <p>{{ company.full_name }}

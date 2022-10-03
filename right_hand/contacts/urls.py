@@ -39,4 +39,9 @@ urlpatterns = [
         views.partner_new,
         name='partner_new'
     ),
+    path(
+        'partners/<int:pk>/delete/',
+        views.partner_delete,
+        name='partner_delete'
+    ),
 ]
