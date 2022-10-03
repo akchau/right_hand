@@ -2,7 +2,8 @@ from django.shortcuts import redirect, render, get_object_or_404
 
 from .forms import (ContactForm,
                     CommunicationForm,
-                    CommunicationFormWithoutContact)
+                    CommunicationFormWithoutContact,
+                    PartnerForm)
 from .models import Communication, Company, Contact
 
 
@@ -138,5 +139,25 @@ def partner_profile(request, pk):
         'title': title,
         'header': header,
         'company': company,
+    }
+    return render(request, template, context)
+
+
+def partner_new(request):
+    """Добавление новой компании."""
+    form = PartnerForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("contacts:partners")
+    template = "contacts/partner_new.html"
+    title = "Новая компания."
+    action = "Добавьте новую компанию."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
     }
     return render(request, template, context)

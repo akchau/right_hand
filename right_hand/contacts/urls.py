@@ -33,4 +33,10 @@ urlpatterns = [
         views.partner_profile,
         name='partner_profile'
     ),
+
+    path(
+        'partners/new/',
+        views.partner_new,
+        name='partner_new'
+    ),
 ]
