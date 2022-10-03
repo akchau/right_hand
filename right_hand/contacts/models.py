@@ -6,6 +6,13 @@ TYPE_OF_COMMUNICATIONS = [
     ('Переписка', 'Переписка'),
     ('Видео-звонок', 'Видео-звонок'),
 ]
+CONTACT_ROLE = [
+    ('Член семьи', 'Член семьи'),
+    ('Подчиненый', 'Подчиненый'),
+    ('Товарищ', 'Товарищ'),
+    ('Коллега', 'Коллега'),
+    ('Деловой партнер', 'Деловой партнер'),
+]
 
 
 class Company(models.Model):
@@ -67,21 +74,33 @@ class Contact(models.Model):
     """Модель контакта."""
 
     name = models.CharField(
-        "Имя контакта.",
+        "Имя контакта",
         max_length=200,
-        help_text="Укажите название группы.",
+        help_text="Укажите фамилию и имя контакта.",
     )
-    is_family = models.BooleanField(
-        "Член семьи.",
-        help_text="Член семьи.",
+    role = models.CharField(
+        "Роль контакта",
+        help_text="Выберите роль контакта.",
+        max_length=20,
+        blank=True,
+        null=True,
+        choices=CONTACT_ROLE,
     )
-    email = models.EmailField(default="email@email.ru")
-    frequency_of_communications_days = models.IntegerField(blank=True)
+    email = models.EmailField(
+        "Email",
+        blank=True,
+        null=True,
+        help_text="Укажите основной email.",
+    )
+    frequency_of_communications_days = models.IntegerField(
+        "Частота коммуникаций. Раз/дней.",
+        help_text="Укажите как часто хотите общаться с контактом.",
+    )
     date_of_birthday = models.DateTimeField(
         "Дата рождения.",
         blank=True,
         null=True,
-        default="2011-09-29",
+        help_text="Укажите день рождения контакта.",
     )
     company = models.ForeignKey(
         Company,
@@ -90,6 +109,12 @@ class Contact(models.Model):
         verbose_name="Компания",
         null=True,
         blank=True,
+        help_text="Укажите компанию контакта.",
+    )
+    position = models.CharField(
+        "Должность",
+        max_length=200,
+        help_text="Укажите должность контакта.",
     )
 
     def __str__(self):

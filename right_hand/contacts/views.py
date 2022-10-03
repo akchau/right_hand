@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 
 from .forms import (ContactForm,
+                    ContactFormWithPartner,
                     CommunicationForm,
                     CommunicationFormWithoutContact,
                     PartnerForm)
@@ -12,7 +13,8 @@ def contacts(request):
     template = "contacts/contacts.html"
     title = 'Мои контакты.'
     header = title
-    contacts = Contact.objects.all()
+    contacts = Contact.objects.all().order_by(
+        "frequency_of_communications_days")
     context = {
         'title': title,
         'header': header,
@@ -21,7 +23,7 @@ def contacts(request):
     return render(request, template, context)
 
 
-def contacts_profile(request, pk):
+def contact_profile(request, pk):
     """Страничка конаткта."""
     template = "contacts/contact_profile.html"
     contact = get_object_or_404(Contact, pk=pk)
@@ -38,7 +40,7 @@ def contacts_profile(request, pk):
     return render(request, template, context)
 
 
-def contacts_new(request):
+def contact_new(request):
     """Добавление нового контакта."""
     form = ContactForm(
         request.POST or None,
@@ -56,6 +58,61 @@ def contacts_new(request):
         "action": action,
     }
     return render(request, template, context)
+
+
+def contact_new_with_partner(request, pk):
+    """Добавление нового контакта."""
+    form = ContactFormWithPartner(
+        request.POST or None,
+    )
+    if form.is_valid():
+        new_contact = form.save(commit=False)
+        new_contact.company = Company.objects.get(pk=pk)
+        new_contact.role = 'Деловой партнер'
+        form.save(commit=True)
+        return redirect("contacts:partner_profile", pk=pk)
+    template = "contacts/contacts_new.html"
+    title = "Новый контакт компании."
+    action = "Добавьте новый контакт партнера."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+        "with_patrner": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def contact_edit(request, pk):
+    contact = get_object_or_404(Contact, pk=pk)
+    form = ContactForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=contact,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("contacts:contact_profile", pk=pk)
+    title = "Редактирование контакта"
+    header = title
+    action = "Редактируйте контакт"
+    template = "contacts/contacts_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def contact_delete(request, pk):
+    Contact.objects.get(pk=pk).delete()
+    return redirect("contacts:contacts")
 
 
 def communications(request):
@@ -168,39 +225,9 @@ def partner_delete(request, pk):
     return redirect("contacts:partners")
 
 
-def contact_delete(request, pk):
-    Contact.objects.get(pk=pk).delete()
-    return redirect("contacts:contacts")
-
-
 def communication_delete(request, pk):
     Communication.objects.get(pk=pk).delete()
     return redirect("contacts:communications")
-
-
-def contact_edit(request, pk):
-    contact = get_object_or_404(Contact, pk=pk)
-    form = ContactForm(
-        request.POST or None,
-        files=request.FILES or None,
-        instance=contact,
-    )
-    if form.is_valid():
-        form.save()
-        return redirect("contacts:contacts_profile", pk=pk)
-    title = "Редактирование контакта"
-    header = title
-    action = "Редактируйте контакт"
-    template = "contacts/contacts_new.html"
-    context = {
-        "title": title,
-        "header": header,
-        "action": action,
-        "form": form,
-        "is_edit": True,
-        "pk": pk,
-    }
-    return render(request, template, context)
 
 
 def partner_edit(request, pk):

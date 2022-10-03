@@ -1,8 +1,11 @@
 {% extends 'form.html' %}
 {% block form %}
+  {% if with_patrner %}
+    <form method="post" action="{% url 'contacts:contact_new_with_partner' pk %}" enctype="multipart/form-data">{% csrf_token %}
+  {% endif %}
   {% if is_edit %}
     <form method="post" action="{% url 'contacts:contact_edit' pk %}" enctype="multipart/form-data">{% csrf_token %}
   {% else %}
-    <form method="post" action="{% url 'contacts:contacts_new' %}" enctype="multipart/form-data">{% csrf_token %}
+    <form method="post" action="{% url 'contacts:contact_new' %}" enctype="multipart/form-data">{% csrf_token %}
   {% endif %}
 {% endblock %}

@@ -8,20 +8,35 @@ urlpatterns = [
     path('contacts/', views.contacts, name='contacts'),
     path(
         'contact/<int:pk>/',
-        views.contacts_profile,
-        name='contacts_profile'
+        views.contact_profile,
+        name='contact_profile'
     ),
-    path('contacts/new/', views.contacts_new, name='contacts_new'),
+    path('contact/new/', views.contact_new, name='contact_new'),
+    path(
+        'contact/new/with_partner/<int:pk>/',
+        views.contact_new_with_partner,
+        name='contact_new_with_partner'
+    ),
+    path(
+        'contact/<int:pk>/edit/',
+        views.contact_edit,
+        name='contact_edit'
+    ),
+    path(
+        'contact/<int:pk>/delete/',
+        views.contact_delete,
+        name='contact_delete'
+    ),
     path('communications/', views.communications, name='communications'),
     path(
-        'communications_new/',
+        'communication/new/',
         views.communications_new,
-        name='communications_new'
+        name='communication_new'
     ),
     path(
-        'communications_new_with/<int:pk>/',
+        'communication_new_with/<int:pk>/',
         views.communications_new_with_contact,
-        name='communications_new_with_contact'
+        name='communication_new_with_contact'
     ),
     path(
         'partners/',
@@ -45,19 +60,9 @@ urlpatterns = [
         name='partner_delete'
     ),
     path(
-        'contacts/<int:pk>/delete/',
-        views.contact_delete,
-        name='contact_delete'
-    ),
-    path(
         'communications/<int:pk>/delete/',
         views.communication_delete,
         name='communication_delete'
-    ),
-    path(
-        'contact/<int:pk>/edit/',
-        views.contact_edit,
-        name='contact_edit'
     ),
     path(
         'partner/<int:pk>/edit/',

@@ -4,15 +4,28 @@ from .models import Contact, Communication, Company
 
 
 class ContactForm(forms.ModelForm):
+    """Форма для создания контакта."""
     class Meta:
         model = Contact
         fields = (
             "name",
             "email",
-            "is_family",
+            "role",
             "date_of_birthday",
             "frequency_of_communications_days",
             "company",
+        )
+
+
+class ContactFormWithPartner(forms.ModelForm):
+    """Форма для создания сотрудника компании."""
+    class Meta:
+        model = Contact
+        fields = (
+            "name",
+            "email",
+            "date_of_birthday",
+            "frequency_of_communications_days",
         )
 
 
@@ -32,18 +45,6 @@ class CommunicationFormWithoutContact(forms.ModelForm):
         fields = (
             'type',
             'info',
-        )
-
-
-class ContactFormWithoutPartner(forms.ModelForm):
-    class Meta:
-        model = Contact
-        fields = (
-            "name",
-            "email",
-            "is_family",
-            "date_of_birthday",
-            "frequency_of_communications_days",
         )
 
 
