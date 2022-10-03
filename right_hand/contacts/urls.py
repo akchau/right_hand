@@ -54,4 +54,9 @@ urlpatterns = [
         views.communication_delete,
         name='communication_delete'
     ),
+    path(
+        'contact/<int:pk>/edit/',
+        views.contact_edit,
+        name='contact_edit'
+    ),
 ]

@@ -1,4 +1,8 @@
 {% extends 'form.html' %}
 {% block form %}
-  <form method="post" action="{% url 'contacts:contacts_new' %}" enctype="multipart/form-data">{% csrf_token %}
+  {% if is_edit %}
+    <form method="post" action="{% url 'contacts:contact_edit' pk %}" enctype="multipart/form-data">{% csrf_token %}
+  {% else %}
+    <form method="post" action="{% url 'contacts:contacts_new' %}" enctype="multipart/form-data">{% csrf_token %}
+  {% endif %}
 {% endblock %}

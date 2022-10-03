@@ -176,3 +176,28 @@ def contact_delete(request, pk):
 def communication_delete(request, pk):
     Communication.objects.get(pk=pk).delete()
     return redirect("contacts:communications")
+
+
+def contact_edit(request, pk):
+    contact = get_object_or_404(Contact, pk=pk)
+    form = ContactForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=contact,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("contacts:contacts_profile", pk=pk)
+    title = "Редактирование контакта"
+    header = title
+    action = "Редактируйте контакт"
+    template = "contacts/contacts_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
