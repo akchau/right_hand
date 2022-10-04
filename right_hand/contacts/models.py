@@ -17,53 +17,100 @@ CONTACT_ROLE = [
 
 class Company(models.Model):
     """Модель компании."""
-    inn = models.CharField("ИНН", max_length=10)
-    kpp = models.CharField("КПП", max_length=9, blank=True, null=True)
-    ogrn = models.CharField("ОГРН", max_length=13, blank=True, null=True)
-    okpo = models.CharField("ОКПО", max_length=10, blank=True, null=True)
-    okved = models.CharField("ОКВЭД", max_length=10, blank=True, null=True)
-    fact_adress = models.TextField(max_length=10, blank=True, null=True)
-    legal_adress = models.TextField()
+    inn = models.CharField(
+        "ИНН",
+        max_length=10,
+        help_text="Укажите ИНН.",
+    )
+    kpp = models.CharField(
+        "КПП",
+        max_length=9,
+        blank=True,
+        null=True,
+        help_text="Укажите КПП.",
+    )
+    ogrn = models.CharField(
+        "ОГРН",
+        max_length=13,
+        blank=True,
+        null=True,
+        help_text="Укажите ОГРН.",
+    )
+    okpo = models.CharField(
+        "ОКПО",
+        max_length=10,
+        blank=True,
+        null=True,
+        help_text="Укажите ОКПО.",
+    )
+    okved = models.CharField(
+        "ОКВЭД",
+        max_length=10,
+        blank=True,
+        null=True,
+        help_text="Укажите ОКВЭД.",
+    )
+    fact_adress = models.TextField(
+        "Фактический адрес",
+        max_length=10,
+        blank=True,
+        null=True,
+        help_text="Укажите фактический адрес."
+    )
+    legal_adress = models.TextField(
+        "Юридический адрес",
+        help_text="Укажите юридический адрес.",
+    )
     full_name = models.CharField(
         "Полное наименование",
         max_length=200,
+        help_text="Укажите полное наименование.",
     )
     short_name = models.CharField(
         "Сокращенное наименование",
         max_length=150,
+        help_text="Укажите сокращенное наименование."
+    )
+    main_email = models.EmailField(
+        "Основной email",
         blank=True,
         null=True,
+        help_text="Укажите основной email."
     )
-    main_email = models.EmailField("Основной email", blank=True, null=True)
     phone_number = models.CharField(
         "Номер телефона",
         max_length=30,
         blank=True,
-        null=True
+        null=True,
+        help_text="Укажите номер телефона."
     )
     number_acount = models.CharField(
         "Расчетный счет",
         max_length=20,
         blank=True,
         null=True,
+        help_text="Укажите номер расчетного счета."
     )
     cor_acount = models.CharField(
         "Корреспондентский счет",
         max_length=20,
         blank=True,
         null=True,
+        help_text="Укажите номер кореспондентского счета."
     )
     bic = models.CharField(
         "БИК",
         max_length=9,
         blank=True,
         null=True,
+        help_text="Укажите БИК банка."
     )
     head_of_company = models.CharField(
         "ФИО руководителя",
         max_length=200,
         blank=True,
         null=True,
+        help_text="Укажите ФИО руководителя компании."
     )
 
     def __str__(self):
