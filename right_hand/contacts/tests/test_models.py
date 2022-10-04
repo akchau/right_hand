@@ -1,6 +1,10 @@
+"""Модуль тестирования моделей приложения Contacts
+В моделях тестируется корректность метаданных: verbose_name,
+help_text и корректность вызова метода __str__ моделей.
+"""
 from django.test import TestCase
 
-from contacts.models import Contact
+from contacts.models import Contact, Communication
 
 
 class ContactModelTest(TestCase):
@@ -56,9 +60,49 @@ class ContactModelTest(TestCase):
                     expected_value
                 )
 
-    def test_object_name_is_title_fild(self):
+    def test_object_name_is_name_fild(self):
         """Функция проверки __str__ модели Contact."""
         contact = ContactModelTest.contact
         expected_object_name = contact.name
         self.assertEqual(expected_object_name, str(contact))
 
+
+class CommunicationModelTest(TestCase):
+    """Класс тестирования модели Communication."""
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.contact = Contact.objects.create(
+            name='Имя Тест',
+            role='Коллега',
+            email='test@test.te',
+            frequency_of_communications_days=1,
+            date_of_birthday="2000-01-01 00:00:00",
+        )
+        cls.communication = Communication.objects.create(
+            type='Звонок',
+            contact=cls.contact,
+        )
+
+    def test_verbose_name(self):
+        """Функция проверки корректности читаемого названия поля."""
+        communication = CommunicationModelTest.communication
+        field_verboses = {
+            'type': "Тип коммуникации.",
+            'contact': "Контакт",
+            'pub_date': "Дата коммуникации.",
+            'info': "Описание коммуникации",
+        }
+        for field, expected_value in field_verboses.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    communication._meta.get_field(field).verbose_name,
+                    expected_value
+                )
+
+    def test_object_name_is_name_fild(self):
+        """Функция проверки __str__ модели Contact."""
+        contact = CommunicationModelTest.contact
+        communication = CommunicationModelTest.communication
+        expected_object_name = f"{communication.type} - {contact.name}"
+        self.assertEqual(expected_object_name, str(communication))

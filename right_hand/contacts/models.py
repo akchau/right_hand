@@ -125,6 +125,7 @@ class Communication(models.Model):
     """Модель коммуникации."""
 
     type = models.CharField(
+        "Тип коммуникации.",
         max_length=20,
         choices=TYPE_OF_COMMUNICATIONS,
     )
