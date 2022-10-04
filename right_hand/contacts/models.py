@@ -128,6 +128,7 @@ class Communication(models.Model):
         "Тип коммуникации.",
         max_length=20,
         choices=TYPE_OF_COMMUNICATIONS,
+        help_text="Укажите тип комуникации.",
     )
 
     contact = models.ForeignKey(
@@ -135,10 +136,12 @@ class Communication(models.Model):
         on_delete=models.CASCADE,
         related_name="communication",
         verbose_name="Контакт",
+        help_text="Укажите контакт коммуникаиции."
     )
     pub_date = models.DateTimeField(
         "Дата коммуникации.",
         auto_now_add=True,
+        help_text="Дата контакта.",
     )
     info = models.TextField(
         "Описание коммуникации",

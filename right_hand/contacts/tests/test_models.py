@@ -61,7 +61,7 @@ class ContactModelTest(TestCase):
                 )
 
     def test_object_name_is_name_fild(self):
-        """Функция проверки __str__ модели Contact."""
+        """Функция проверки __str__ модели"""
         contact = ContactModelTest.contact
         expected_object_name = contact.name
         self.assertEqual(expected_object_name, str(contact))
@@ -100,8 +100,24 @@ class CommunicationModelTest(TestCase):
                     expected_value
                 )
 
+    def test_help_text(self):
+        """"Функция проверки хелп-текста."""
+        communication = CommunicationModelTest.communication
+        field_help_text = {
+            'type': "Укажите тип комуникации.",
+            'contact': "Укажите контакт коммуникаиции.",
+            'pub_date': "Дата контакта.",
+            'info': "Добавьте описние",
+        }
+        for field, expected_value in field_help_text.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    communication._meta.get_field(field).help_text,
+                    expected_value
+                )
+
     def test_object_name_is_name_fild(self):
-        """Функция проверки __str__ модели Contact."""
+        """Функция проверки __str__ модели."""
         contact = CommunicationModelTest.contact
         communication = CommunicationModelTest.communication
         expected_object_name = f"{communication.type} - {contact.name}"
