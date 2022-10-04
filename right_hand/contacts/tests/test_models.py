@@ -55,3 +55,10 @@ class ContactModelTest(TestCase):
                     contact._meta.get_field(field).help_text,
                     expected_value
                 )
+
+    def test_object_name_is_title_fild(self):
+        """Функция проверки __str__ модели Contact."""
+        contact = ContactModelTest.contact
+        expected_object_name = contact.name
+        self.assertEqual(expected_object_name, str(contact))
+
