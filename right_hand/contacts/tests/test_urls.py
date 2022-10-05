@@ -45,6 +45,8 @@ class ContactsURLTests(TestCase):
             "/contacts/communication/new/": "contacts/communication_new.html",
             f"/contacts/communication/new_with/{self.contact.pk}/":
                 "contacts/communication_new_with.html",
+            f"/contacts/communication/{self.communication.pk}/":
+                "contacts/communication_profile.html",
             f"/contacts/communication/{self.communication.pk}/edit/":
                 "contacts/communication_new.html",
 

@@ -39,6 +39,11 @@ urlpatterns = [
         name='communication_new_with_contact'
     ),
     path(
+        'communication/<int:pk>/',
+        views.communication_profile,
+        name='communication_profile'
+    ),
+    path(
         'communication/<int:pk>/edit/',
         views.communication_edit,
         name='communication_edit'

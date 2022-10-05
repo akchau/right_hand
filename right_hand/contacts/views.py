@@ -158,7 +158,7 @@ def communications_new_with_contact(request, pk):
         new_communication = form.save(commit=False)
         new_communication.contact = Contact.objects.get(pk=pk)
         form.save(commit=True)
-        return redirect("contacts:contacts_profile", pk=pk)
+        return redirect("contacts:contact_profile", pk=pk)
     template = "contacts/communication_new_with.html"
     title = "Новая коммуникация c контактом."
     action = "Добавьте новую коммуникацию c контактом."
@@ -168,6 +168,20 @@ def communications_new_with_contact(request, pk):
         "form": form,
         "action": action,
         "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def communication_profile(request, pk):
+    """Страничка конаткта."""
+    template = "contacts/communication_profile.html"
+    communication = get_object_or_404(Communication, pk=pk)
+    title = f'{communication}'
+    header = title
+    context = {
+        'title': title,
+        'header': header,
+        'communication': communication,
     }
     return render(request, template, context)
 

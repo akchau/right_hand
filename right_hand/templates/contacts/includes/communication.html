@@ -1,4 +1,4 @@
-{{ communication.type }}
+<p><a href={% url 'contacts:communication_profile' communication.pk %}>{{ communication.type }}</a>
 <p><a href={% url 'contacts:contact_profile' communication.contact.pk %}>{{ communication.contact.name }}</a>
 <p>{{ communication.pub_date }}
 <p>Описание: {{ communication.info }}
