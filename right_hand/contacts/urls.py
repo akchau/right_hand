@@ -5,25 +5,25 @@ from . import views
 app_name = 'contacts'
 
 urlpatterns = [
-    path('contacts/', views.contacts, name='contacts'),
+    path('', views.contacts, name='contacts'),
     path(
-        'contact/<int:pk>/',
+        '<int:pk>/',
         views.contact_profile,
         name='contact_profile'
     ),
-    path('contact/new/', views.contact_new, name='contact_new'),
+    path('new/', views.contact_new, name='contact_new'),
     path(
-        'contact/new/with_partner/<int:pk>/',
+        'new_with_partner/<int:pk>/',
         views.contact_new_with_partner,
         name='contact_new_with_partner'
     ),
     path(
-        'contact/<int:pk>/edit/',
+        '<int:pk>/edit/',
         views.contact_edit,
         name='contact_edit'
     ),
     path(
-        'contact/<int:pk>/delete/',
+        '<int:pk>/delete/',
         views.contact_delete,
         name='contact_delete'
     ),
@@ -34,9 +34,19 @@ urlpatterns = [
         name='communication_new'
     ),
     path(
-        'communication_new_with/<int:pk>/',
+        'communication/new_with/<int:pk>/',
         views.communications_new_with_contact,
         name='communication_new_with_contact'
+    ),
+    path(
+        'communication/<int:pk>/edit/',
+        views.communication_edit,
+        name='communication_edit'
+    ),
+    path(
+        'communications/<int:pk>/delete/',
+        views.communication_delete,
+        name='communication_delete'
     ),
     path(
         'partners/',
@@ -50,28 +60,18 @@ urlpatterns = [
     ),
 
     path(
-        'partners/new/',
+        'partner/new/',
         views.partner_new,
         name='partner_new'
     ),
     path(
-        'partners/<int:pk>/delete/',
+        'partner/<int:pk>/delete/',
         views.partner_delete,
         name='partner_delete'
-    ),
-    path(
-        'communications/<int:pk>/delete/',
-        views.communication_delete,
-        name='communication_delete'
     ),
     path(
         'partner/<int:pk>/edit/',
         views.partner_edit,
         name='partner_edit'
-    ),
-    path(
-        'communication/<int:pk>/edit/',
-        views.communication_edit,
-        name='communication_edit'
     ),
 ]

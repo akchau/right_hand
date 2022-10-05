@@ -48,7 +48,7 @@ def contact_new(request):
     if form.is_valid():
         form.save()
         return redirect("contacts:contacts")
-    template = "contacts/contacts_new.html"
+    template = "contacts/contact_new.html"
     title = "Новый контакт"
     action = "Добавьте новый контакт"
     context = {
@@ -71,7 +71,7 @@ def contact_new_with_partner(request, pk):
         new_contact.role = 'Деловой партнер'
         form.save(commit=True)
         return redirect("contacts:partner_profile", pk=pk)
-    template = "contacts/contacts_new.html"
+    template = "contacts/contact_new.html"
     title = "Новый контакт компании."
     action = "Добавьте новый контакт партнера."
     context = {
@@ -98,7 +98,7 @@ def contact_edit(request, pk):
     title = "Редактирование контакта"
     header = title
     action = "Редактируйте контакт"
-    template = "contacts/contacts_new.html"
+    template = "contacts/contact_new.html"
     context = {
         "title": title,
         "header": header,
@@ -137,7 +137,7 @@ def communications_new(request):
     if form.is_valid():
         form.save()
         return redirect("contacts:contacts")
-    template = "contacts/communications_new.html"
+    template = "contacts/communication_new.html"
     title = "Новая коммуникация."
     action = "Добавьте новую коммуникацию."
     context = {
@@ -159,7 +159,7 @@ def communications_new_with_contact(request, pk):
         new_communication.contact = Contact.objects.get(pk=pk)
         form.save(commit=True)
         return redirect("contacts:contacts_profile", pk=pk)
-    template = "contacts/communications_new_with.html"
+    template = "contacts/communication_new_with.html"
     title = "Новая коммуникация c контактом."
     action = "Добавьте новую коммуникацию c контактом."
     context = {
@@ -172,9 +172,34 @@ def communications_new_with_contact(request, pk):
     return render(request, template, context)
 
 
+def communication_edit(request, pk):
+    communication = get_object_or_404(Communication, pk=pk)
+    form = CommunicationForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=communication,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("contacts:communications")
+    title = "Редактирование коммуникации."
+    header = title
+    action = "Редактируйте коммуникацию."
+    template = "contacts/communication_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
+
+
 def partners(request):
     """Все компании."""
-    template = "contacts/companies.html"
+    template = "contacts/partners.html"
     title = 'Все компании.'
     header = title
     companies = Company.objects.all()
@@ -188,7 +213,7 @@ def partners(request):
 
 def partner_profile(request, pk):
     """Профиль компании."""
-    template = "contacts/company_profile.html"
+    template = "contacts/partner_profile.html"
     company = get_object_or_404(Company, pk=pk)
     title = 'Профиль компании.'
     header = title
@@ -244,31 +269,6 @@ def partner_edit(request, pk):
     header = title
     action = "Редактируйте данные компании."
     template = "contacts/partner_new.html"
-    context = {
-        "title": title,
-        "header": header,
-        "action": action,
-        "form": form,
-        "is_edit": True,
-        "pk": pk,
-    }
-    return render(request, template, context)
-
-
-def communication_edit(request, pk):
-    communication = get_object_or_404(Communication, pk=pk)
-    form = CommunicationForm(
-        request.POST or None,
-        files=request.FILES or None,
-        instance=communication,
-    )
-    if form.is_valid():
-        form.save()
-        return redirect("contacts:communications")
-    title = "Редактирование коммуникации."
-    header = title
-    action = "Редактируйте коммуникацию."
-    template = "contacts/communications_new.html"
     context = {
         "title": title,
         "header": header,
