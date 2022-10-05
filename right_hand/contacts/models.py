@@ -14,6 +14,12 @@ CONTACT_ROLE = [
     ('Деловой партнер', 'Деловой партнер'),
 ]
 
+COMMUNICATOIN_STATUS = [
+    ('Выполнена', 'Выполнена'),
+    ('Запланирована', 'Запланирована'),
+    ('Просрочена', 'Просрочена'),
+]
+
 
 class Company(models.Model):
     """Модель компании."""
@@ -176,6 +182,15 @@ class Communication(models.Model):
         max_length=20,
         choices=TYPE_OF_COMMUNICATIONS,
         help_text="Укажите тип комуникации.",
+    )
+
+    status = models.CharField(
+        "Статус.",
+        max_length=20,
+        choices=COMMUNICATOIN_STATUS,
+        help_text="Укажите статус коммуникации.",
+        blank=True,
+        null=True,
     )
 
     contact = models.ForeignKey(
