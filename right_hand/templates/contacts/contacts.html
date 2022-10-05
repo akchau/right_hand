@@ -3,7 +3,7 @@
   <p><a href="{% url 'contacts:contact_new' %}">Новый контакт</a>
   <ul>
     {% for contact in contacts %}
-      <li>{% include 'contacts/includes/contact.html' %}</li>
+      <li>{% include 'contacts/includes/compacts/contact_short.html' %}</li>
     {% endfor %}
   </ul>
 {% endblock %}

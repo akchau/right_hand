@@ -1,0 +1,5 @@
+<a href={% url 'contacts:contact_profile' contact.pk %}>{{ contact.name }}</a>
+<p>Роль - {{ contact.role }}
+<p>День рождения - {{ contact.date_of_birthday }}
+<p><small><a href={% url 'contacts:contact_edit' contact.pk %}>Редактировать</a></small>
+<small><a href={% url 'contacts:contact_delete' contact.pk %}>Удалить</a></small>
