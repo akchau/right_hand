@@ -3,7 +3,7 @@
   <p><a href="{% url 'contacts:communication_new' %}">Новая коммуникация</a>
   <ul>
     {% for communication in communications %}
-      <li>{% include 'contacts/includes/communication.html' %}</li>
+      <li>{% include 'contacts/includes/compacts/communication_short.html' %}</li>
     {% endfor %}
   </ul>
 {% endblock %}
