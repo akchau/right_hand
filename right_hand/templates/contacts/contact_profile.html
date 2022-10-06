@@ -5,6 +5,11 @@
   <a href={% url 'contacts:contact_edit' contact.pk %}>Редактировать</a>
   <p>{% include 'contacts/includes/contact.html' %}
   <h1>История общения</h1>
+  <h3>Планируемая коммуникация</h3>
+  {% for communication in plan_communication %}
+    <li>{% include 'contacts/includes/compacts/communication_short.html' %}</li>
+  {% endfor %}
+  <h3>Завершенные комуникации</h3>
   <p>{% for communication in communications %}
     <li>{% include 'contacts/includes/compacts/communication_short.html' %}</li>
   {% endfor %}
