@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 TYPE_OF_COMMUNICATIONS = [
@@ -16,8 +18,7 @@ CONTACT_ROLE = [
 
 COMMUNICATOIN_STATUS = [
     ('Выполнена', 'Выполнена'),
-    ('Запланирована', 'Запланирована'),
-    ('Просрочена', 'Просрочена'),
+    ('Запланировано', 'Запланировано'),
 ]
 
 
@@ -205,6 +206,12 @@ class Communication(models.Model):
         auto_now_add=True,
         help_text="Дата контакта.",
     )
+    plan_date = models.DateTimeField(
+        "Планирование дата коммуникации.",
+        help_text="Планируемая дата взаимодействия.",
+        blank=True,
+        null=True,
+    )
     info = models.TextField(
         "Описание коммуникации",
         help_text="Добавьте описние",
@@ -212,6 +219,13 @@ class Communication(models.Model):
         null=True,
         default="Нет описания",
     )
+
+    @property
+    def is_expired(self):
+        if self.status == "Запланировано":
+            datetime.today() > self.plan_date
+            return True
+        return False
 
     def __str__(self):
         return f"{self.type} - {self.contact}"

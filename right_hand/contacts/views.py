@@ -135,8 +135,10 @@ def communications_new(request):
         request.POST or None,
     )
     if form.is_valid():
-        form.save()
-        return redirect("contacts:contacts")
+        new_communication = form.save(commit=False)
+        new_communication.status = "Выполнен"
+        form.save(commit=True)
+        return redirect("contacts:communications")
     template = "contacts/communication_new.html"
     title = "Новая коммуникация."
     action = "Добавьте новую коммуникацию."
@@ -157,6 +159,7 @@ def communications_new_with_contact(request, pk):
     if form.is_valid():
         new_communication = form.save(commit=False)
         new_communication.contact = Contact.objects.get(pk=pk)
+        new_communication.status = "Выполнен"
         form.save(commit=True)
         return redirect("contacts:contact_profile", pk=pk)
     template = "contacts/communication_new_with.html"

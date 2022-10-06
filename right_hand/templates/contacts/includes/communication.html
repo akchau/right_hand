@@ -2,6 +2,7 @@
 <p><a href={% url 'contacts:contact_profile' communication.contact.pk %}>{{ communication.contact.name }}</a>
 <p>{{ communication.pub_date }}
 <p>Статус - {{ communication.status }}
+<p>Планируемая дата - {{ communication.plan_date }}
 <p>Описание: {{ communication.info }}
 <p><small><a href={% url 'contacts:communication_delete' communication.pk %}>Удалить</a></small>
 <small><a href={% url 'contacts:communication_edit' communication.pk %}>Редактировать</a></small>
