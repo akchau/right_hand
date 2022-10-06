@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.shortcuts import redirect, render, get_object_or_404
 
 from .forms import (ContactForm,
@@ -120,10 +122,14 @@ def communications(request):
     template = "contacts/communications.html"
     title = 'Мои коммуникации.'
     header = title
-    communications = Communication.objects.all().order_by('-pub_date')
+    plan_communication = Communication.objects.filter(
+        status='Запланировано').order_by('-pub_date')
+    communications = Communication.objects.filter(
+        status='Выполнена').order_by('-pub_date')
     context = {
         'title': title,
         'header': header,
+        'plan_communication': plan_communication,
         'communications': communications,
     }
     return render(request, template, context)
@@ -161,6 +167,15 @@ def communications_new_with_contact(request, pk):
         new_communication.contact = Contact.objects.get(pk=pk)
         new_communication.status = "Выполнен"
         form.save(commit=True)
+        future_communication = Communication(
+            type='Переписка',
+            status='Запланировано',
+            contact=new_communication.contact,
+            plan_date=datetime.today() + timedelta(
+                days=new_communication.contact.frequency_of_communications_days
+            )
+        )
+        future_communication.save()
         return redirect("contacts:contact_profile", pk=pk)
     template = "contacts/communication_new_with.html"
     title = "Новая коммуникация c контактом."
