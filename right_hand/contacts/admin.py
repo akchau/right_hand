@@ -50,6 +50,62 @@ class CommunicationAdmin(admin.ModelAdmin):
     empty_value_display = "-пусто-"
 
 
+class PartnerAdmin(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'inn',
+        'kpp',
+        'ogrn',
+        'okpo',
+        'okved',
+        'fact_adress',
+        'legal_adress',
+        'full_name',
+        'short_name',
+        'main_email',
+        'phone_number',
+        'number_acount',
+        'cor_acount',
+        'bic',
+        'head_of_company'
+    )
+    list_editable = (
+        'inn',
+        'kpp',
+        'ogrn',
+        'okpo',
+        'okved',
+        'fact_adress',
+        'legal_adress',
+        'full_name',
+        'short_name',
+        'main_email',
+        'phone_number',
+        'number_acount',
+        'cor_acount',
+        'bic',
+        'head_of_company'
+    )
+    search_fields = (
+        'inn',
+        'kpp',
+        'ogrn',
+        'okpo',
+        'okved',
+        'fact_adress',
+        'legal_adress',
+        'full_name',
+        'short_name',
+        'phone_number',
+        'number_acount',
+        'cor_acount',
+        'bic',
+        'head_of_company'
+    )
+    list_filter = ('short_name',)
+    empty_value_display = "-пусто-"
+
+
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(Communication, CommunicationAdmin)
-admin.site.register(Company)
+admin.site.register(Company, PartnerAdmin)
