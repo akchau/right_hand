@@ -202,12 +202,18 @@ class Communication(models.Model):
         help_text="Укажите контакт коммуникаиции."
     )
     pub_date = models.DateTimeField(
-        "Дата коммуникации.",
+        "Дата создания объекта коммуникации.",
         auto_now_add=True,
-        help_text="Дата контакта.",
+        help_text="Дата создания коммуникации.",
     )
     plan_date = models.DateTimeField(
-        "Планирование дата коммуникации.",
+        "Планируемая дата коммуникации.",
+        help_text="Планируемая дата коммуникации.",
+        blank=True,
+        null=True,
+    )
+    done_date = models.DateTimeField(
+        "Дата коммуникации.",
         help_text="Планируемая дата взаимодействия.",
         blank=True,
         null=True,

@@ -147,6 +147,26 @@ def communications_new(request):
         new_communication = form.save(commit=False)
         new_communication.status = "Выполнен"
         form.save(commit=True)
+        if Communication.objects.filter(contact=new_communication.contact,
+                                        status='Запланировано').exists():
+            planing_communication = Communication.objects.get(
+                contact=new_communication.contact,
+                status='Запланировано'
+            )
+            planing_communication.plan_date = datetime.today() + timedelta(
+                    days=new_communication.contact.frequency_of_communications_days
+                )
+            planing_communication.save()
+        else:
+            future_communication = Communication(
+                type='Переписка',
+                status='Запланировано',
+                contact=new_communication.contact,
+                plan_date=datetime.today() + timedelta(
+                    days=new_communication.contact.frequency_of_communications_days
+                )
+            )
+            future_communication.save()
         return redirect("contacts:communications")
     template = "contacts/communication_new.html"
     title = "Новая коммуникация."
@@ -166,19 +186,31 @@ def communications_new_with_contact(request, pk):
         request.POST or None,
     )
     if form.is_valid():
+        contact_for_communication = Contact.objects.get(pk=pk)
         new_communication = form.save(commit=False)
-        new_communication.contact = Contact.objects.get(pk=pk)
+        new_communication.contact = contact_for_communication
         new_communication.status = "Выполнено"
         form.save(commit=True)
-        future_communication = Communication(
-            type='Переписка',
-            status='Запланировано',
-            contact=new_communication.contact,
-            plan_date=datetime.today() + timedelta(
-                days=new_communication.contact.frequency_of_communications_days
+        if Communication.objects.filter(contact=contact_for_communication,
+                                        status='Запланировано').exists():
+            planing_communication = Communication.objects.get(
+                contact=contact_for_communication,
+                status='Запланировано'
             )
-        )
-        future_communication.save()
+            planing_communication.plan_date = datetime.today() + timedelta(
+                    days=new_communication.contact.frequency_of_communications_days
+                )
+            planing_communication.save()
+        else:
+            future_communication = Communication(
+                type='Переписка',
+                status='Запланировано',
+                contact=new_communication.contact,
+                plan_date=datetime.today() + timedelta(
+                    days=new_communication.contact.frequency_of_communications_days
+                )
+            )
+            future_communication.save()
         return redirect("contacts:contact_profile", pk=pk)
     template = "contacts/communication_new_with.html"
     title = "Новая коммуникация c контактом."
