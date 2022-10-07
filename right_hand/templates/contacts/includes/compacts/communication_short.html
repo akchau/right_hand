@@ -1,6 +1,8 @@
 <a href={% url 'contacts:communication_profile' communication.pk %}>{{ communication.type }}</a> - <a href={% url 'contacts:contact_profile' communication.contact.pk %}>{{ communication.contact.name }}</a>
-<p>Статус - {{ communication.status }}
+<p>Статус - {{ communication.status }} - 
+<a href={% url 'contacts:communication_complete' communication.pk %}>Выполнить</a>
 <p>{{ communication.pub_date }}
+<p>Планируемая дата следующей коммуникации - {{ communication.plan_date }}
 {% if is_expired %}
     <p>Просрочен!
 {% else %}

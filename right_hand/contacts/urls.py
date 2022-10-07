@@ -79,4 +79,9 @@ urlpatterns = [
         views.partner_edit,
         name='partner_edit'
     ),
+    path(
+        'communication/<int:pk>/done/',
+        views.communication_complete,
+        name='communication_complete'
+    ),
 ]

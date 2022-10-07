@@ -228,4 +228,4 @@ class Communication(models.Model):
         return False
 
     def __str__(self):
-        return f"{self.type} - {self.contact}"
+        return f"{self.type} - {self.contact} - {self.pub_date}"

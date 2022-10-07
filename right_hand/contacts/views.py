@@ -30,7 +30,7 @@ def contact_profile(request, pk):
     template = "contacts/contact_profile.html"
     contact = get_object_or_404(Contact, pk=pk)
     plan_communication = Communication.objects.filter(
-        contact=contact, status='Запланировано')
+        contact=contact, status='Запланировано').order_by('-pub_date')
     communications = Communication.objects.filter(
         contact=contact, status='Выполнено').order_by('-pub_date')
     title = f'{contact.name}'
@@ -313,3 +313,20 @@ def partner_edit(request, pk):
         "pk": pk,
     }
     return render(request, template, context)
+
+
+def communication_complete(request, pk):
+    communication = Communication.objects.get(pk=pk)
+    contact = communication.contact
+    communication.status = "Выполнено"
+    communication.save()
+    future_communication = Communication(
+            type='Переписка',
+            status='Запланировано',
+            contact=contact,
+            plan_date=datetime.today() + timedelta(
+                days=contact.frequency_of_communications_days
+            )
+    )
+    future_communication.save()
+    return redirect("contacts:contact_profile", pk=contact.pk)
