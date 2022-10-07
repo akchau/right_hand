@@ -1,13 +1,17 @@
 <p><a href={% url 'contacts:communication_profile' communication.pk %}>{{ communication.type }}</a>
 <p><a href={% url 'contacts:contact_profile' communication.contact.pk %}>{{ communication.contact.name }}</a>
 <p>{{ communication.pub_date }}
-<p>Статус - {{ communication.status }} - 
-<a href={% url 'contacts:communication_complete' communication.pk %}>Выполнить</a>
+<p>Статус - {{ communication.status }}
+  {% if communication.status == "Запланировано" %}
+    - <a href={% url 'contacts:communication_complete' communication.pk %}>Выполнить</a>
+  {% endif %}
 <p>Планируемая дата - {{ communication.plan_date }}
-{% if is_expired %}
+{% if communication.status == "Запланировано" %}
+  {% if communication.is_expired %}
     <p>Просрочен!
-{% else %}
+  {% else %}
     <p>Не просрочен
+  {% endif %}
 {% endif %}
 <p>Описание: {{ communication.info }}
 <p><small><a href={% url 'contacts:communication_delete' communication.pk %}>Удалить</a></small>

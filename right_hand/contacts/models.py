@@ -223,7 +223,7 @@ class Communication(models.Model):
     @property
     def is_expired(self):
         if self.status == "Запланировано":
-            datetime.today() > self.plan_date
+            datetime.today().timestamp() > self.plan_date.timestamp()
             return True
         return False
 
