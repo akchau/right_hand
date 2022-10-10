@@ -1,0 +1,7 @@
+<p>Задача - {{ task.email }}
+<p>Дедлайн - {{ task.role }}
+{% if task.is_expired %}
+  <p>Статус - Просрочено!
+{% else %}
+  <p>Статус - Не росрочено!
+{% endif %}
