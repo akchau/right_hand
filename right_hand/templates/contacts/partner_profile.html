@@ -1,4 +1,4 @@
-{% extends 'contacts/base_contacts.html' %}
+{% extends 'base.html' %}
 {% block content %}
   <p><a href={% url 'contacts:partner_edit' company.pk %}>Редактировать</a>
   <a href={% url 'contacts:partner_delete' company.pk %}>Удалить</a>
