@@ -1,5 +1,5 @@
-<p>Задача - {{ task.email }}
-<p>Дедлайн - {{ task.role }}
+<p>Задача - <a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a>
+<p>Дедлайн - {{ task.deadline }}
 {% if task.is_expired %}
   <p>Статус - Просрочено!
 {% else %}
