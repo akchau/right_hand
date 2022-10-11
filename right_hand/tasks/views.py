@@ -8,12 +8,12 @@ def tasks(request):
     template = "tasks/tasks.html"
     title = 'Мои задачи.'
     header = title
-    contacts = Task.objects.all().order_by(
+    tasks = Task.objects.all().order_by(
         "deadline")
     context = {
         'title': title,
         'header': header,
-        'contacts': contacts,
+        'tasks': tasks,
     }
     return render(request, template, context)
 
