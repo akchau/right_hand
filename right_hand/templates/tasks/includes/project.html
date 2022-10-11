@@ -1,0 +1,11 @@
+<a href={% url 'tasks:project_profile' project.pk %}>{{ project.name }}</a>
+<p>Дедлайн - {{ project.deadline }}
+<p>Статус - {{ project.status }}
+<p>Выручка - {{ project.revenue }}
+<p>Моя роль в проекте - {{ project.my_role }}
+<p>Заказчик - {{ project.customer }}
+{% if task.is_expired %}
+  <p>Статус - Просрочено!
+{% else %}
+  <p>Статус - Не росрочено!
+{% endif %}
