@@ -88,12 +88,12 @@ def projects(request):
     template = "tasks/projects.html"
     title = 'Мои проекты.'
     header = title
-    tasks = Project.objects.all().order_by(
+    projects = Project.objects.all().order_by(
         "deadline")
     context = {
         'title': title,
         'header': header,
-        'tasks': tasks,
+        'projects': projects,
     }
     return render(request, template, context)
 
@@ -114,10 +114,12 @@ def project_profile(request, pk):
 
 def project_new(request):
     """Добавление нового проекта."""
-    form = TaskForm(
+    form = ProjectForm(
         request.POST or None,
     )
     if form.is_valid():
+        new_project = form.save(commit=False)
+        new_project.status = "Запланирован"
         form.save()
         return redirect("tasks:projects")
     template = "tasks/project_new.html"

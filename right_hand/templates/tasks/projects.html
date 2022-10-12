@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-  <p><a href="">Новый проект</a>
+  <p><a href={% url 'tasks:project_new' %}>Новый проект</a>
   <ul>
     {% for project in projects %}
       <li>{% include 'tasks/includes/project.html' %}</li>

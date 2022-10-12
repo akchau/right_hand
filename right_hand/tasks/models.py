@@ -21,7 +21,7 @@ class Project(models.Model):
         "Выручка от проекта.",
         help_text="Укажите выручку.",
     )
-    deadline = models.DateTimeField(
+    deadline = models.DateField(
         "Дедлайн.",
         help_text="Дедлайн.",
     )
@@ -57,7 +57,7 @@ class Project(models.Model):
         return False
 
     def __str__(self):
-        return {self.name}
+        return self.name
 
 
 class Task(models.Model):
