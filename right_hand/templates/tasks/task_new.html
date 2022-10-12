@@ -3,6 +3,6 @@
   {% if is_edit %}
     <form method="post" action="{% url 'tasks:task_edit' pk %}" enctype="multipart/form-data">{% csrf_token %}
   {% else %}
-    <form method="post" action="{% url 'contacts:task_new' %}" enctype="multipart/form-data">{% csrf_token %}
+    <form method="post" action="{% url 'tasks:task_new' %}" enctype="multipart/form-data">{% csrf_token %}
   {% endif %}
 {% endblock %}

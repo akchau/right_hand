@@ -1,8 +1,8 @@
 {% extends 'form.html' %}
 {% block form %}
   {% if is_edit %}
-    <form method="post" action="{% url 'contacts:partner_edit' pk %}" enctype="multipart/form-data">{% csrf_token %}
+    <form method="post" action="{% url 'tasks:project_edit' pk %}" enctype="multipart/form-data">{% csrf_token %}
   {% else %}
-    <form method="post" action="{% url 'contacts:partner_new' %}" enctype="multipart/form-data">{% csrf_token %}
+    <form method="post" action="{% url 'tasks:project_new' %}" enctype="multipart/form-data">{% csrf_token %}
   {% endif %}
 {% endblock %}

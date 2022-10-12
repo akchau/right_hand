@@ -16,7 +16,7 @@ class ProjectForm(forms.ModelForm):
         )
 
 
-class CommunicationForm(forms.ModelForm):
+class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = (

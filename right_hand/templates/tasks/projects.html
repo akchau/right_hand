@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <p><a href="">Новый проект</a>
+  <ul>
+    {% for project in projects %}
+      <li>{% include 'tasks/includes/project.html' %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
