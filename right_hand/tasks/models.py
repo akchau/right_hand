@@ -9,6 +9,12 @@ PROJECT_STATUS = [
     ('Завершен', 'Завершен'),
 ]
 
+INTEREST_STATUS = [
+    ('Получена заявка', 'Получена заявка'),
+    ('На стороне клиента', 'На стороне клиента'),
+    ('На моей стороне', 'На моей стороне'),
+]
+
 
 class Project(models.Model):
     """Модель проекта."""
@@ -119,3 +125,29 @@ class ProjectContact(models.Model):
 
     def __str__(self):
         return f"{self.project} - {self.contact}"
+
+
+class Interest(models.Model):
+    """Модель интереса."""
+    name = models.CharField(
+        "Название проекта.",
+        max_length=200,
+        help_text="Название проекта.",
+    )
+    revenue = models.IntegerField(
+        "Выручка от проекта.",
+        help_text="Укажите выручку.",
+    )
+    partner = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="interests",
+        verbose_name="Заказчик",
+        help_text="Укажите заказчика.",
+    )
+    status = models.CharField(
+        "Статус интереса",
+        choices=INTEREST_STATUS,
+        max_length=200,
+        help_text="Статус интереса.",
+    )
