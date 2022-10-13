@@ -8,6 +8,7 @@ from .forms import (ContactForm,
                     CommunicationFormWithoutContact,
                     PartnerForm)
 from .models import Communication, Company, Contact
+from tasks.models import Project
 
 
 def plan_communication(contact):
@@ -270,13 +271,15 @@ def partners(request):
 def partner_profile(request, pk):
     """Профиль компании."""
     template = "contacts/partner_profile.html"
-    company = get_object_or_404(Company, pk=pk)
+    customer = get_object_or_404(Company, pk=pk)
+    projects = Project.objects.filter(customer=customer)
     title = 'Профиль компании.'
     header = title
     context = {
         'title': title,
         'header': header,
-        'company': company,
+        'company': customer,
+        'projects': projects,
     }
     return render(request, template, context)
 
