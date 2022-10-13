@@ -1,0 +1,20 @@
+<a href={% url 'contacts:partner_profile' company.pk%}>Вернуться к профилю компании</a>
+{% include 'contacts/includes/compacts/partner_short.html' %}
+<h5>Коды</h5>
+<p>ИНН - {{ company.inn }}
+<p>КПП - {{ company.kpp }}
+<p>ОГРН - {{ company.ogrn }}
+<p>ОКПО - {{ company.okpo }}
+<p>ОКВЭД - {{ company.okved }}
+<h5>Адреса</h5>
+<p>Фактический адресс - {{ company.fact_adress }}
+<p>Юридический адресс - {{ company.legal_adress }}
+<h5>Основыные контакты</h5>
+<p>Email - {{ company.main_email }}
+<p>Номер телефона - {{ company.phone_number }}
+<h5>Реквизиты</h5>
+<p>Расчетный счет - {{ company.number_acount }}
+<p>Корреспондентский счет - {{ company.cor_acount }}
+<p>БИК - {{ company.cor_acount }}
+<h5>Руководитель</h5>
+<p>Руководитель - {{ company.head_of_company }}

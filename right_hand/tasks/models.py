@@ -5,8 +5,8 @@ from django.db import models
 from contacts.models import Company, Contact
 
 PROJECT_STATUS = [
-    ('Запланирован', 'Запланирован'),
     ('В работе', 'В работе'),
+    ('Завершен', 'Завершен'),
 ]
 
 

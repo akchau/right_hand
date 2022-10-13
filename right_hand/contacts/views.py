@@ -272,7 +272,9 @@ def partner_profile(request, pk):
     """Профиль компании."""
     template = "contacts/partner_profile.html"
     customer = get_object_or_404(Company, pk=pk)
-    projects = Project.objects.filter(customer=customer)
+    projects = Project.objects.filter(customer=customer, status='В работе')
+    old_projects = Project.objects.filter(customer=customer, status='Завершен')
+    contacts = Contact.objects.filter(company=customer)
     title = 'Профиль компании.'
     header = title
     context = {
@@ -280,6 +282,22 @@ def partner_profile(request, pk):
         'header': header,
         'company': customer,
         'projects': projects,
+        'contacts': contacts,
+        'old_projects': old_projects,
+    }
+    return render(request, template, context)
+
+
+def partner_requisites(request, pk):
+    """Функция для отображения полных реквизитов компании."""
+    template = "contacts/full_partner_requsites.html"
+    partner = get_object_or_404(Company, pk=pk)
+    title = 'Реквизиты компании.'
+    header = title
+    context = {
+        'title': title,
+        'header': header,
+        'company': partner,
     }
     return render(request, template, context)
 

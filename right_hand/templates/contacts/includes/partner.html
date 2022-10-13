@@ -1,21 +1,8 @@
 {% include 'contacts/includes/compacts/partner_short.html' %}
-<h5>Коды</h5>
 <p>ИНН - {{ company.inn }}
-<p>КПП - {{ company.kpp }}
-<p>ОГРН - {{ company.ogrn }}
-<p>ОКПО - {{ company.okpo }}
-<p>ОКВЭД - {{ company.okved }}
-<h5>Адреса</h5>
-<p>Фактический адресс - {{ company.fact_adress }}
-<p>Юридический адресс - {{ company.legal_adress }}
-<h5>Основыные контакты</h5>
+<h5>Адрес</h5>
+<p>{{ company.fact_adress }}
+<h5>Контакты</h5>
 <p>Email - {{ company.main_email }}
 <p>Номер телефона - {{ company.phone_number }}
-<h5>Реквизиты</h5>
-<p>Расчетный счет - {{ company.number_acount }}
-<p>Корреспондентский счет - {{ company.cor_acount }}
-<p>БИК - {{ company.cor_acount }}
-<h5>Руководитель</h5>
-<p>Руководитель - {{ company.head_of_company }}
-<p><small><a href={% url 'contacts:partner_edit' company.pk %}>Редактировать</a></small>
-<small><a href={% url 'contacts:partner_delete' company.pk %}>Удалить</a></small>
+<p><a href={% url 'contacts:partner_requisites' company.pk %}>Показать реквизиты</a>

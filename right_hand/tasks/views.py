@@ -119,7 +119,7 @@ def project_new(request):
     )
     if form.is_valid():
         new_project = form.save(commit=False)
-        new_project.status = "Запланирован"
+        new_project.status = "В работе"
         form.save()
         return redirect("tasks:projects")
     template = "tasks/project_new.html"

@@ -63,6 +63,11 @@ urlpatterns = [
         views.partner_profile,
         name='partner_profile'
     ),
+    path(
+        'partner/<int:pk>/requsites/',
+        views.partner_requisites,
+        name='partner_requisites'
+    ),
 
     path(
         'partner/new/',

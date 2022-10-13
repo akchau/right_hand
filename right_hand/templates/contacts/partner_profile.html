@@ -4,8 +4,16 @@
   <a href={% url 'contacts:partner_delete' company.pk %}>Удалить</a>
   <a href={% url 'contacts:contact_new_with_partner' company.pk %}>Новый контакт в компании</a>
   {% include 'contacts/includes/partner.html' %}
-  <h3>Проекты с этой компанией</h3>
+  <h3>Контакты в компании</h3>
+  {% for contact in contacts %}
+    <li>{% include 'contacts/includes/compacts/contact_short.html' %}</li>
+  {% endfor %}
+  <h3>Текущие проекты</h3>
   {% for project in projects %}
+    <li>{% include 'tasks/includes/project.html' %}</li>
+  {% endfor %}
+  <h3>Архивные проекты</h3>
+  {% for project in old_projects %}
     <li>{% include 'tasks/includes/project.html' %}</li>
   {% endfor %}
 {% endblock %}
