@@ -9,3 +9,5 @@
 {% else %}
   <p>Статус - Не росрочено!
 {% endif %}
+<p><small><a href={% url 'tasks:project_edit' project.pk %}>Редактировать</a></small>
+<small><a href={% url 'tasks:project_delete' project.pk %}>Удалить</a></small>
