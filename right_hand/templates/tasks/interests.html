@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <p><a href={% url 'tasks:interest_new' %}>Новый интерес</a>
+  <ul>
+    {% for interest in interests %}
+      <li>{% include 'tasks/includes/interest.html' %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

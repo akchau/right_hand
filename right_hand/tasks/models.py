@@ -13,6 +13,8 @@ INTEREST_STATUS = [
     ('Получена заявка', 'Получена заявка'),
     ('На стороне клиента', 'На стороне клиента'),
     ('На моей стороне', 'На моей стороне'),
+    ('Завершен сделкой', 'Завершен сделкой'),
+    ('Потерян', 'Потерян'),
 ]
 
 
@@ -150,4 +152,9 @@ class Interest(models.Model):
         choices=INTEREST_STATUS,
         max_length=200,
         help_text="Статус интереса.",
+    )
+    pub_date = models.DateTimeField(
+        "Дата создания.",
+        help_text="Дедлайн задачи.",
+        auto_now_add=True
     )

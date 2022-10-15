@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import TaskForm, ProjectForm
-from .models import Task, Project
+from .forms import TaskForm, ProjectForm, InterestForm
+from .models import Task, Project, Interest
 
 
 def tasks(request):
@@ -147,7 +147,7 @@ def project_edit(request, pk):
     title = "Редактирование проекта."
     header = title
     action = "Редактируйте информацию по проекту."
-    template = "contacts/project_new.html"
+    template = "tasks/project_new.html"
     context = {
         "title": title,
         "header": header,
@@ -161,4 +161,83 @@ def project_edit(request, pk):
 
 def project_delete(request, pk):
     Project.objects.get(pk=pk).delete()
-    return redirect("projects:projects")
+    return redirect("tasks:projects")
+
+
+def interests(request):
+    """Все интересы."""
+    template = "tasks/interests.html"
+    title = 'Мои интересы.'
+    header = title
+    interests = Interest.objects.all().order_by(
+        "revenue")
+    context = {
+        'title': title,
+        'header': header,
+        'interests': interests,
+    }
+    return render(request, template, context)
+
+
+def interest_profile(request, pk):
+    """Страничка интереса."""
+    template = "tasks/interest_profile.html"
+    interest = get_object_or_404(Interest, pk=pk)
+    title = f'Интерес - {interest.name}'
+    header = title
+    context = {
+        'title': title,
+        'header': header,
+        'interest': interest,
+    }
+    return render(request, template, context)
+
+
+def interest_new(request):
+    """Добавление нового интреса."""
+    form = InterestForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("tasks:interests")
+    template = "tasks/interest_new.html"
+    title = "Новый интерес."
+    action = "Добавьте новый интерес."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+    }
+    return render(request, template, context)
+
+
+def interest_edit(request, pk):
+    interest = get_object_or_404(Interest, pk=pk)
+    form = InterestForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=interest,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("tasks:interest_profile", pk=pk)
+    title = "Редактирование интереса."
+    header = title
+    action = "Редактируйте информацию интереса."
+    template = "tasks/interest_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def interest_delete(request, pk):
+    Interest.objects.get(pk=pk).delete()
+    return redirect("tasks:interests")
