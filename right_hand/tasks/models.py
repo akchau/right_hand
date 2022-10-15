@@ -86,6 +86,7 @@ class Task(models.Model):
         verbose_name="Проект",
         help_text="Укажите к какому проекту относится задача.",
         null=True,
+        blank=True,
     )
 
     class Meta:

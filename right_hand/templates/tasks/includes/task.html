@@ -3,5 +3,7 @@
 {% if task.is_expired %}
   <p>Статус - Просрочено!
 {% else %}
-  <p>Статус - Не росрочено!
+  <p>Статус - Не просрочено!
 {% endif %}
+<p><small><a href={% url 'tasks:task_edit' task.pk %}>Редактировать</a></small>
+<small><a href={% url 'tasks:task_delete' task.pk %}>Удалить</a></small>

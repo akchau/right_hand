@@ -66,7 +66,7 @@ def task_edit(request, pk):
     title = "Редактирование задачи."
     header = title
     action = "Редактируйте задачу"
-    template = "contacts/task_new.html"
+    template = "tasks/task_new.html"
     context = {
         "title": title,
         "header": header,
