@@ -33,6 +33,13 @@ class InterestForm(forms.ModelForm):
             'name',
             'revenue',
             'partner',
-            'partner',
-            'status',
+        )
+
+
+class InterestFormWithPartner(forms.ModelForm):
+    class Meta:
+        model = Interest
+        fields = (
+            'name',
+            'revenue',
         )

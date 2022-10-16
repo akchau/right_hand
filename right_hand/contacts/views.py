@@ -8,7 +8,7 @@ from .forms import (ContactForm,
                     CommunicationFormWithoutContact,
                     PartnerForm)
 from .models import Communication, Company, Contact
-from tasks.models import Project
+from tasks.models import Interest, Project
 
 
 def plan_communication(contact):
@@ -275,6 +275,7 @@ def partner_profile(request, pk):
     projects = Project.objects.filter(customer=customer, status='В работе')
     old_projects = Project.objects.filter(customer=customer, status='Завершен')
     contacts = Contact.objects.filter(company=customer)
+    current_interest = Interest.objects.filter(partner=customer)
     title = 'Профиль компании.'
     header = title
     context = {
@@ -284,6 +285,7 @@ def partner_profile(request, pk):
         'projects': projects,
         'contacts': contacts,
         'old_projects': old_projects,
+        'interests': current_interest,
     }
     return render(request, template, context)
 
@@ -308,8 +310,8 @@ def partner_new(request):
         request.POST or None,
     )
     if form.is_valid():
-        form.save()
-        return redirect("contacts:partners")
+        new_partner = form.save()
+        return redirect("contacts:partner_profile", pk=new_partner.pk)
     template = "contacts/partner_new.html"
     title = "Новая компания."
     action = "Добавьте новую компанию."

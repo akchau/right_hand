@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import TaskForm, ProjectForm, InterestForm
+from contacts.models import Company
+from .forms import TaskForm, ProjectForm, InterestForm, InterestFormWithPartner
 from .models import Task, Project, Interest
 
 
@@ -199,8 +200,34 @@ def interest_new(request):
         request.POST or None,
     )
     if form.is_valid():
-        form.save()
-        return redirect("tasks:interests")
+        new_interest = form.save(commit=False)
+        new_interest.status = 'Получена заявка'
+        new_interest = form.save()
+        return redirect("tasks:interest_profile", pk=new_interest.pk)
+    template = "tasks/interest_new.html"
+    title = "Новый интерес c компанией."
+    action = "Добавьте новый интерес."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+    }
+    return render(request, template, context)
+
+
+def interest_new_with_partner(request, pk):
+    """Добавление нового интреса c партнером."""
+    partner = get_object_or_404(Company, pk=pk)
+    form = InterestFormWithPartner(
+        request.POST or None,
+    )
+    if form.is_valid():
+        new_interest = form.save(commit=False)
+        new_interest.status = 'Получена заявка'
+        new_interest.partner = partner
+        new_interest = form.save()
+        return redirect("tasks:interest_profile", pk=new_interest.pk)
     template = "tasks/interest_new.html"
     title = "Новый интерес."
     action = "Добавьте новый интерес."
@@ -209,6 +236,8 @@ def interest_new(request):
         "header": title,
         "form": form,
         "action": action,
+        "with_partner": True,
+        "pk": pk
     }
     return render(request, template, context)
 

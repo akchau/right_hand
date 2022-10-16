@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.db import models
 
+
 TYPE_OF_COMMUNICATIONS = [
     ('Звонок', 'Звонок'),
     ('Встреча', 'Встреча'),
@@ -59,7 +60,6 @@ class Company(models.Model):
     )
     fact_adress = models.TextField(
         "Фактический адрес",
-        max_length=10,
         blank=True,
         null=True,
         help_text="Укажите фактический адрес."

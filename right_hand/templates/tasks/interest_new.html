@@ -1,5 +1,8 @@
 {% extends 'form.html' %}
 {% block form %}
+  {% if with_partner %}
+    <form method="post" action="{% url 'tasks:interest_new_with_partner' pk %}" enctype="multipart/form-data">{% csrf_token %}
+  {% endif %}
   {% if is_edit %}
     <form method="post" action="{% url 'tasks:interest_edit' pk %}" enctype="multipart/form-data">{% csrf_token %}
   {% else %}

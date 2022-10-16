@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db import models
 
-from contacts.models import Company, Contact
+from contacts.models import Contact, Company
 
 PROJECT_STATUS = [
     ('В работе', 'В работе'),
@@ -159,3 +159,6 @@ class Interest(models.Model):
         help_text="Дедлайн задачи.",
         auto_now_add=True
     )
+
+    def __str__(self):
+        return f"Интерес - {self.name}"

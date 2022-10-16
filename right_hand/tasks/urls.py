@@ -34,6 +34,11 @@ urlpatterns = [
         views.interest_profile,
         name='interest_profile'
     ),
+    path(
+        'interest/new_with/<int:pk>/',
+        views.interest_new_with_partner,
+        name='interest_new_with_partner'
+    ),
     path('interest/new/', views.interest_new, name='interest_new'),
     path('interest/', views.interests, name='interests'),
     # Конец -------------------------------------------------------------------
