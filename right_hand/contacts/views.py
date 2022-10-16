@@ -276,7 +276,7 @@ def partner_profile(request, pk):
     old_projects = Project.objects.filter(customer=customer, status='Завершен')
     contacts = Contact.objects.filter(company=customer)
     current_interest = Interest.objects.filter(partner=customer)
-    title = 'Профиль компании.'
+    title = customer.short_name
     header = title
     context = {
         'title': title,
@@ -294,7 +294,7 @@ def partner_requisites(request, pk):
     """Функция для отображения полных реквизитов компании."""
     template = "contacts/full_partner_requsites.html"
     partner = get_object_or_404(Company, pk=pk)
-    title = 'Реквизиты компании.'
+    title = partner.full_name
     header = title
     context = {
         'title': title,

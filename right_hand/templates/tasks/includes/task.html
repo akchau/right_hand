@@ -1,4 +1,7 @@
 <p>Задача - <a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a>
+{% if task.project %}
+ - <a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a>
+{% endif %}
 <p>Дедлайн - {{ task.deadline }}
 {% if task.is_expired %}
   <p>Статус - Просрочено!

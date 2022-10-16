@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from contacts.models import Company
-from .forms import TaskForm, ProjectForm, InterestForm, InterestFormWithPartner
+from .forms import TaskForm, ProjectForm, InterestForm, InterestFormWithPartner, TaskFormWithProject
 from .models import Task, Project, Interest
 
 
@@ -50,6 +50,30 @@ def task_new(request):
         "header": title,
         "form": form,
         "action": action,
+    }
+    return render(request, template, context)
+
+
+def task_new_with_project(request, pk):
+    """Добавление новой задачи в проекте."""
+    project = get_object_or_404(Project, pk=pk)
+    form = TaskFormWithProject(
+        request.POST or None,
+    )
+    if form.is_valid():
+        new_task = form.save(commit=False)
+        new_task.project = project
+        return redirect("tasks:project_profile", pk=pk)
+    template = "tasks/task_new.html"
+    title = "Новая задача проекта."
+    action = f"Добавьте новую задачу для проекта {project.name}."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+        "pk": pk,
+        "with_project": True,
     }
     return render(request, template, context)
 
@@ -103,12 +127,14 @@ def project_profile(request, pk):
     """Страничка проекта."""
     template = "tasks/project_profile.html"
     project = get_object_or_404(Project, pk=pk)
+    tasks = Task.objects.filter(project=project)
     title = f'Проект - {project.name}'
     header = title
     context = {
         'title': title,
         'header': header,
         'project': project,
+        'tasks': tasks,
     }
     return render(request, template, context)
 
@@ -184,7 +210,7 @@ def interest_profile(request, pk):
     """Страничка интереса."""
     template = "tasks/interest_profile.html"
     interest = get_object_or_404(Interest, pk=pk)
-    title = f'Интерес - {interest.name}'
+    title = f'Интерес - {interest.name} для {interest.partner}'
     header = title
     context = {
         'title': title,

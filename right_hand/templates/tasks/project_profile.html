@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-  <a href="">Выполнить</a>
-  <a href="">Удалить</a>
-  <a href="">Редактировать</a>
+  <a href="">Завершить проект</a>
+  <a href={% url "tasks:task_new_with_project" project.pk %}>Новая задача для проекта</a>
+  <a href={% url "tasks:project_delete" project.pk %}>Удалить</a>
+  <a href={% url "tasks:project_edit" project.pk %}>Редактировать</a>
   <p>{% include 'tasks/includes/project.html' %}
+  <h3>Текущие задачи</h3>
+  <ul>
+    {% for task in tasks %}
+      <li>{% include 'tasks/includes/task.html' %}</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+from tasks import views as task_views
 
 app_name = 'tasks'
 
@@ -9,6 +10,11 @@ urlpatterns = [
     path('<int:pk>/delete/', views.task_delete, name='task_delete'),
     path('<int:pk>/edit/', views.task_edit, name='task_edit'),
     path('<int:pk>/', views.task_profile, name='task_profile'),
+    path(
+        'new_with_project/<int:pk>/',
+        task_views.task_new_with_project,
+        name='task_new_with_project'
+    ),
     path('new/', views.task_new, name='task_new'),
     path('', views.tasks, name='tasks'),
 

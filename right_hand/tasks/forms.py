@@ -26,6 +26,15 @@ class TaskForm(forms.ModelForm):
         )
 
 
+class TaskFormWithProject(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = (
+            'name',
+            'deadline',
+        )
+
+
 class InterestForm(forms.ModelForm):
     class Meta:
         model = Interest
