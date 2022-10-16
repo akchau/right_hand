@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.db import models
 
+from tasks.models import Interest
+
 
 TYPE_OF_COMMUNICATIONS = [
     ('Звонок', 'Звонок'),
@@ -224,6 +226,14 @@ class Communication(models.Model):
         blank=True,
         null=True,
         default="Нет описания",
+    )
+    interest_of_communications = models.ForeignKey(
+        Interest,
+        on_delete=models.SET_NULL,
+        related_name="communications",
+        verbose_name="Интерес коммуникации",
+        help_text="Укажите к какому интересу относится коммуникация.",
+        null=True,
     )
 
     @property

@@ -42,6 +42,7 @@ class InterestForm(forms.ModelForm):
             'name',
             'revenue',
             'partner',
+            'main_contact',
         )
 
 
@@ -51,4 +52,5 @@ class InterestFormWithPartner(forms.ModelForm):
         fields = (
             'name',
             'revenue',
+            'main_contact',
         )

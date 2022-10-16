@@ -1,7 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from contacts.models import Company
-from .forms import TaskForm, ProjectForm, InterestForm, InterestFormWithPartner, TaskFormWithProject
+from .forms import (TaskForm,
+                    ProjectForm,
+                    InterestForm,
+                    InterestFormWithPartner,
+                    TaskFormWithProject)
 from .models import Task, Project, Interest
 
 

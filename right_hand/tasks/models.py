@@ -159,6 +159,14 @@ class Interest(models.Model):
         help_text="Дедлайн задачи.",
         auto_now_add=True
     )
+    main_contact = models.ForeignKey(
+        Contact,
+        on_delete=models.SET_NULL,
+        related_name="interests",
+        verbose_name="Основной контакт",
+        help_text="Укажите контакт который работает в этой компании.",
+        null=True,
+    )
 
     def __str__(self):
         return f"Интерес - {self.name}"
