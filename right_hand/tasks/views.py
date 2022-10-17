@@ -2,12 +2,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from contacts.models import Communication, Company
 from contacts.forms import CommunicationForm
+from contacts.views import plan_communication
 from .forms import (TaskForm,
                     ProjectForm,
                     InterestForm,
                     InterestFormWithPartner,
                     TaskFormWithProject)
-from .models import Task, Project, Interest, CommunicationsInterest
+from .models import (CommunicationProject,
+                     Task, Project,
+                     Interest,
+                     CommunicationInterest)
 
 
 def tasks(request):
@@ -132,6 +136,11 @@ def project_profile(request, pk):
     """Страничка проекта."""
     template = "tasks/project_profile.html"
     project = get_object_or_404(Project, pk=pk)
+    communications_id = project.communications.values_list(
+        "communication",
+        flat=True
+    )
+    communications = Communication.objects.filter(pk__in=communications_id)
     tasks = Task.objects.filter(project=project)
     title = f'Проект - {project.name}'
     header = title
@@ -140,6 +149,7 @@ def project_profile(request, pk):
         'header': header,
         'project': project,
         'tasks': tasks,
+        'communications': communications
     }
     return render(request, template, context)
 
@@ -319,14 +329,15 @@ def new_communicaitions_of_interest(request, pk):
         new_communication = form.save(commit=False)
         new_communication.status = "Выполнено"
         form.save(commit=True)
-        interest_communication = CommunicationsInterest(
+        interest_communication = CommunicationInterest(
             interest=interest,
             communication=new_communication
         )
         interest_communication.save()
+        plan_communication(new_communication.contact)
         return redirect("tasks:interest_profile", pk=pk)
     template = "contacts/communication_new.html"
-    title = "Новая коммуникация."
+    title = f"Новая коммуникация интереса - {interest.name}."
     action = "Добавьте новую коммуникацию."
     context = {
         "title": title,
@@ -334,6 +345,37 @@ def new_communicaitions_of_interest(request, pk):
         "form": form,
         "action": action,
         "with_interest": True,
+        "pk": pk
+    }
+    return render(request, template, context)
+
+
+def new_communicaitions_of_project(request, pk):
+    """Добавление новой коммуникаци в проект."""
+    project = Project.objects.get(pk=pk)
+    form = CommunicationForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        new_communication = form.save(commit=False)
+        new_communication.status = "Выполнено"
+        form.save(commit=True)
+        project_communication = CommunicationProject(
+            project=project,
+            communication=new_communication
+        )
+        project_communication.save()
+        plan_communication(new_communication.contact)
+        return redirect("tasks:project_profile", pk=pk)
+    template = "contacts/communication_new.html"
+    title = f"Новая коммуникация для проекта - {project.name}."
+    action = "Добавьте новую коммуникацию."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+        "with_project": True,
         "pk": pk
     }
     return render(request, template, context)

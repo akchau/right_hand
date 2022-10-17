@@ -28,6 +28,11 @@ urlpatterns = [
     path('project/<int:pk>/', views.project_profile, name='project_profile'),
     path('project/new/', views.project_new, name='project_new'),
     path('projects/', views.projects, name='projects'),
+    path(
+        'project/new_communication/<int:pk>/',
+        views.new_communicaitions_of_project,
+        name='project_communication_new'
+    ),
     # Адреса интересов --------------------------------------------------------
     path(
         'interest/<int:pk>/delete/',

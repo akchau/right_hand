@@ -172,7 +172,7 @@ class Interest(models.Model):
         return f"Интерес - {self.name}"
 
 
-class CommunicationsInterest(models.Model):
+class CommunicationInterest(models.Model):
     """Модель для связи интереса и контакта."""
     communication = models.ForeignKey(
         Communication,
@@ -187,4 +187,22 @@ class CommunicationsInterest(models.Model):
         related_name="communications",
         verbose_name="Интерес.",
         help_text="Укажите интерес."
+    )
+
+
+class CommunicationProject(models.Model):
+    """Модель для связи проекта и контакта."""
+    communication = models.ForeignKey(
+        Communication,
+        on_delete=models.CASCADE,
+        related_name="project",
+        verbose_name="Коммуникация.",
+        help_text="Укажите коммуникацию."
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name="communications",
+        verbose_name="Интерес.",
+        help_text="Укажите проект."
     )

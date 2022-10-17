@@ -4,12 +4,10 @@
   <a href="">Удалить</a>
   <a href="">Редактировать</a>
   <p>{% include 'tasks/includes/interest.html' %}
-  <h3>Планируемые взаимодействия</h3>
-    <ul>
-      {% for communication in communications %}
-        <li>{% include 'contacts/includes/compacts/communication_short.html' %}</li>
-      {% endfor %}
-    </ul>
   <h3>Завершенные взаимодействия</h3>
-    
+  <ul>
+    {% for communication in communications %}
+      <li>{% include 'contacts/includes/compacts/communication_short.html' %}</li>
+    {% endfor %}
+  </ul>
 {% endblock %}
