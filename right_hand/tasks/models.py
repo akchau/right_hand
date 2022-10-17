@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db import models
 
-from contacts.models import Contact, Company
+from contacts.models import Contact, Company, Communication
 
 PROJECT_STATUS = [
     ('В работе', 'В работе'),
@@ -170,3 +170,21 @@ class Interest(models.Model):
 
     def __str__(self):
         return f"Интерес - {self.name}"
+
+
+class CommunicationsInterest(models.Model):
+    """Модель для связи интереса и контакта."""
+    communication = models.ForeignKey(
+        Communication,
+        on_delete=models.CASCADE,
+        related_name="interest",
+        verbose_name="Коммуникация.",
+        help_text="Укажите коммуникацию."
+    )
+    interest = models.ForeignKey(
+        Interest,
+        on_delete=models.CASCADE,
+        related_name="communications",
+        verbose_name="Интерес.",
+        help_text="Укажите интерес."
+    )

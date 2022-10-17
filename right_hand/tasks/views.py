@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-from contacts.models import Company
+from contacts.models import Communication, Company
+from contacts.forms import CommunicationForm
 from .forms import (TaskForm,
                     ProjectForm,
                     InterestForm,
                     InterestFormWithPartner,
                     TaskFormWithProject)
-from .models import Task, Project, Interest
+from .models import Task, Project, Interest, CommunicationsInterest
 
 
 def tasks(request):
@@ -214,12 +215,18 @@ def interest_profile(request, pk):
     """Страничка интереса."""
     template = "tasks/interest_profile.html"
     interest = get_object_or_404(Interest, pk=pk)
+    communications_id = interest.communications.values_list(
+        "communication",
+        flat=True
+    )
+    communications = Communication.objects.filter(pk__in=communications_id)
     title = f'Интерес - {interest.name} для {interest.partner}'
     header = title
     context = {
         'title': title,
         'header': header,
         'interest': interest,
+        'communications': communications,
     }
     return render(request, template, context)
 
@@ -300,3 +307,33 @@ def interest_edit(request, pk):
 def interest_delete(request, pk):
     Interest.objects.get(pk=pk).delete()
     return redirect("tasks:interests")
+
+
+def new_communicaitions_of_interest(request, pk):
+    """Добавление новой коммуникаци в интерес."""
+    interest = Interest.objects.get(pk=pk)
+    form = CommunicationForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        new_communication = form.save(commit=False)
+        new_communication.status = "Выполнено"
+        form.save(commit=True)
+        interest_communication = CommunicationsInterest(
+            interest=interest,
+            communication=new_communication
+        )
+        interest_communication.save()
+        return redirect("tasks:interest_profile", pk=pk)
+    template = "contacts/communication_new.html"
+    title = "Новая коммуникация."
+    action = "Добавьте новую коммуникацию."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+        "with_interest": True,
+        "pk": pk
+    }
+    return render(request, template, context)

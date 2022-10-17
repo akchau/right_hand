@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-  <a href="">Новое взаимодействие</a>
+  <a href={% url 'tasks:interest_communication_new' interest.pk %}>Добавить взаимодействие взаимодействие</a>
   <a href="">Удалить</a>
   <a href="">Редактировать</a>
   <p>{% include 'tasks/includes/interest.html' %}
-  <h3>Взаимодействия</h3>
+  <h3>Планируемые взаимодействия</h3>
+    <ul>
+      {% for communication in communications %}
+        <li>{% include 'contacts/includes/compacts/communication_short.html' %}</li>
+      {% endfor %}
+    </ul>
+  <h3>Завершенные взаимодействия</h3>
     
 {% endblock %}
