@@ -146,6 +146,13 @@ class Contact(models.Model):
         null=True,
         help_text="Укажите основной email.",
     )
+    phone_number = models.CharField(
+        "Мобильный телефон",
+        max_length=30,
+        blank=True,
+        null=True,
+        help_text="Укажите номер телефона."
+    )
     frequency_of_communications_days = models.IntegerField(
         "Частота коммуникаций. Раз/дней.",
         help_text="Укажите как часто хотите общаться с контактом.",
