@@ -85,7 +85,7 @@ class Company(models.Model):
         help_text="Укажите основной email."
     )
     phone_number = models.CharField(
-        "Номер телефона",
+        "Мобильный телефон",
         max_length=30,
         blank=True,
         null=True,

@@ -68,3 +68,29 @@ class PartnerForm(forms.ModelForm):
             "bic",
             "head_of_company",
         )
+
+    def clean_phone_number(self):
+        data = self.cleaned_data['phone_number']
+        data = data.strip()
+        elements = [
+            '+',
+            '-',
+            ' ',
+            ')',
+            '(',
+        ]
+        numbers_all = [str(x) for x in range(10)]
+        for element in elements:
+            data = data.replace(element, '')
+        for sign in data:
+            if sign not in numbers_all:
+                raise forms.ValidationError('Неверные символы')
+        len_number = len(data)
+        if len_number < 10 or len_number > 11:
+            raise forms.ValidationError('Неверная длинна номера')
+        if len_number == 10:
+            data = f'7{data}'
+        data = (f'+7({data[1:4]})-'
+                f'{data[4:7]}-'
+                f'{data[7:9]}-{data[9:11]}')
+        return data
