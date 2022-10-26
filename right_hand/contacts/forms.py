@@ -10,7 +10,7 @@ class ContactForm(forms.ModelForm):
         fields = (
             "name",
             "email",
-            "phone_number",
+            "mobile_phone_number",
             "role",
             "date_of_birthday",
             "frequency_of_communications_days",
@@ -63,9 +63,9 @@ class PartnerForm(forms.ModelForm):
             "full_name",
             "short_name",
             "main_email",
-            "phone_number",
             "number_acount",
             "cor_acount",
             "bic",
             "head_of_company",
+            "mobile_number_of_head"
         )

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db import models
 
-from .validators import validate_phone_number
+from .validators import validate_mobile_phone_number, validate_inn
 
 
 TYPE_OF_COMMUNICATIONS = [
@@ -29,8 +29,9 @@ class Company(models.Model):
     """Модель компании."""
     inn = models.CharField(
         "ИНН",
-        max_length=10,
+        max_length=12,
         help_text="Укажите ИНН.",
+        validators=[validate_inn]
     )
     kpp = models.CharField(
         "КПП",
@@ -86,14 +87,6 @@ class Company(models.Model):
         null=True,
         help_text="Укажите основной email."
     )
-    phone_number = models.CharField(
-        "Мобильный телефон",
-        max_length=30,
-        blank=True,
-        null=True,
-        help_text="Укажите номер телефона.",
-        validators=[validate_phone_number]
-    )
     number_acount = models.CharField(
         "Расчетный счет",
         max_length=20,
@@ -122,12 +115,20 @@ class Company(models.Model):
         null=True,
         help_text="Укажите ФИО руководителя компании."
     )
+    mobile_number_of_head = models.CharField(
+        "Мобильный телефон директора.",
+        max_length=30,
+        blank=True,
+        null=True,
+        help_text="Укажите номер телефона.",
+        validators=[validate_mobile_phone_number]
+    )
 
     def __str__(self):
         return self.short_name
 
     def save(self, *args, **kwargs):
-        self.phone_number = self.phone_number.strip()
+        self.mobile_number_of_head = self.mobile_number_of_head.strip()
         elements = [
             '+',
             '-',
@@ -136,14 +137,17 @@ class Company(models.Model):
             '(',
         ]
         for element in elements:
-            self.phone_number = self.phone_number.replace(element, '')
-        len_number = len(self.phone_number)
+            self.mobile_number_of_head = self.mobile_number_of_head.replace(
+                element,
+                ''
+            )
+        len_number = len(self.mobile_number_of_head)
         if len_number == 10:
-            self.phone_number = f'7{self.phone_number}'
-        self.phone_number = (f'+7({self.phone_number[1:4]})-'
-                             f'{self.phone_number[4:7]}-'
-                             f'{self.phone_number[7:9]}-'
-                             f'{self.phone_number[9:11]}')
+            self.mobile_number_of_head = f'7{self.mobile_number_of_head}'
+        self.mobile_number_of_head = (f'+7({self.mobile_number_of_head[1:4]}) '
+                                      f'{self.mobile_number_of_head[4:7]}-'
+                                      f'{self.mobile_number_of_head[7:9]}-'
+                                      f'{self.mobile_number_of_head[9:11]}')
         super().save(*args, **kwargs)
 
 
@@ -169,13 +173,13 @@ class Contact(models.Model):
         null=True,
         help_text="Укажите основной email.",
     )
-    phone_number = models.CharField(
+    mobile_phone_number = models.CharField(
         "Мобильный телефон",
         max_length=30,
         blank=True,
         null=True,
         help_text="Укажите номер телефона.",
-        validators=[validate_phone_number]
+        validators=[validate_mobile_phone_number]
     )
     frequency_of_communications_days = models.IntegerField(
         "Частота коммуникаций. Раз/дней.",
@@ -206,23 +210,36 @@ class Contact(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.phone_number = self.phone_number.strip()
+        self.name = self.name.strip().lower()
         elements = [
             '+',
-            '-',
-            ' ',
             ')',
             '(',
+            '*',
+            '?',
         ]
+        name = self.name.lower().strip()
+        numbers_all = [str(x) for x in range(10)]
         for element in elements:
-            self.phone_number = self.phone_number.replace(element, '')
-        len_number = len(self.phone_number)
+            name = name.replace(element, '')
+        for number in numbers_all:
+            name = name.replace(number, '')
+        self.name = name.title()
+
+        self.mobile_phone_number = self.mobile_phone_number.strip()
+        elements.append('-')
+        for element in elements:
+            self.mobile_phone_number = self.mobile_phone_number.replace(
+                element,
+                ''
+            )
+        len_number = len(self.mobile_phone_number)
         if len_number == 10:
-            self.phone_number = f'7{self.phone_number}'
-        self.phone_number = (f'+7({self.phone_number[1:4]})-'
-                             f'{self.phone_number[4:7]}-'
-                             f'{self.phone_number[7:9]}-'
-                             f'{self.phone_number[9:11]}')
+            self.mobile_phone_number = f'7{self.mobile_phone_number}'
+        self.mobile_phone_number = (f'+7({self.mobile_phone_number[1:4]}) '
+                                    f'{self.mobile_phone_number[4:7]}-'
+                                    f'{self.mobile_phone_number[7:9]}-'
+                                    f'{self.mobile_phone_number[9:11]}')
         super().save(*args, **kwargs)
 
 

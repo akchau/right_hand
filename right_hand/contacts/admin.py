@@ -63,11 +63,11 @@ class PartnerAdmin(admin.ModelAdmin):
         'full_name',
         'short_name',
         'main_email',
-        'phone_number',
         'number_acount',
         'cor_acount',
         'bic',
-        'head_of_company'
+        'head_of_company',
+        "mobile_number_of_head"
     )
     list_editable = (
         'inn',
@@ -80,11 +80,11 @@ class PartnerAdmin(admin.ModelAdmin):
         'full_name',
         'short_name',
         'main_email',
-        'phone_number',
         'number_acount',
         'cor_acount',
         'bic',
-        'head_of_company'
+        'head_of_company',
+        "mobile_number_of_head"
     )
     search_fields = (
         'inn',
