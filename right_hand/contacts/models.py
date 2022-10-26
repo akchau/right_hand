@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db import models
 
-from .validators import validate_mobile_phone_number, validate_inn
+from . import validators
 
 
 TYPE_OF_COMMUNICATIONS = [
@@ -30,15 +30,16 @@ class Company(models.Model):
     inn = models.CharField(
         "ИНН",
         max_length=12,
-        help_text="Укажите ИНН.",
-        validators=[validate_inn]
+        help_text="Для Юр.лица - 10 цифр,для Физ.лица - 12.",
+        validators=[validators.validate_inn]
     )
     kpp = models.CharField(
         "КПП",
         max_length=9,
         blank=True,
         null=True,
-        help_text="Укажите КПП.",
+        help_text="Код Причины Постановки. КПП состоит из 9 цифр.",
+        validators=[validators.validate_kpp]
     )
     ogrn = models.CharField(
         "ОГРН",
@@ -52,7 +53,11 @@ class Company(models.Model):
         max_length=10,
         blank=True,
         null=True,
-        help_text="Укажите ОКПО.",
+        help_text=(
+            'Укажите ОКПО. Для Юр.лица - 8 цифр, '
+            'для Физ.лица(ИП) - 10 цифр.,'
+        ),
+        validators=[validators.validate_okpo]
     )
     okved = models.CharField(
         "ОКВЭД",
@@ -121,7 +126,7 @@ class Company(models.Model):
         blank=True,
         null=True,
         help_text="Укажите номер телефона.",
-        validators=[validate_mobile_phone_number]
+        validators=[validators.validate_mobile_phone_number]
     )
 
     def __str__(self):
@@ -179,7 +184,7 @@ class Contact(models.Model):
         blank=True,
         null=True,
         help_text="Укажите номер телефона.",
-        validators=[validate_mobile_phone_number]
+        validators=[validators.validate_mobile_phone_number]
     )
     frequency_of_communications_days = models.IntegerField(
         "Частота коммуникаций. Раз/дней.",
