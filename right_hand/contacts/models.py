@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.db import models
 
+from .validators import validate_phone_number
+
 
 TYPE_OF_COMMUNICATIONS = [
     ('Звонок', 'Звонок'),
@@ -89,7 +91,8 @@ class Company(models.Model):
         max_length=30,
         blank=True,
         null=True,
-        help_text="Укажите номер телефона."
+        help_text="Укажите номер телефона.",
+        validators=[validate_phone_number]
     )
     number_acount = models.CharField(
         "Расчетный счет",
@@ -123,6 +126,26 @@ class Company(models.Model):
     def __str__(self):
         return self.short_name
 
+    def save(self, *args, **kwargs):
+        self.phone_number = self.phone_number.strip()
+        elements = [
+            '+',
+            '-',
+            ' ',
+            ')',
+            '(',
+        ]
+        for element in elements:
+            self.phone_number = self.phone_number.replace(element, '')
+        len_number = len(self.phone_number)
+        if len_number == 10:
+            self.phone_number = f'7{self.phone_number}'
+        self.phone_number = (f'+7({self.phone_number[1:4]})-'
+                             f'{self.phone_number[4:7]}-'
+                             f'{self.phone_number[7:9]}-'
+                             f'{self.phone_number[9:11]}')
+        super().save(*args, **kwargs)
+
 
 class Contact(models.Model):
     """Модель контакта."""
@@ -151,7 +174,8 @@ class Contact(models.Model):
         max_length=30,
         blank=True,
         null=True,
-        help_text="Укажите номер телефона."
+        help_text="Укажите номер телефона.",
+        validators=[validate_phone_number]
     )
     frequency_of_communications_days = models.IntegerField(
         "Частота коммуникаций. Раз/дней.",
@@ -180,6 +204,26 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.phone_number = self.phone_number.strip()
+        elements = [
+            '+',
+            '-',
+            ' ',
+            ')',
+            '(',
+        ]
+        for element in elements:
+            self.phone_number = self.phone_number.replace(element, '')
+        len_number = len(self.phone_number)
+        if len_number == 10:
+            self.phone_number = f'7{self.phone_number}'
+        self.phone_number = (f'+7({self.phone_number[1:4]})-'
+                             f'{self.phone_number[4:7]}-'
+                             f'{self.phone_number[7:9]}-'
+                             f'{self.phone_number[9:11]}')
+        super().save(*args, **kwargs)
 
 
 class Communication(models.Model):
