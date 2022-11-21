@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+  <a href={% url 'contacts:communication_new_with_contact' contact.pk %}>Новая коммуникация с контактом</a>
+  <a href={% url 'contacts:contact_delete' contact.pk %}>Удалить контакт</a>
+  <a href={% url 'contacts:contact_edit' contact.pk %}>Редактировать</a>
+  <p><i>{{ contact.role }}</i>
+  <h1>Карточка контакта</h1>
+  <p>{{ contact.email }}
+  <p>{{ contact.mobile_phone_number }}
+  <p>{{ contact.date_of_birthday }}
+  {% if contact.company %}
+    <p><a href={% url 'contacts:partner_profile' contact.company.pk %}>Компания - {{ contact.company.short_name }}</a>
+    <p>Должность - {{ contact.position }}
+  {% else %}
+    <p>Компания - Не указана
+    <p>Должность - Не указана
+  {% endif %}
+  <h1>Общение</h1>
+  <p>Частота общения,д. - {{ contact.frequency_of_communications_days }}
+  <h3>Планируемая коммуникация</h3>
+  {% for communication in plan_communication %}
+    <li>{% include 'contacts/includes/compacts/communication_short.html' %}</li>
+  {% endfor %}
+  <h3>Завершенные комуникации</h3>
+  <p>{% for communication in communications %}
+    <li>{% include 'contacts/includes/compacts/communication_short.html' %}</li>
+  {% endfor %}
+{% endblock %}

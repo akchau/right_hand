@@ -1,5 +1,10 @@
 from django.core.exceptions import ValidationError
 
+MIN_LEN_FIELDS = {
+    'inn': 10,
+    'kpp': 9,
+}
+
 
 def validate_mobile_phone_number(value):
     data = value.strip()

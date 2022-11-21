@@ -37,6 +37,7 @@ class CommunicationAdmin(admin.ModelAdmin):
         'pub_date',
         'plan_date',
         'info',
+        'is_expired',
     )
     list_editable = (
         'type',
