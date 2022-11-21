@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Sum
 
 
 UNIT_OF_MEASUREMENT = {
@@ -90,4 +89,4 @@ class ProductsCollection(models.Model):
         return self.product.price * self.numbers
 
     def __srt__(self):
-        return f'{self.product} в сборке {self.collection} - {self.numbers} шт.'
+        return f'{self.product} - {self.collection} - {self.numbers} шт.'

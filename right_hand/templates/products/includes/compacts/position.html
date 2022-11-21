@@ -1,0 +1,5 @@
+<p><a href={% url 'products:product_profile' position.product.pk %}>{{ position.product.name }}</a> - Количество: {{ position.numbers }} 
+{{ position.product.unit }} Цена: {{ position.price_of_position }} р. = Итого: {{ position.total_of_position }} р.
+<p><small><a href="">Удалить</a></small>
+<small><a href="">Редактировать</a></small>
+    

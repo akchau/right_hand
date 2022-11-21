@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <p><a href="">Добавить сборку</a>
+  <ul>
+    {% for collection in collections %}
+      <li>{% include 'products/includes/compacts/collection.html' %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

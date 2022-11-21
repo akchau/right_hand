@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <p><a href="">Добавить номенклатуру</a>
+  <ul>
+    {% for product in products %}
+      <li>{% include 'products/includes/compacts/product.html' %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

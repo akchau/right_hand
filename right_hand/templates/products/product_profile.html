@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <p><a href="">Редактировать/Заполнить</a>
+  <a href="">Удалить</a>
+  <h1>{{product.name}}</h1>
+  <p>Производитель:
+  <p>Артикул производителя: {{ product.reference }}
+  <p>Прайс производителя: {{ product.price }} р.
+  <p>Еденица измерения: {{ product.unit }}
+{% endblock %}
