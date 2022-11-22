@@ -3,4 +3,4 @@
  {{ product.reference }}
  {{ product.price }} р.
 <p><small><a href={% url 'products:product_delete' product.pk %}>Удалить</a></small>
-<small><a href="">Редактировать</a></small>
+<small><a href={% url 'products:product_edit' product.pk %}>Редактировать</a></small>

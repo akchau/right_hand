@@ -1,0 +1,8 @@
+{% extends 'form.html' %}
+{% block form %}
+  {% if is_edit %}
+    <form method="post" action="{% url 'products:product_edit' pk %}" enctype="multipart/form-data">{% csrf_token %}
+  {% else %}
+    <form method="post" action="{% url 'products:product_new' %}" enctype="multipart/form-data">{% csrf_token %}
+  {% endif %}
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
+from .forms import ProductForm
 from .models import Product, Collection, ProductsCollection
 
 
@@ -50,6 +51,51 @@ def product_profile(request, pk):
 def product_delete(request, pk):
     Product.objects.get(pk=pk).delete()
     return redirect("products:products")
+
+
+def product_edit(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    form = ProductForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=product,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("products:product_profile", pk=pk)
+    title = "Редактирование товара"
+    header = title
+    action = "Редактируйте товар"
+    template = "products/product_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def product_new(request):
+    """Добавление нового товара."""
+    form = ProductForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("products:products")
+    template = "products/product_new.html"
+    title = "Новый товар."
+    action = "Добавьте новый товар."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+    }
+    return render(request, template, context)
 
 
 def collection_profile(request, pk):
