@@ -1,3 +1,6 @@
-<p><a href={% url 'products:product_profile' product.pk %}>{{ product.name }}</a> - Артикул: {{ product.reference }} Прайс: {{ product.price }} р.
+<p><a href={% url 'products:product_profile' product.pk %}>{{ product.name }}</a> 
+ <a href={% url 'contacts:partner_profile' product.maker.pk %}>{{ product.maker }}</a> 
+ {{ product.reference }}
+ {{ product.price }} р.
 <p><small><a href="">Удалить</a></small>
 <small><a href="">Редактировать</a></small>
