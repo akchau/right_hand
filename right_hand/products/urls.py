@@ -7,6 +7,7 @@ app_name = 'products'
 urlpatterns = [
     # Адреса продуктов --------------------------------------------------------
     path('', views.products, name='products'),
+    path('<int:pk>/delete/', views.product_delete, name='product_delete'),
     path('<int:pk>/', views.product_profile, name='product_profile'),
     # Адреса сборок --------------------------------------------------------
     path(

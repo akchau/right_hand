@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Product, Collection, ProductsCollection
 
@@ -45,6 +45,11 @@ def product_profile(request, pk):
         'product': product,
     }
     return render(request, template, context)
+
+
+def product_delete(request, pk):
+    Product.objects.get(pk=pk).delete()
+    return redirect("products:products")
 
 
 def collection_profile(request, pk):
