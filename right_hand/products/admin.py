@@ -3,6 +3,17 @@ from django.contrib import admin
 from .models import Product, Collection, ProductsCollection
 
 
+class ProductAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'reference',
+        'maker',
+        'unit',
+        'price',
+    )
+    empty_value_display = "-пусто-"
+
+
 class CollectionAdmin(admin.ModelAdmin):
     list_display = (
         'name',
@@ -28,6 +39,6 @@ class ProductsCollectionAdmin(admin.ModelAdmin):
     empty_value_display = "-пусто-"
 
 
-admin.site.register(Product)
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Collection, CollectionAdmin)
 admin.site.register(ProductsCollection, ProductsCollectionAdmin)
