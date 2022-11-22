@@ -1,5 +1,7 @@
 from django.db import models
 
+from contacts.models import Company
+
 
 UNIT_OF_MEASUREMENT = {
     ('шт', 'шт'),
@@ -14,6 +16,14 @@ class Product(models.Model):
         "Название товара.",
         max_length=200,
         help_text="Укажите название товара.",
+    )
+    maker = models.ForeignKey(
+        Company,
+        related_name="products",
+        verbose_name="Производитель",
+        on_delete=models.SET_NULL,
+        null=True,
+        help_text="Укажите произоводителя"
     )
     reference = models.CharField(
         "Артикул производителя.",
