@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
   <p><a href="">Редактировать/Заполнить</a>
-  <a href="">Удалить</a>
+  <a href={% url 'products:product_delete' product.pk %}>Удалить</a>
   <h1>{{ product.name }}</h1>
   <p>Производитель: <a href={% url 'contacts:partner_profile' product.maker.pk %}>{{ product.maker }}</a>
   <p>Артикул производителя: {{ product.reference }}
