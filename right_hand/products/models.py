@@ -50,6 +50,11 @@ class Collection(models.Model):
         max_length=200,
         help_text="Укажите название сборки.",
     )
+    description = models.TextField(
+        "Описание сборки",
+        help_text="Добавьте описание сборки",
+        null=True
+    )
 
     @property
     def numbers_of_position_in(self):

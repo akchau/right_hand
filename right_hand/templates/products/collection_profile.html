@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-  <p><a href="">Редактировать/Заполнить</a>
+  <p><a href={% url 'products:collection_edit' collection.pk %}>Редактировать/Заполнить</a>
   <a href="">Удалить</a>
   <h1>{{collection.name}}</h1>
+  <p>{{ collection.description }}</p>
   <h1>Позиции</h1>
   <ul>
   {% for position in positions %}

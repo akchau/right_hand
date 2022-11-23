@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-  <p><a href="">Добавить сборку</a>
+  <p><a href={% url 'products:collection_new' %}>Добавить сборку</a>
   <ul>
     {% for collection in collections %}
       <li>{% include 'products/includes/compacts/collection.html' %}</li>

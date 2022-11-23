@@ -1,10 +1,10 @@
 from django import forms
 
-from .models import Product
+from .models import Product, Collection
 
 
 class ProductForm(forms.ModelForm):
-    """Форма для создания контакта."""
+    """Форма для создания карточки товара."""
     class Meta:
         model = Product
         fields = (
@@ -13,4 +13,14 @@ class ProductForm(forms.ModelForm):
             "maker",
             "price",
             "unit",
+        )
+
+
+class CollectionForm(forms.ModelForm):
+    """Форма для создания сборки."""
+    class Meta:
+        model = Collection
+        fields = (
+            "name",
+            "description",
         )

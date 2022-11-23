@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import ProductForm
+from .forms import ProductForm, CollectionForm
 from .models import Product, Collection, ProductsCollection
 
 
@@ -112,3 +112,53 @@ def collection_profile(request, pk):
         'positions': positions,
     }
     return render(request, template, context)
+
+
+def collection_new(request):
+    """Добавление новой сборки."""
+    form = CollectionForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("products:collections")
+    template = "products/collection_new.html"
+    title = "Новый сборка."
+    action = "Добавьте новую сборку."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+    }
+    return render(request, template, context)
+
+
+def collection_edit(request, pk):
+    product = get_object_or_404(Collection, pk=pk)
+    form = CollectionForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=product,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("products:collection_profile", pk=pk)
+    title = "Редактирование сборки."
+    header = title
+    action = "Редактируйте сборку"
+    template = "products/collection_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def collection_delete(request, pk):
+    Collection.objects.get(pk=pk).delete()
+    return redirect("products:collections")
