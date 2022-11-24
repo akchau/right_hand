@@ -91,6 +91,10 @@ class Task(models.Model):
     routine = models.BooleanField(
         verbose_name="Регулярная задача?"
     )
+    regularity = models.SmallIntegerField(
+        "Регулярность задачи",
+        default=1
+    )
 
     class Meta:
         ordering = ("deadline",)
