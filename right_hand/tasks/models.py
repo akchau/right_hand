@@ -79,6 +79,11 @@ class Task(models.Model):
         "Дедлайн задачи.",
         help_text="Дедлайн задачи.",
     )
+    description = models.TextField(
+        "Описание задачи",
+        help_text="Добавьте описание задачи",
+        null=True
+    )
     project = models.ForeignKey(
         Project,
         on_delete=models.CASCADE,
@@ -95,6 +100,7 @@ class Task(models.Model):
         "Регулярность задачи",
         default=1
     )
+    
 
     class Meta:
         ordering = ("deadline",)

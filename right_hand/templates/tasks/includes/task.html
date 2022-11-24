@@ -8,5 +8,8 @@
 {% else %}
   <p>Статус - Не просрочено!
 {% endif %}
+{% if task.routine %}
+    <p> Регулярная задача. Выполняется раз в {{ task.regularity }} дней.
+{% endif %}
 <p><small><a href={% url 'tasks:task_edit' task.pk %}>Редактировать</a></small>
 <small><a href={% url 'tasks:task_delete' task.pk %}>Удалить</a></small>

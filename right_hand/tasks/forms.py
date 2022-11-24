@@ -24,6 +24,7 @@ class TaskForm(forms.ModelForm):
             'deadline',
             'project',
             'routine',
+            'regularity',
         )
 
 
