@@ -21,6 +21,7 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = (
             'name',
+            'description',
             'deadline',
             'project',
             'routine',

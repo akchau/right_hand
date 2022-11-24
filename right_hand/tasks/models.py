@@ -100,7 +100,6 @@ class Task(models.Model):
         "Регулярность задачи",
         default=1
     )
-    
 
     class Meta:
         ordering = ("deadline",)

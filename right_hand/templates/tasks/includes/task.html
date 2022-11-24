@@ -1,4 +1,5 @@
-<p>Задача - <a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a>
+<p><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a>
+<p>{{ task.description }}
 {% if task.project %}
  - <a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a>
 {% endif %}

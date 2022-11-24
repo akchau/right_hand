@@ -33,7 +33,7 @@ def task_profile(request, pk):
     """Страничка задачи."""
     template = "tasks/task_profile.html"
     task = get_object_or_404(Task, pk=pk)
-    title = f'{task.name} - {task.deadline}'
+    title = f'Карточка задачи {task.name}'
     header = title
     context = {
         'title': title,
