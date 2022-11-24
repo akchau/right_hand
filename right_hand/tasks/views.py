@@ -23,7 +23,7 @@ def tasks(request):
     tasks = Task.objects.filter(done=False).order_by(
         "deadline")
     tasks_done = Task.objects.filter(done=True).order_by(
-        "deadline")
+        "-deadline")
     context = {
         'title': title,
         'header': header,
@@ -125,6 +125,12 @@ def task_delete(request, pk):
 
 def task_done(request, pk):
     task = get_object_or_404(Task, pk=pk)
+    if task.done:
+        task.done = False
+        if task.routine:
+            Task.objects.get(pk=task.next_task).delete()
+        task.save()
+        return redirect('tasks:tasks')
     task.done = True
     if task.routine:
         new_task = Task(
@@ -139,6 +145,7 @@ def task_done(request, pk):
             done=False
         )
         new_task.save()
+        task.next_task = new_task.pk
     task.save()
     return redirect('tasks:tasks')
 

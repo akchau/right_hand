@@ -27,6 +27,11 @@ class TaskForm(forms.ModelForm):
             'routine',
             'regularity',
         )
+        
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
+        self.fields['description'].required = False
+        self.fields['regularity'].required = False
 
 
 class TaskFormWithProject(forms.ModelForm):

@@ -96,9 +96,13 @@ class Task(models.Model):
     routine = models.BooleanField(
         verbose_name="Регулярная задача?"
     )
+    next_task = models.IntegerField(
+        "pk следующей задачи.",
+        null=True
+    )
     regularity = models.SmallIntegerField(
         "Регулярность задачи",
-        default=1
+        default=1,
     )
     done = models.BooleanField(
         verbose_name="Выполнена?",
