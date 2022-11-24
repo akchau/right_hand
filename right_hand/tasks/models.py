@@ -100,6 +100,9 @@ class Task(models.Model):
         "Регулярность задачи",
         default=1
     )
+    done = models.BooleanField(
+        verbose_name="Выполнена?",
+    )
 
     class Meta:
         ordering = ("deadline",)

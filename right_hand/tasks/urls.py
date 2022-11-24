@@ -16,6 +16,7 @@ urlpatterns = [
         name='task_new_with_project'
     ),
     path('new/', views.task_new, name='task_new'),
+    path('<int:pk>/done/', views.task_done, name='task_done'),
     path('', views.tasks, name='tasks'),
 
     # Адреса проектов ---------------------------------------------------------

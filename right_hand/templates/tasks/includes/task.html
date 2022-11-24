@@ -1,13 +1,18 @@
-<p><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a>
+<p><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a> - <a href={% url 'tasks:task_done' task.pk %}>Выполнить</a>
 <p>{{ task.description }}
 {% if task.project %}
  - <a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a>
 {% endif %}
 <p>Дедлайн - {{ task.deadline }}
+{% if task.done %}
+  <p>Выполнена
+{% elif not task.done %}
+  <p>Не выполнена
+{% endif %}
 {% if task.is_expired %}
-  <p>Статус - Просрочено!
+  <p>Просрочено!
 {% else %}
-  <p>Статус - Не просрочено!
+  <p>Не просрочено!
 {% endif %}
 {% if task.routine %}
     <p> Регулярная задача. Выполняется раз в {{ task.regularity }} дней.

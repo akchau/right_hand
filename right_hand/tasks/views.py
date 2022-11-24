@@ -49,7 +49,9 @@ def task_new(request):
         request.POST or None,
     )
     if form.is_valid():
-        form.save()
+        new_task = form.save(commit=False)
+        new_task.done = False
+        form.save(commit=True)
         return redirect("tasks:tasks")
     template = "tasks/task_new.html"
     title = "Новая задача."
@@ -115,6 +117,13 @@ def task_edit(request, pk):
 def task_delete(request, pk):
     Task.objects.get(pk=pk).delete()
     return redirect("tasks:tasks")
+
+
+def task_done(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.done = True
+    task.save()
+    return redirect('tasks:tasks')
 
 
 def projects(request):
