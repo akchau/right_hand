@@ -19,12 +19,15 @@ def tasks(request):
     template = "tasks/tasks.html"
     title = 'Мои задачи.'
     header = title
-    tasks = Task.objects.all().order_by(
+    tasks = Task.objects.filter(done=False).order_by(
+        "deadline")
+    tasks_done = Task.objects.filter(done=True).order_by(
         "deadline")
     context = {
         'title': title,
         'header': header,
         'tasks': tasks,
+        'tasks_done': tasks_done,
     }
     return render(request, template, context)
 

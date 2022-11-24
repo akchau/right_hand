@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
   <p><a href={%  url "tasks:task_new" %}>Новая задача</a>
+  <h1>Невыполненые задачи</h1>
   <ul>
     {% for task in tasks %}
+      <li>{% include 'tasks/includes/task.html' %}</li>
+    {% endfor %}
+  </ul>
+  <h1>Завершенные задачи</h1>
+  <ul>
+    {% for task in tasks_done %}
       <li>{% include 'tasks/includes/task.html' %}</li>
     {% endfor %}
   </ul>
