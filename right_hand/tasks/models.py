@@ -82,7 +82,7 @@ class Task(models.Model):
     description = models.TextField(
         "Описание задачи",
         help_text="Добавьте описание задачи",
-        null=True
+        null=True,
     )
     project = models.ForeignKey(
         Project,

@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.shortcuts import render, get_object_or_404, redirect
 
 from contacts.models import Communication, Company
@@ -125,6 +126,19 @@ def task_delete(request, pk):
 def task_done(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.done = True
+    if task.routine:
+        new_task = Task(
+            name=task.name,
+            description=task.description,
+            deadline=datetime.today() + timedelta(
+                days=task.regularity
+            ),
+            project=task.project,
+            routine=True,
+            regularity=task.regularity,
+            done=False
+        )
+        new_task.save()
     task.save()
     return redirect('tasks:tasks')
 
