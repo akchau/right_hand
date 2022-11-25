@@ -26,6 +26,7 @@ class TaskForm(forms.ModelForm):
             'project',
             'routine',
             'regularity',
+            'category',
         )
 
     def __init__(self, *args, **kwargs):

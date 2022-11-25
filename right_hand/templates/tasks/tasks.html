@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
   <p><a href={%  url "tasks:task_new" %}>Новая задача</a>
+  <a href={%  url "tasks:category_of_task_new" %}>Новая категория</a>
+  <ul>
+    {% for category in categories %}
+      <li style="display: inline-block"><a href={%  url "tasks:category_of_task_profile" category.pk %}>{{ category.name }}</a></li>
+    {% endfor %}
+    </ul>
   <h1>Невыполненые задачи</h1>
   <ul>
     {% for task in tasks %}

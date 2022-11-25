@@ -102,6 +102,8 @@ def tasks(request):
     template = "tasks/tasks.html"
     title = 'Мои задачи.'
     header = title
+    categories = CategoryTask.objects.all().order_by(
+        "name")
     tasks = Task.objects.filter(done=False).order_by(
         "deadline")
     tasks_done = Task.objects.filter(done=True).order_by(
@@ -111,6 +113,7 @@ def tasks(request):
         'header': header,
         'tasks': tasks,
         'tasks_done': tasks_done,
+        'categories': categories, 
     }
     return render(request, template, context)
 
