@@ -128,7 +128,12 @@ def task_done(request, pk):
     if task.done:
         task.done = False
         if task.routine:
-            Task.objects.get(pk=task.next_task).delete()
+            if Task.objects.filter(name=task.name,
+                                   description=task.description,
+                                   done=False).exists():
+                Task.objects.filter(name=task.name,
+                                    description=task.description,
+                                    done=False).delete()
         task.save()
         return redirect('tasks:tasks')
     task.done = True
@@ -145,7 +150,6 @@ def task_done(request, pk):
             done=False
         )
         new_task.save()
-        task.next_task = new_task.pk
     task.save()
     return redirect('tasks:tasks')
 

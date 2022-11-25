@@ -18,6 +18,10 @@ INTEREST_STATUS = [
 ]
 
 
+# class Category_of_Task(models.Model):
+#    """Модель категориии """
+
+
 class Project(models.Model):
     """Модель проекта."""
     name = models.CharField(
@@ -95,10 +99,6 @@ class Task(models.Model):
     )
     routine = models.BooleanField(
         verbose_name="Регулярная задача?"
-    )
-    next_task = models.IntegerField(
-        "pk следующей задачи.",
-        null=True
     )
     regularity = models.SmallIntegerField(
         "Регулярность задачи",
