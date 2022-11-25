@@ -1,0 +1,3 @@
+<a href={% url 'tasks:category_of_task_profile' category.pk %}>{{ category.name }}
+<p><small><a href={% url 'tasks:category_of_task_edit' category.pk %}>Редактировать</a></small>
+<small><a href={% url 'tasks:category_of_task_delete' category.pk %}>Удалить</a></small>

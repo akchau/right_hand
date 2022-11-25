@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <p><a href={% url 'tasks:category_of_task_new' %}>Добавить категорию</a>
+  <ul>
+    {% for category in categories %}
+      <li>{% include 'tasks/includes/category.html' %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

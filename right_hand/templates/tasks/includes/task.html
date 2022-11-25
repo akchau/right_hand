@@ -7,6 +7,9 @@
 {% if task.project %}
  - <a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a>
 {% endif %}
+{% if task.category %}
+ <p><a href={% url 'tasks:category_of_task_profile' task.category.pk %}>{{ task.category.name }}</a>
+{% endif %}
 {{ task.deadline }}
 {% if task.is_expired %}
   <p>Просрочено!

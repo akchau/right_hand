@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+  <a href="">Создать задачу</a>
+  <a href="">Добавить задачу</a>
+  <a href={% url 'tasks:category_of_task_delete' category.pk %}>Удалить</a>
+  <a href={% url 'tasks:category_of_task_edit' category.pk %}>Редактировать</a>
+  <p>{{ category.name }}
+  <h3>Задачи категории</h3>
+  <ul>
+    {% for task in tasks %}
+      <li>{% include 'tasks/includes/task.html' %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -8,11 +8,93 @@ from .forms import (TaskForm,
                     ProjectForm,
                     InterestForm,
                     InterestFormWithPartner,
-                    TaskFormWithProject)
+                    TaskFormWithProject,
+                    CategoryTaskForm)
 from .models import (CommunicationProject,
                      Task, Project,
                      Interest,
-                     CommunicationInterest)
+                     CommunicationInterest,
+                     CategoryTask)
+
+
+def categories_of_tasks(request):
+    """Все категории задач."""
+    template = "tasks/categories.html"
+    title = 'Категории задач.'
+    header = title
+    categories = CategoryTask.objects.all().order_by("name")
+    context = {
+        'title': title,
+        'header': header,
+        'categories': categories
+    }
+    return render(request, template, context)
+
+
+def category_of_task_profile(request, pk):
+    """Карточка категории задач."""
+    template = "tasks/category_profile.html"
+    category = get_object_or_404(CategoryTask, pk=pk)
+    tasks = Task.objects.filter(category=category).order_by('-deadline')
+    title = f'Категория {category.name}'
+    header = title
+    context = {
+        'title': title,
+        'header': header,
+        'category': category,
+        'tasks': tasks
+    }
+    return render(request, template, context)
+
+
+def category_of_task_edit(request, pk):
+    category = get_object_or_404(CategoryTask, pk=pk)
+    form = CategoryTaskForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=category,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("tasks:category_of_task_profile", pk=pk)
+    title = "Редактирование категории."
+    header = title
+    action = "Редактируйте категорию"
+    template = "tasks/category_new.html"
+    context = {
+        "title": title,
+        "header": header,
+        "action": action,
+        "form": form,
+        "is_edit": True,
+        "pk": pk,
+    }
+    return render(request, template, context)
+
+
+def category_of_task_new(request):
+    """Добавление нового контакта."""
+    form = CategoryTaskForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        form.save()
+        return redirect("tasks:categories_of_tasks")
+    template = "tasks/category_new.html"
+    title = "Новая категория."
+    action = "Добавьте новую категорию."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+    }
+    return render(request, template, context)
+
+
+def category_of_task_delete(request, pk):
+    CategoryTask.objects.get(pk=pk).delete()
+    return redirect("tasks:categories_of_tasks")
 
 
 def tasks(request):

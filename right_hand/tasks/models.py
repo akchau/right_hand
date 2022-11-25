@@ -18,8 +18,13 @@ INTEREST_STATUS = [
 ]
 
 
-# class Category_of_Task(models.Model):
-#    """Модель категориии """
+class CategoryTask(models.Model):
+    """Модель категориии задач."""
+    name = models.CharField(
+        "Название категории.",
+        max_length=200,
+        help_text="Название категории.",
+    )
 
 
 class Project(models.Model):
@@ -106,6 +111,14 @@ class Task(models.Model):
     )
     done = models.BooleanField(
         verbose_name="Выполнена?",
+    )
+    category = models.ForeignKey(
+        CategoryTask,
+        on_delete=models.SET_NULL,
+        related_name="tasks",
+        verbose_name="Категория задачи.",
+        help_text="Укажите категорию задачи.",
+        null=True,
     )
 
     class Meta:

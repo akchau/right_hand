@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Project, Task, Interest
+from .models import Project, Task, Interest, CategoryTask
 
 
 class ProjectForm(forms.ModelForm):
@@ -27,7 +27,7 @@ class TaskForm(forms.ModelForm):
             'routine',
             'regularity',
         )
-        
+
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['description'].required = False
@@ -61,4 +61,12 @@ class InterestFormWithPartner(forms.ModelForm):
             'name',
             'revenue',
             'main_contact',
+        )
+
+
+class CategoryTaskForm(forms.ModelForm):
+    class Meta:
+        model = CategoryTask
+        fields = (
+            'name',
         )

@@ -1,0 +1,8 @@
+{% extends 'form.html' %}
+{% block form %}
+  {% if is_edit %}
+    <form method="post" action="{% url 'tasks:category_of_task_edit' pk %}" enctype="multipart/form-data">{% csrf_token %}
+  {% else %}
+    <form method="post" action="{% url 'tasks:category_of_task_new' %}" enctype="multipart/form-data">{% csrf_token %}
+  {% endif %}
+{% endblock %}
