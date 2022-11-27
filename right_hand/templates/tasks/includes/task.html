@@ -25,3 +25,5 @@
 {% endif %}
 <p><small><a href={% url 'tasks:task_edit' task.pk %}>Редактировать</a></small>
 <small><a href={% url 'tasks:task_delete' task.pk %}>Удалить</a></small>
+<small>Изменено: {{ task.last_edit_date }}</small>
+<small>Создано: {{ task.pub_date }}</small>
