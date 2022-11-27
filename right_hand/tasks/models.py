@@ -187,6 +187,11 @@ class Task(models.Model):
         "Временная сложность задачи",
         help_text="Укажите, кол-во 30-минутных отрезков на задачу."
     )
+    done_date = models.DateTimeField(
+        "Дата выполнения",
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ("deadline",)

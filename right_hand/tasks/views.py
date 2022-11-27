@@ -238,17 +238,18 @@ def task_delete(request, pk):
 
 def task_done(request, pk):
     task = get_object_or_404(Task, pk=pk)
+# ------------------- Если задача выполнена --------------------
     if task.done:
         task.done = False
         if task.routine:
             if Task.objects.filter(name=task.name,
-                                   description=task.description,
                                    done=False).exists():
                 Task.objects.filter(name=task.name,
-                                    description=task.description,
                                     done=False).delete()
+        task.done_date = None
         task.save()
         return redirect('tasks:tasks')
+# ----------------- Если задача не выполнена --------------------
     task.done = True
     if task.routine:
         new_task = Task(
@@ -260,9 +261,11 @@ def task_done(request, pk):
             project=task.project,
             routine=True,
             regularity=task.regularity,
-            done=False
+            done=False,
+            plan_pomodoro=task.plan_pomodoro
         )
         new_task.save()
+    task.done_date = datetime.today()
     task.save()
     return redirect('tasks:tasks')
 
