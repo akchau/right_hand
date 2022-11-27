@@ -109,18 +109,31 @@ def tasks(request):
         "deadline")
     tasks_done = Task.objects.filter(done=True).order_by(
         "-deadline")
-    numbers_pomodoro = tasks.aggregate(
-        sum_pomodoro=Sum('plan_pomodoro')
-    )
-
+    tasks_routine = Task.objects.filter(routine=True, done=True)
+    if tasks:
+        numbers_pomodoro = tasks.aggregate(
+            sum_pomodoro=Sum('plan_pomodoro')
+        )
+        pomodoro = int(numbers_pomodoro['sum_pomodoro'])
+    else:
+        pomodoro = 0
+    if tasks_routine:
+        numbers_pomodoro_routine = tasks_routine.aggregate(
+            sum_pomodoro=Sum('plan_pomodoro')
+        )
+        pomodoro_routine = int(numbers_pomodoro_routine['sum_pomodoro'])
+    else:
+        pomodoro_routine = 0
     context = {
         'title': title,
         'header': header,
         'tasks': tasks,
         'tasks_done': tasks_done,
         'categories': categories,
-        'numbers_pomodoro_hours': numbers_pomodoro['sum_pomodoro']//2,
-        'numbers_pomodoro_minutes': numbers_pomodoro['sum_pomodoro'] % 2,
+        'numbers_pomodoro_hours': pomodoro//2,
+        'numbers_pomodoro_minutes': pomodoro % 2,
+        'numbers_pomodoro_routine_hours': pomodoro_routine//2,
+        'numbers_pomodoro_routine_minutes': pomodoro_routine % 2,
     }
     return render(request, template, context)
 

@@ -7,7 +7,8 @@
       <li style="display: inline-block"><a href={%  url "tasks:category_of_task_profile" category.pk %}>{{ category.name }}</a></li>
     {% endfor %}
     </ul>
-    <h3>Общее время выполнения всех задач - {{ numbers_pomodoro_hours }} ч. {{ numbers_pomodoro_minutes }} мин. 
+    <h3>Общее время выполнения всех задач - {{ numbers_pomodoro_hours }} ч. {{ numbers_pomodoro_minutes }} мин.
+    <h3>Суммарное время регулярных задач - {{ numbers_pomodoro_routine_hours }} ч. {{ numbers_pomodoro_routine_minutes }} мин.
   <h1>Невыполненые задачи</h1>
   <ul>
     {% for task in tasks %}
