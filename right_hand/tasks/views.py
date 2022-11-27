@@ -113,7 +113,7 @@ def tasks(request):
         'header': header,
         'tasks': tasks,
         'tasks_done': tasks_done,
-        'categories': categories, 
+        'categories': categories,
     }
     return render(request, template, context)
 

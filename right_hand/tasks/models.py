@@ -4,6 +4,7 @@ from django.db import models
 
 from contacts.models import Contact, Company, Communication
 
+
 PROJECT_STATUS = [
     ('В работе', 'В работе'),
     ('Завершен', 'Завершен'),
@@ -77,6 +78,48 @@ class Project(models.Model):
         return self.name
 
 
+class Interest(models.Model):
+    """Модель интереса."""
+    name = models.CharField(
+        "Название проекта.",
+        max_length=200,
+        help_text="Название проекта.",
+    )
+    revenue = models.IntegerField(
+        "Выручка от проекта.",
+        help_text="Укажите выручку.",
+    )
+    partner = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="interests",
+        verbose_name="Заказчик",
+        help_text="Укажите заказчика.",
+    )
+    status = models.CharField(
+        "Статус интереса",
+        choices=INTEREST_STATUS,
+        max_length=200,
+        help_text="Статус интереса.",
+    )
+    pub_date = models.DateTimeField(
+        "Дата создания.",
+        help_text="Дедлайн задачи.",
+        auto_now_add=True
+    )
+    main_contact = models.ForeignKey(
+        Contact,
+        on_delete=models.SET_NULL,
+        related_name="interests",
+        verbose_name="Основной контакт",
+        help_text="Укажите контакт который работает в этой компании.",
+        null=True,
+    )
+
+    def __str__(self):
+        return f"Интерес - {self.name}"
+
+
 class Task(models.Model):
     """Модель задачи."""
     name = models.CharField(
@@ -99,6 +142,15 @@ class Task(models.Model):
         related_name="tasks",
         verbose_name="Проект",
         help_text="Укажите к какому проекту относится задача.",
+        null=True,
+        blank=True,
+    )
+    interest = models.ForeignKey(
+        Interest,
+        on_delete=models.CASCADE,
+        related_name="tasks",
+        verbose_name="Интерес",
+        help_text="Укажите к какому интересу относится задача.",
         null=True,
         blank=True,
     )
@@ -160,48 +212,6 @@ class ProjectContact(models.Model):
 
     def __str__(self):
         return f"{self.project} - {self.contact}"
-
-
-class Interest(models.Model):
-    """Модель интереса."""
-    name = models.CharField(
-        "Название проекта.",
-        max_length=200,
-        help_text="Название проекта.",
-    )
-    revenue = models.IntegerField(
-        "Выручка от проекта.",
-        help_text="Укажите выручку.",
-    )
-    partner = models.ForeignKey(
-        Company,
-        on_delete=models.CASCADE,
-        related_name="interests",
-        verbose_name="Заказчик",
-        help_text="Укажите заказчика.",
-    )
-    status = models.CharField(
-        "Статус интереса",
-        choices=INTEREST_STATUS,
-        max_length=200,
-        help_text="Статус интереса.",
-    )
-    pub_date = models.DateTimeField(
-        "Дата создания.",
-        help_text="Дедлайн задачи.",
-        auto_now_add=True
-    )
-    main_contact = models.ForeignKey(
-        Contact,
-        on_delete=models.SET_NULL,
-        related_name="interests",
-        verbose_name="Основной контакт",
-        help_text="Укажите контакт который работает в этой компании.",
-        null=True,
-    )
-
-    def __str__(self):
-        return f"Интерес - {self.name}"
 
 
 class CommunicationInterest(models.Model):
