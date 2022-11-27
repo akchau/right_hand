@@ -27,6 +27,7 @@ class TaskForm(forms.ModelForm):
             'routine',
             'regularity',
             'category',
+            'plan_pomodoro',
         )
 
     def __init__(self, *args, **kwargs):
@@ -41,6 +42,10 @@ class TaskFormWithProject(forms.ModelForm):
         fields = (
             'name',
             'deadline',
+            'description',
+            'routine',
+            'regularity',
+            'plan_pomodoro',
         )
 
 

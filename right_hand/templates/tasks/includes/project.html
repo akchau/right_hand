@@ -3,7 +3,9 @@
 <p>Статус - {{ project.status }}
 <p>Выручка - {{ project.revenue }}
 <p>Моя роль в проекте - {{ project.my_role }}
-<p>Заказчик - <a href={% url 'contacts:partner_profile' project.customer.pk %}>{{ project.customer }}</a>
+{% if project.customer %}
+  <p>Заказчик - <a href={% url 'contacts:partner_profile' project.customer.pk %}>{{ project.customer }}</a>
+{% endif %}
 {% if task.is_expired %}
   <p>Статус - Просрочено!
 {% else %}

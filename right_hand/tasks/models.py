@@ -55,6 +55,7 @@ class Project(models.Model):
         verbose_name="Заказчик",
         help_text="Укажите заказчика.",
         null=True,
+        blank=True,
     )
     status = models.CharField(
         "Статус проекта",
@@ -173,6 +174,18 @@ class Task(models.Model):
         help_text="Укажите категорию задачи.",
         null=True,
         blank=True,
+    )
+    pub_date = models.DateTimeField(
+        'Дата создания',
+        auto_now_add=True,
+    )
+    last_edit_date = models.DateTimeField(
+        'Дата последнего сохранения.',
+        auto_now=True,
+    )
+    plan_pomodoro = models.SmallIntegerField(
+        "Временная сложность задачи",
+        help_text="Укажите, кол-во 30-минутных отрезков на задачу."
     )
 
     class Meta:

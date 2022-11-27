@@ -1,7 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-  <a href="">Выполнить</a>
+  {% if task.done %}
+    <p><a href={% url 'tasks:task_done' pk=task.pk %}><del>Не выполнено</del></a>
+  {% else %}
+    <p><a href={% url 'tasks:task_done' pk=task.pk %}>Выполнить</a>
+  {% endif %}
   <a href={% url 'tasks:task_delete' task.pk %}>Удалить</a>
   <a href="">Редактировать</a>
-  <p>{% include 'tasks/includes/task.html' %}
+  <p>{{ task.name }}
+  <p>{{ task.description }}
+  <p>{{ task.deadline }}
+  <p>{{ task.pub_date }}
+  <p>{{ task.last_edit_date }}
+  {% if task.routine %}
+    <p>Регулярная задача
+    Раз в {{ task.regularity }} дней
+  {% endif%}
+  {% if task.project %}
+    <h3>Проект:</h3>
+    {% include 'tasks/includes/project.html' %} 
+  {% endif %}
 {% endblock %}

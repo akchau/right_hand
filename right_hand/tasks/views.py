@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from django.db.models import Sum
 from django.shortcuts import render, get_object_or_404, redirect
 
 from contacts.models import Communication, Company
@@ -108,12 +109,18 @@ def tasks(request):
         "deadline")
     tasks_done = Task.objects.filter(done=True).order_by(
         "-deadline")
+    numbers_pomodoro = tasks.aggregate(
+        sum_pomodoro=Sum('plan_pomodoro')
+    )
+
     context = {
         'title': title,
         'header': header,
         'tasks': tasks,
         'tasks_done': tasks_done,
         'categories': categories,
+        'numbers_pomodoro_hours': numbers_pomodoro['sum_pomodoro']//2,
+        'numbers_pomodoro_minutes': numbers_pomodoro['sum_pomodoro'] % 2,
     }
     return render(request, template, context)
 
@@ -122,12 +129,14 @@ def task_profile(request, pk):
     """Страничка задачи."""
     template = "tasks/task_profile.html"
     task = get_object_or_404(Task, pk=pk)
-    title = f'Карточка задачи {task.name}'
+    project = task.project
+    title = task.name
     header = title
     context = {
         'title': title,
         'header': header,
         'task': task,
+        'project': project,
     }
     return render(request, template, context)
 
@@ -163,6 +172,8 @@ def task_new_with_project(request, pk):
     if form.is_valid():
         new_task = form.save(commit=False)
         new_task.project = project
+        new_task.done = False
+        form.save(commit=True)
         return redirect("tasks:project_profile", pk=pk)
     template = "tasks/task_new.html"
     title = "Новая задача проекта."
