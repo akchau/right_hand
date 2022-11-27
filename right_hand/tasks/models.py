@@ -128,13 +128,14 @@ class Task(models.Model):
         help_text="Что нужно сделать.",
     )
     deadline = models.DateTimeField(
-        "Дедлайн задачи.",
+        "Дедлайн задачи",
         help_text="Дедлайн задачи.",
     )
     description = models.TextField(
         "Описание задачи",
         help_text="Добавьте описание задачи",
         null=True,
+        blank=True,
     )
     project = models.ForeignKey(
         Project,
@@ -168,9 +169,10 @@ class Task(models.Model):
         CategoryTask,
         on_delete=models.SET_NULL,
         related_name="tasks",
-        verbose_name="Категория задачи.",
+        verbose_name="Категория задачи",
         help_text="Укажите категорию задачи.",
         null=True,
+        blank=True,
     )
 
     class Meta:
