@@ -6,7 +6,7 @@
     <p><a href={% url 'tasks:task_done' pk=task.pk %}>Выполнить</a>
   {% endif %}
   <a href={% url 'tasks:task_delete' task.pk %}>Удалить</a>
-  <a href="">Редактировать</a>
+  <a href={% url 'tasks:task_edit' task.pk %}>Редактировать</a>
   <p>{{ task.name }}
   <p>{{ task.description }}
   <p>{{ task.deadline }}

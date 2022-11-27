@@ -199,6 +199,12 @@ class Task(models.Model):
             return True
         return False
 
+    @property
+    def time_routine_in_day(self):
+        if self.routine:
+            return self.plan_pomodoro / self.regularity
+        return self.plan_pomodoro
+
     def __str__(self):
         return f"Задача - {self.name} - Дедлайн - {self.deadline}"
 
