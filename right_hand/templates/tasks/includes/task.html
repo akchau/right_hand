@@ -10,7 +10,11 @@
 {% if task.category %}
   <p><a href={% url 'tasks:category_of_task_profile' task.category.pk %}>{{ task.category.name }}</a>
 {% endif %}
-{{ task.deadline }}
+{% if task.done %}
+  Выполнено - {{ task.done_date }}
+{% else %}
+  {{ task.deadline }}
+{% endif %}
 {% if task.is_expired %}
   <p>Просрочено!
 {% else %}
