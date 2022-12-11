@@ -30,7 +30,7 @@ class Company(models.Model):
     inn = models.CharField(
         "ИНН",
         max_length=12,
-        help_text="Для Юр.лица - 10 цифр,для Физ.лица - 12.",
+        help_text="Укажите ИНН. Для Юр.лица - 10 цифр,для Физ.лица - 12",
         validators=[validators.validate_inn]
     )
     kpp = models.CharField(
@@ -38,7 +38,7 @@ class Company(models.Model):
         max_length=9,
         blank=True,
         null=True,
-        help_text="Код Причины Постановки. КПП состоит из 9 цифр.",
+        help_text="Укажите КПП. Состоит из 9 цифр",
         validators=[validators.validate_kpp]
     )
     ogrn = models.CharField(
@@ -46,7 +46,7 @@ class Company(models.Model):
         max_length=13,
         blank=True,
         null=True,
-        help_text="Укажите ОГРН.",
+        help_text="Укажите ОГРН. Состоит из 13 цифр",
     )
     okpo = models.CharField(
         "ОКПО",
@@ -55,7 +55,7 @@ class Company(models.Model):
         null=True,
         help_text=(
             'Укажите ОКПО. Для Юр.лица - 8 цифр, '
-            'для Физ.лица(ИП) - 10 цифр.,'
+            'для Физ.лица(ИП) - 10 цифр'
         ),
         validators=[validators.validate_okpo]
     )
@@ -121,7 +121,7 @@ class Company(models.Model):
         help_text="Укажите ФИО руководителя компании."
     )
     mobile_number_of_head = models.CharField(
-        "Мобильный телефон директора.",
+        "Мобильный телефон директора",
         max_length=30,
         blank=True,
         null=True,
@@ -133,26 +133,27 @@ class Company(models.Model):
         return self.short_name
 
     def save(self, *args, **kwargs):
-        self.mobile_number_of_head = self.mobile_number_of_head.strip()
-        elements = [
-            '+',
-            '-',
-            ' ',
-            ')',
-            '(',
-        ]
-        for element in elements:
-            self.mobile_number_of_head = self.mobile_number_of_head.replace(
-                element,
-                ''
-            )
-        len_number = len(self.mobile_number_of_head)
-        if len_number == 10:
-            self.mobile_number_of_head = f'7{self.mobile_number_of_head}'
-        self.mobile_number_of_head = (f'+7({self.mobile_number_of_head[1:4]}) '
-                                      f'{self.mobile_number_of_head[4:7]}-'
-                                      f'{self.mobile_number_of_head[7:9]}-'
-                                      f'{self.mobile_number_of_head[9:11]}')
+        if self.mobile_number_of_head:
+            self.mobile_number_of_head = self.mobile_number_of_head.strip()
+            elements = [
+                '+',
+                '-',
+                ' ',
+                ')',
+                '(',
+            ]
+            for element in elements:
+                self.mobile_number_of_head = self.mobile_number_of_head.replace(
+                    element,
+                    ''
+                )
+            len_number = len(self.mobile_number_of_head)
+            if len_number == 10:
+                self.mobile_number_of_head = f'7{self.mobile_number_of_head}'
+            self.mobile_number_of_head = (f'+7({self.mobile_number_of_head[1:4]}) '
+                                          f'{self.mobile_number_of_head[4:7]}-'
+                                          f'{self.mobile_number_of_head[7:9]}-'
+                                          f'{self.mobile_number_of_head[9:11]}')
         super().save(*args, **kwargs)
 
 
@@ -209,42 +210,44 @@ class Contact(models.Model):
         "Должность",
         max_length=200,
         help_text="Укажите должность контакта.",
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.name = self.name.strip().lower()
-        elements = [
-            '+',
-            ')',
-            '(',
-            '*',
-            '?',
-        ]
-        name = self.name.lower().strip()
-        numbers_all = [str(x) for x in range(10)]
-        for element in elements:
-            name = name.replace(element, '')
-        for number in numbers_all:
-            name = name.replace(number, '')
-        self.name = name.title()
-
-        self.mobile_phone_number = self.mobile_phone_number.strip()
-        elements.append('-')
-        for element in elements:
-            self.mobile_phone_number = self.mobile_phone_number.replace(
-                element,
-                ''
-            )
-        len_number = len(self.mobile_phone_number)
-        if len_number == 10:
-            self.mobile_phone_number = f'7{self.mobile_phone_number}'
-        self.mobile_phone_number = (f'+7({self.mobile_phone_number[1:4]}) '
-                                    f'{self.mobile_phone_number[4:7]}-'
-                                    f'{self.mobile_phone_number[7:9]}-'
-                                    f'{self.mobile_phone_number[9:11]}')
+        if self.name:
+            self.name = self.name.strip().lower()
+            elements = [
+                '+',
+                ')',
+                '(',
+                '*',
+                '?',
+            ]
+            numbers_all = [str(x) for x in range(10)]
+            for element in elements:
+                self.name = self.name.replace(element, '')
+            for number in numbers_all:
+                self.name = self.name.replace(number, '')
+            self.name = self.name.title()
+        if self.mobile_phone_number:
+            self.mobile_phone_number = self.mobile_phone_number.strip()
+            elements.append('-')
+            for element in elements:
+                self.mobile_phone_number = self.mobile_phone_number.replace(
+                    element,
+                    ''
+                )
+            len_number = len(self.mobile_phone_number)
+            if len_number == 10:
+                self.mobile_phone_number = f'7{self.mobile_phone_number}'
+            self.mobile_phone_number = (f'+7({self.mobile_phone_number[1:4]}) '
+                                        f'{self.mobile_phone_number[4:7]}-'
+                                        f'{self.mobile_phone_number[7:9]}-'
+                                        f'{self.mobile_phone_number[9:11]}')
         super().save(*args, **kwargs)
 
 
@@ -252,17 +255,17 @@ class Communication(models.Model):
     """Модель коммуникации."""
 
     type = models.CharField(
-        "Тип коммуникации.",
+        "Тип",
         max_length=20,
         choices=TYPE_OF_COMMUNICATIONS,
-        help_text="Укажите тип комуникации.",
+        help_text="Укажите тип",
     )
 
     status = models.CharField(
-        "Статус.",
+        "Статус",
         max_length=20,
         choices=COMMUNICATOIN_STATUS,
-        help_text="Укажите статус коммуникации.",
+        help_text="Укажите статус",
         blank=True,
         null=True,
     )
@@ -272,31 +275,31 @@ class Communication(models.Model):
         on_delete=models.CASCADE,
         related_name="communication",
         verbose_name="Контакт",
-        help_text="Укажите контакт коммуникаиции."
+        help_text="Укажите контакт"
     )
     pub_date = models.DateTimeField(
-        "Дата создания объекта коммуникации.",
+        "Дата создания",
         auto_now_add=True,
-        help_text="Дата создания коммуникации.",
+        help_text="Укажите дату создания",
     )
     plan_date = models.DateTimeField(
-        "Планируемая дата коммуникации.",
-        help_text="Планируемая дата коммуникации.",
+        "Планируемая дата",
+        help_text="Укажите планируемую дату",
         blank=True,
         null=True,
     )
     done_date = models.DateTimeField(
-        "Дата коммуникации.",
-        help_text="Планируемая дата взаимодействия.",
+        "Дата",
+        help_text="Укажите дату",
         blank=True,
         null=True,
     )
     info = models.TextField(
-        "Описание коммуникации",
-        help_text="Добавьте описние",
+        "Описание",
+        help_text="Добавьте описание",
         blank=True,
         null=True,
-        default="Нет описания",
+        default="Добавьие описание",
     )
 
     @property
@@ -307,4 +310,4 @@ class Communication(models.Model):
         return False
 
     def __str__(self):
-        return f"{self.type} - {self.contact} - {self.pub_date}"
+        return f"{self.type} - {self.contact} - {self.plan_date}"
