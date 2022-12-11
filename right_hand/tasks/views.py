@@ -122,7 +122,9 @@ def tasks(request):
             sum_pomodoro=Sum('plan_pomodoro')
         )
         pomodoro_routine = int(numbers_pomodoro_routine['sum_pomodoro'])
-        numbers_pomodoro_routine_day = sum([item.time_routine_in_day for item in tasks_routine])
+        numbers_pomodoro_routine_day = sum(
+            [item.time_routine_in_day for item in tasks_routine]
+        )
     else:
         pomodoro_routine = 0
         numbers_pomodoro_routine_day = 0
@@ -132,12 +134,15 @@ def tasks(request):
         'tasks': tasks,
         'tasks_done': tasks_done,
         'categories': categories,
-        'numbers_pomodoro_hours': pomodoro//2,
+        'numbers_pomodoro_hours': pomodoro // 2,
         'numbers_pomodoro_minutes': (pomodoro % 2) * 30,
-        'numbers_pomodoro_routine_hours': pomodoro_routine//2,
+        'numbers_pomodoro_routine_hours': pomodoro_routine // 2,
         'numbers_pomodoro_routine_minutes': (pomodoro_routine % 2) * 30,
-        'numbers_pomodoro_routine_day_hours': numbers_pomodoro_routine_day//2,
-        'numbers_pomodoro_routine_day_minutes': (numbers_pomodoro_routine_day % 2) * 30
+        'numbers_pomodoro_routine_day_hours':
+            numbers_pomodoro_routine_day // 2,
+        'numbers_pomodoro_routine_day_minutes': (
+            numbers_pomodoro_routine_day % 2
+        ) * 30
     }
     return render(request, template, context)
 

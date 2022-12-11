@@ -365,12 +365,12 @@ def communication_complete(request, pk):
     communication.status = "Выполнено"
     communication.save()
     future_communication = Communication(
-            type='Переписка',
-            status='Запланировано',
-            contact=contact,
-            plan_date=datetime.today() + timedelta(
-                days=contact.frequency_of_communications_days
-            )
+        type='Переписка',
+        status='Запланировано',
+        contact=contact,
+        plan_date=datetime.today() + timedelta(
+            days=contact.frequency_of_communications_days
+        )
     )
     future_communication.save()
     return redirect("contacts:contact_profile", pk=contact.pk)

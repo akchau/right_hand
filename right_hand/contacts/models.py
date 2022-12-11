@@ -150,10 +150,12 @@ class Company(models.Model):
             len_number = len(self.mobile_number_of_head)
             if len_number == 10:
                 self.mobile_number_of_head = f'7{self.mobile_number_of_head}'
-            self.mobile_number_of_head = (f'+7({self.mobile_number_of_head[1:4]}) '
-                                          f'{self.mobile_number_of_head[4:7]}-'
-                                          f'{self.mobile_number_of_head[7:9]}-'
-                                          f'{self.mobile_number_of_head[9:11]}')
+            self.mobile_number_of_head = (
+                f'+7({self.mobile_number_of_head[1:4]}) '
+                f'{self.mobile_number_of_head[4:7]}-'
+                f'{self.mobile_number_of_head[7:9]}-'
+                f'{self.mobile_number_of_head[9:11]}'
+            )
         super().save(*args, **kwargs)
 
 
