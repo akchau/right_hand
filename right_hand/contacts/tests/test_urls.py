@@ -8,6 +8,7 @@ User = get_user_model()
 
 
 class ContactsURLTests(TestCase):
+    """Класс тестирования адресов приложения Contacts"""
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
