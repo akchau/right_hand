@@ -1,6 +1,6 @@
-<p><a href={% url 'products:product_profile' product.pk %}>{{ product.name }}</a> 
+<br><a href={% url 'products:product_profile' product.pk %}>{{ product.name }}</a> 
  <a href={% url 'contacts:partner_profile' product.maker.pk %}>{{ product.maker }}</a> 
  {{ product.reference }}
  {{ product.price }} р.
-<p><small><a href={% url 'products:product_delete' product.pk %}>Удалить</a></small>
+<br><small><a href={% url 'products:product_delete' product.pk %}>Удалить</a></small>
 <small><a href={% url 'products:product_edit' product.pk %}>Редактировать</a></small>

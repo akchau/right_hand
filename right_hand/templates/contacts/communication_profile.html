@@ -2,5 +2,5 @@
 {% block content %}
   <a href={% url 'contacts:communication_delete' communication.pk %}>Удалить</a>
   <a href={% url 'contacts:communication_edit' communication.pk %}>Редактировать</a>
-  <p>{% include 'contacts/includes/communication.html' %}
+  <br>{% include 'contacts/includes/communication.html' %}
 {% endblock %}

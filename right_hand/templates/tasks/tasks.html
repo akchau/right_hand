@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-  <p><a href={%  url "tasks:task_new" %}>Новая задача</a>
+  <br><a href={%  url "tasks:task_new" %}>Новая задача</a>
   <a href={%  url "tasks:category_of_task_new" %}>Новая категория</a>
   <ul>
     {% for category in categories %}

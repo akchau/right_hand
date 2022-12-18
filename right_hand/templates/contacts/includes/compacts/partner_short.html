@@ -1,4 +1,4 @@
-<h3><a href={% url 'contacts:partner_profile' company.pk %}>{{ company.short_name }}</a></h3>
-<p>{{ company.full_name }} - ИНН:{{ company.inn }}
-<p><small><a href={% url 'contacts:partner_edit' company.pk %}>Редактировать</a></small>
+<a href={% url 'contacts:partner_profile' company.pk %}>{{ company.short_name }}</a>
+<br>{{ company.full_name }} - ИНН:{{ company.inn }}
+<br><small><a href={% url 'contacts:partner_edit' company.pk %}>Редактировать</a></small>
 <small><a href={% url 'contacts:partner_delete' company.pk %}>Удалить</a></small>

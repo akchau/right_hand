@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-  <p><a href={% url 'products:collection_edit' collection.pk %}>Редактировать/Заполнить</a>
+  <br><a href={% url 'products:collection_edit' collection.pk %}>Редактировать/Заполнить</a>
   <a href={% url 'products:collection_delete' collection.pk %}>Удалить</a>
-  <h1>{{collection.name}}</h1>
-  <p>{{ collection.description }}</p>
-  <h1>Позиции</h1>
+  <h3>{{collection.name}}</h3>
+  <br>{{ collection.description }}</p>
+  <h3>Позиции</h3>
   <ul>
   {% for position in positions %}
     <li>{% include 'products/includes/compacts/position.html' %}</li>

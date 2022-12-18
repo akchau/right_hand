@@ -1,15 +1,15 @@
 <a href={% url 'tasks:project_profile' project.pk %}>{{ project.name }}</a>
-<p>Дедлайн - {{ project.deadline }}
-<p>Статус - {{ project.status }}
-<p>Выручка - {{ project.revenue }}
-<p>Моя роль в проекте - {{ project.my_role }}
+<br>Дедлайн - {{ project.deadline }}
+<br>Статус - {{ project.status }}
+<br>Выручка - {{ project.revenue }}
+<br>Моя роль в проекте - {{ project.my_role }}
 {% if project.customer %}
-  <p>Заказчик - <a href={% url 'contacts:partner_profile' project.customer.pk %}>{{ project.customer }}</a>
+  <br>Заказчик - <a href={% url 'contacts:partner_profile' project.customer.pk %}>{{ project.customer }}</a>
 {% endif %}
 {% if task.is_expired %}
-  <p>Статус - Просрочено!
+  <br>Статус - Просрочено!
 {% else %}
-  <p>Статус - Не просрочено!
+  <br>Статус - Не просрочено!
 {% endif %}
-<p><small><a href={% url 'tasks:project_edit' project.pk %}>Редактировать</a></small>
+<br<small><a href={% url 'tasks:project_edit' project.pk %}>Редактировать</a></small>
 <small><a href={% url 'tasks:project_delete' project.pk %}>Удалить</a></small>

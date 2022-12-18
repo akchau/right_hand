@@ -1,14 +1,14 @@
 {% if task.done %}
-  <p><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a> - <a href={% url 'tasks:task_done' pk=task.pk %}><del>Не выполнено</del></a>
+  <br><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a> - <a href={% url 'tasks:task_done' pk=task.pk %}><del>Не выполнено</del></a>
 {% else %}
-  <p><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a> - <a href={% url 'tasks:task_done' pk=task.pk %}>Выполнить</a>
+  <br><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a> - <a href={% url 'tasks:task_done' pk=task.pk %}>Выполнить</a>
 {% endif %}
-<p>{{ task.description }}
+  <br>{{ task.description }}
 {% if task.project %}
   <a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a>
 {% endif %}
 {% if task.category %}
-  <p><a href={% url 'tasks:category_of_task_profile' task.category.pk %}>{{ task.category.name }}</a>
+  <br><a href={% url 'tasks:category_of_task_profile' task.category.pk %}>{{ task.category.name }}</a>
 {% endif %}
 {% if task.done %}
   Выполнено - {{ task.done_date }}
@@ -16,14 +16,14 @@
   {{ task.deadline }}
 {% endif %}
 {% if task.is_expired %}
-  <p>Просрочено!
+  <br>Просрочено!
 {% else %}
-  <p>Не просрочено!
+  <br>Не просрочено!
 {% endif %}
 {% if task.routine %}
-    <p> Регулярная задача. Выполняется раз в {{ task.regularity }} дней.
+  <br> Регулярная задача. Выполняется раз в {{ task.regularity }} дней.
 {% endif %}
-<p><small><a href={% url 'tasks:task_edit' task.pk %}>Редактировать</a></small>
+<br><small><a href={% url 'tasks:task_edit' task.pk %}>Редактировать</a></small>
 <small><a href={% url 'tasks:task_delete' task.pk %}>Удалить</a></small>
 <small>Изменено: {{ task.last_edit_date }}</small>
 <small>Создано: {{ task.pub_date }}</small>

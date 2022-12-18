@@ -1,7 +1,7 @@
 <a href={% url 'tasks:interest_profile' interest.pk %}>{{ interest.name }} - 
     <a href={% url 'contacts:partner_profile' interest.partner.pk %}>{{ interest.partner }}</a>
 </a>
-<p>Выручка - {{ interest.revenue }}₽
-<p>Статус - {{ interest.status }}
-<p><small><a href={% url 'tasks:interest_edit' interest.pk %}>Редактировать</a></small>
+<br>Выручка - {{ interest.revenue }}₽
+<br>Статус - {{ interest.status }}
+<br><small><a href={% url 'tasks:interest_edit' interest.pk %}>Редактировать</a></small>
 <small><a href={% url 'tasks:interest_delete' interest.pk %}>Удалить</a></small>

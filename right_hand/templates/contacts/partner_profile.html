@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-  <p><a href={% url 'contacts:partner_edit' company.pk %}>Редактировать/Заполнить</a>
+  <br><a href={% url 'contacts:partner_edit' company.pk %}>Редактировать/Заполнить</a>
   <a href={% url 'contacts:partner_delete' company.pk %}>Удалить</a>
   <a href={% url 'contacts:contact_new_with_partner' company.pk %}>Новый контакт</a>
   <a href={% url 'tasks:interest_new_with_partner' company.pk%}>Новый интерес</a>

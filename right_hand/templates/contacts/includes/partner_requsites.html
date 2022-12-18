@@ -1,22 +1,25 @@
-<h3>{{ company.short_name }}</h3>
-<p><a href={% url 'contacts:partner_profile' company.pk%}>Вернуться к профилю компании</a>
+<h3>{{ company.full_name }}</h3>
+<a href={% url 'contacts:partner_profile' company.pk%}>Вернуться к профилю компании</a>
 <a href={% url 'contacts:partner_edit' company.pk%}>Заполнить Реквизиты</a>
+<br><br><i>{{ company.short_name }}</i>
+<table>
+  <tr><th>Код</th></tr>
+  <tr><td>ИНН</td><td>{{ company.inn }}</td></tr>
+  <tr><td>КПП</td><td>{{ company.kpp }}</td></tr>
+  <tr><td>ОГРН</td><td>{{ company.ogrn }}</td></tr>
+  <tr><td>ОКПО</td><td>{{ company.okpo }}</td></tr>
+  <tr><td>ОКВЭД</td><td>{{ company.okved }}</td></tr>
+  <tr><th>Адрес</th></tr>
+  <tr><td>Фактический</td><td>{{ company.fact_adress }}</td></tr>
+  <tr><td>Юридический адресс</td><td>{{ company.legal_adress }}</td></tr>
+  <tr><th>Основыные контакты</th></tr>
+  <tr><td>Email</td><td>{{ company.main_email }}</td></tr>
+  <tr><td>Номер телефона</td><td>{{ company.phone_number }}</td></tr>
 
-<h5>Коды</h5>
-<p>ИНН - {{ company.inn }}
-<p>КПП - {{ company.kpp }}
-<p>ОГРН - {{ company.ogrn }}
-<p>ОКПО - {{ company.okpo }}
-<p>ОКВЭД - {{ company.okved }}
-<h5>Адреса</h5>
-<p>Фактический адресс - {{ company.fact_adress }}
-<p>Юридический адресс - {{ company.legal_adress }}
-<h5>Основыные контакты</h5>
-<p>Email - {{ company.main_email }}
-<p>Номер телефона - {{ company.phone_number }}
-<h5>Реквизиты</h5>
-<p>Расчетный счет - {{ company.number_acount }}
-<p>Корреспондентский счет - {{ company.cor_acount }}
-<p>БИК - {{ company.cor_acount }}
-<h5>Руководитель</h5>
-<p>Руководитель - {{ company.head_of_company }}
+<tr><th>Реквизиты</h5>
+<tr><td>Расчетный счет</td><td>{{ company.number_acount }}</td></tr>
+<tr><td>Корреспондентский счет</td><td>{{ company.cor_acount }}</td></tr>
+<tr><td>БИК</td><td>{{ company.cor_acount }}</td></tr>
+<tr><th>Руководитель</th></tr>
+<tr><td>Руководитель</td><td>{{ company.head_of_company }}</td></tr>
+</table>

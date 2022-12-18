@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-  <p><a href="{% url 'contacts:partner_new' %}">Новая компания</a>
+  <br><a href="{% url 'contacts:partner_new' %}">Новая компания</a>
   <ul>
     {% for company in companies %}
       <li>{% include 'contacts/includes/compacts/partner_short.html' %}</li>

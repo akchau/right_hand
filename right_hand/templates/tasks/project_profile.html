@@ -5,7 +5,7 @@
   <a href={% url "tasks:project_communication_new" project.pk %}>Новое взаимодействие по проекту</a>
   <a href={% url "tasks:project_delete" project.pk %}>Удалить</a>
   <a href={% url "tasks:project_edit" project.pk %}>Редактировать</a>
-  <p>{% include 'tasks/includes/project.html' %}
+  <br>{% include 'tasks/includes/project.html' %}
   <h3>Текущие задачи</h3>
   <ul>
     {% for task in tasks %}
