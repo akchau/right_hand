@@ -38,6 +38,16 @@ class Product(models.Model):
     price = models.PositiveIntegerField(
         "Стоимость в прайсе производтеля.",
     )
+    plant_position = models.BooleanField(
+        "Складская позиция",
+        help_text="Укажите, позиция является складской?"
+    )
+    number_of_plants_position = models.PositiveIntegerField(
+        "Количество на складе",
+        help_text="Укажите, сколько положить на склад",
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.name
@@ -58,13 +68,13 @@ class Collection(models.Model):
 
     @property
     def numbers_of_position_in(self):
-        positions = ProductsCollection.objects.filter(collection=self).count()
-        return positions
+        return ProductsCollection.objects.filter(collection=self).count()
 
     @property
     def total_of_position_in(self):
-        positions = ProductsCollection.objects.filter(collection=self)
-        sum_of_collection = sum([item.total_of_position for item in positions])
+        sum_of_collection = sum(
+            [item.total_of_position for item in ProductsCollection.objects.filter(collection=self)]
+        )
         return sum_of_collection
 
     def __str__(self):

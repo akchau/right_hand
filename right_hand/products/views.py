@@ -19,6 +19,22 @@ def products(request):
     return render(request, template, context)
 
 
+def plants_products(request):
+    """Все складские продукты."""
+    template = "products/plants_products.html"
+    title = 'Складские позиции.'
+    header = title
+    products = Product.objects.filter(plant_position=True).order_by(
+        "name")
+    context = {
+        'title': title,
+        'header': header,
+        'products': products,
+    }
+    return render(request, template, context)
+
+
+
 def collections(request):
     """Все сборки."""
     template = "products/collections.html"

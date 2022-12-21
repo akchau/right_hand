@@ -13,6 +13,8 @@ class ProductForm(forms.ModelForm):
             "maker",
             "price",
             "unit",
+            "plant_position",
+            "number_of_plants_position"
         )
 
 

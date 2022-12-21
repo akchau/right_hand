@@ -7,6 +7,7 @@ app_name = 'products'
 urlpatterns = [
     # ----------------------------Адреса продуктов ---------------------------
     path('', views.products, name='products'),
+    path('plants/', views.plants_products, name='plants_products'),
     path('new/', views.product_new, name='product_new'),
     path('<int:pk>/delete/', views.product_delete, name='product_delete'),
     path('<int:pk>/edit/', views.product_edit, name='product_edit'),

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
   <br><a href={% url 'products:product_new' %}>Добавить номенклатуру</a>
-  <br><a href={% url 'products:plants_products' %}>Складские позиции</a>
   <ul>
     {% for product in products %}
       <li>{% include 'products/includes/compacts/product.html' %}</li>
