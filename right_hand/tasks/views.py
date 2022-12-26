@@ -101,7 +101,7 @@ def category_of_task_delete(request, pk):
 def tasks(request):
     """Все задачи."""
     template = "tasks/tasks.html"
-    title = 'Мои задачи.'
+    title = 'Бэклог.'
     header = title
     categories = CategoryTask.objects.all().order_by(
         "name")

@@ -30,6 +30,8 @@ class Company(models.Model):
     inn = models.CharField(
         "ИНН",
         max_length=12,
+        blank=True,
+        null=True,
         help_text="Укажите ИНН. Для Юр.лица - 10 цифр,для Физ.лица - 12",
         validators=[validators.validate_inn]
     )
@@ -75,11 +77,15 @@ class Company(models.Model):
     legal_adress = models.TextField(
         "Юридический адрес",
         help_text="Укажите юридический адрес.",
+        blank=True,
+        null=True,
     )
     full_name = models.CharField(
         "Полное наименование",
         max_length=200,
         help_text="Укажите полное наименование.",
+        blank=True,
+        null=True,
     )
     short_name = models.CharField(
         "Сокращенное наименование",

@@ -32,11 +32,8 @@
     <header>
       {% include 'includes/header.html' %}
     </header>
-    <nav>{% include 'includes/main_navbar_section.html' %}</nav>
+    <div class="p-3 mb-2">
     <main>
-      {% block navbar %}
-        <nav>{% include 'contacts/includes/navbar.html' %}</nav>
-      {% endblock %}
       <div class="container">
         <br>
         <h1>
@@ -53,5 +50,6 @@
     <footer>
       {% include 'includes/footer.html' %} 
     </footer>
+    </div>
   </body>
 </html> 

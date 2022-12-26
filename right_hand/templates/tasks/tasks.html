@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+
 {% block content %}
+
   <br><a href={%  url "tasks:task_new" %}>Новая задача</a>
   <a href={%  url "tasks:category_of_task_new" %}>Новая категория</a>
   <ul>
@@ -7,19 +9,26 @@
       <li style="display: inline-block"><a href={%  url "tasks:category_of_task_profile" category.pk %}>{{ category.name }}</a></li>
     {% endfor %}
     </ul>
-    <h3>Общее время выполнения всех задач - {{ numbers_pomodoro_hours }} ч. {{ numbers_pomodoro_minutes }} мин.
-    <h3>Суммарное время регулярных задач - {{ numbers_pomodoro_routine_hours }} ч. {{ numbers_pomodoro_routine_minutes }} мин.
-    <h3>В среднем рутины в день - {{ numbers_pomodoro_routine_day_hours }} ч. {{ numbers_pomodoro_routine_day_minutes }} мин.
-  <h1>Невыполненые задачи</h1>
-  <ul>
-    {% for task in tasks %}
-      <li>{% include 'tasks/includes/task.html' %}</li>
-    {% endfor %}
-  </ul>
-  <h1>Завершенные задачи</h1>
-  <ul>
-    {% for task in tasks_done %}
-      <li>{% include 'tasks/includes/task.html' %}</li>
-    {% endfor %}
-  </ul>
+    <h3>Общее время выполнения всех задач - {{ numbers_pomodoro_hours }} ч. {{ numbers_pomodoro_minutes }} мин.</h3>
+    <h3>Суммарное время регулярных задач - {{ numbers_pomodoro_routine_hours }} ч. {{ numbers_pomodoro_routine_minutes }} мин.</h3>
+    <h3>В среднем рутины в день - {{ numbers_pomodoro_routine_day_hours }} ч. {{ numbers_pomodoro_routine_day_minutes }} мин.</h3>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>Невыполненые задачи</h1>
+        {% for task in tasks %}
+        <div class="container">
+          {% include 'tasks/includes/task.html' %}
+        </div>
+        {% endfor %}
+      </div>
+      <div class="col">
+        <h1>Завершенные задачи</h1>
+        {% for task in tasks_done %}
+          {% include 'tasks/includes/task.html' %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

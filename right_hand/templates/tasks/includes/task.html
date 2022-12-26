@@ -1,29 +1,38 @@
-{% if task.done %}
-  <br><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a> - <a href={% url 'tasks:task_done' pk=task.pk %}><del>Не выполнено</del></a>
-{% else %}
-  <br><a href={% url 'tasks:task_profile' task.pk %}>{{ task.name }}</a> - <a href={% url 'tasks:task_done' pk=task.pk %}>Выполнить</a>
-{% endif %}
-  <br>{{ task.description }}
-{% if task.project %}
-  <a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a>
-{% endif %}
-{% if task.category %}
-  <br><a href={% url 'tasks:category_of_task_profile' task.category.pk %}>{{ task.category.name }}</a>
-{% endif %}
-{% if task.done %}
-  Выполнено - {{ task.done_date }}
-{% else %}
-  {{ task.deadline }}
-{% endif %}
-{% if task.is_expired %}
-  <br>Просрочено!
-{% else %}
-  <br>Не просрочено!
-{% endif %}
-{% if task.routine %}
-  <br> Регулярная задача. Выполняется раз в {{ task.regularity }} дней.
-{% endif %}
-<br><small><a href={% url 'tasks:task_edit' task.pk %}>Редактировать</a></small>
-<small><a href={% url 'tasks:task_delete' task.pk %}>Удалить</a></small>
-<small>Изменено: {{ task.last_edit_date }}</small>
-<small>Создано: {{ task.pub_date }}</small>
+      <div class="card">
+        <div class="card-header"><h5>{{ task.name }}
+            {% if task.done %}
+              <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-success">
+                <del>Не выполнено</del>
+              </a>
+            {% else %}
+              <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-primary">
+                Выполнено
+              </a>
+              <button type="button" class="btn btn-warning">Не актуально</button>
+              <a href={% url 'tasks:task_edit' task.pk %} class="btn btn-info btn-sm">Ред.</a>
+              <a href={% url 'tasks:task_delete' task.pk %} class="btn btn-danger btn-sm">Удал.</a>
+            {% endif %}</h5>
+          
+        </div>
+        {% if task.is_expired %}
+          <div class="alert alert-danger" role="alert">
+            Просрочено! Дедлайн - {{ task.deadline }}
+          </div>
+        {% else %}
+          <div class="alert alert-success" role="alert">
+            Дедлайн - {{ task.deadline }}
+          </div>
+        {% endif %}
+        {{ task.description }}
+        <div class="badge rounded-pill text-bg-warning">{% if task.project %}</div>
+          <a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a>
+        {% endif %}
+        {% if task.category %}
+          <br><a href={% url 'tasks:category_of_task_profile' task.category.pk %}>{{ task.category.name }}</a>
+        {% endif %}
+        {% if task.routine %}
+          <br> Регулярная задача. Выполняется раз в {{ task.regularity }} дней.
+        {% endif %}
+        <small>Изм: {{ task.last_edit_date }} Создано: {{ task.pub_date }}</small>
+      </div>
+      <br>
