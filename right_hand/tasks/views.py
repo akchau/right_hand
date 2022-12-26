@@ -171,6 +171,7 @@ def task_new(request):
     if form.is_valid():
         new_task = form.save(commit=False)
         new_task.done = False
+        new_task.status = "Не выполнен"
         form.save(commit=True)
         return redirect("tasks:tasks")
     template = "tasks/task_new.html"
@@ -195,6 +196,7 @@ def task_new_with_project(request, pk):
         new_task = form.save(commit=False)
         new_task.project = project
         new_task.done = False
+        new_task.status = "Не выполнен"
         form.save(commit=True)
         return redirect("tasks:project_profile", pk=pk)
     template = "tasks/task_new.html"
@@ -241,11 +243,24 @@ def task_delete(request, pk):
     return redirect("tasks:tasks")
 
 
+def task_in_progress(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if task.status == "Не выполнен":
+        task.status = "В работе"
+        task.save()
+        return redirect('tasks:tasks')
+    if task.status == "В работе":
+        task.status = "Не выполнен"
+        task.save()
+        return redirect('tasks:tasks')
+
+
 def task_done(request, pk):
     task = get_object_or_404(Task, pk=pk)
 # ------------------- Если задача выполнена --------------------
     if task.done:
         task.done = False
+        task.status = "Не выполнен"
         if task.routine:
             if Task.objects.filter(name=task.name,
                                    done=False).exists():
@@ -256,6 +271,7 @@ def task_done(request, pk):
         return redirect('tasks:tasks')
 # ----------------- Если задача не выполнена --------------------
     task.done = True
+    task.status = "Завершен"
     if task.routine:
         new_task = Task(
             name=task.name,
@@ -267,6 +283,7 @@ def task_done(request, pk):
             routine=True,
             regularity=task.regularity,
             done=False,
+            status = "Не выполнен",
             plan_pomodoro=task.plan_pomodoro
         )
         new_task.save()

@@ -10,6 +10,12 @@ PROJECT_STATUS = [
     ('Завершен', 'Завершен'),
 ]
 
+TASK_STATUS = [
+    ('Не выполнен', 'Не выполнен'),
+    ('В работе', 'В работе'),
+    ('Завершен', 'Завершен'),
+]
+
 INTEREST_STATUS = [
     ('Получена заявка', 'Получена заявка'),
     ('На стороне клиента', 'На стороне клиента'),
@@ -191,6 +197,11 @@ class Task(models.Model):
         "Дата выполнения",
         null=True,
         blank=True
+    )
+    status = models.CharField(
+        "Статус задачи",
+        choices=TASK_STATUS,
+        max_length=20
     )
 
     class Meta:

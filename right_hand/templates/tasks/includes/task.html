@@ -1,17 +1,27 @@
       <div class="card">
-        <div class="card-header"><h5>{{ task.name }}
-            {% if task.done %}
-              <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-success">
-                <del>Не выполнено</del>
-              </a>
-            {% else %}
-              <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-primary">
-                Выполнено
+        <div class="card-header">
+          <h5>
+            {{ task.name }}
+            {% if task.status == "Не выполнен" %}
+              <a href={% url 'tasks:task_in_progres' pk=task.pk %} class="btn btn-primary">
+                В работу
               </a>
               <button type="button" class="btn btn-warning">Не актуально</button>
-              <a href={% url 'tasks:task_edit' task.pk %} class="btn btn-info btn-sm">Ред.</a>
-              <a href={% url 'tasks:task_delete' task.pk %} class="btn btn-danger btn-sm">Удал.</a>
-            {% endif %}</h5>
+            {% elif task.status == "В работе" %}
+              <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-primary">
+                Выполнен
+              </a>
+              <a href={% url 'tasks:task_in_progres' pk=task.pk %} class="btn btn-primary">
+                Не в работе
+              </a>
+            {% else %}
+              <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-success">
+                Не выполнен
+              </a>
+            {% endif %}
+            <a href={% url 'tasks:task_edit' task.pk %} class="btn btn-info btn-sm">Ред.</a>
+            <a href={% url 'tasks:task_delete' task.pk %} class="btn btn-danger btn-sm">Удал.</a>
+          </h5>
           
         </div>
         {% if task.is_expired %}
@@ -23,6 +33,15 @@
             Дедлайн - {{ task.deadline }}
           </div>
         {% endif %}
+        {% if task.status == "В работе" %}
+          <div class="alert alert-primary" role="alert">
+        {% elif task.status == "Не выполнен" %}
+          <div class="alert alert-warning" role="alert">
+        {% else %}
+          <div class="alert alert-success" role="alert">
+        {% endif %}
+            {{ task.status }}
+          </div>
         {{ task.description }}
         <div class="badge rounded-pill text-bg-warning">{% if task.project %}</div>
           <a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a>
