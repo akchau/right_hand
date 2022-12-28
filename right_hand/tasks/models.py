@@ -221,6 +221,20 @@ class Task(models.Model):
             return self.plan_pomodoro / self.regularity
         return self.plan_pomodoro
 
+    @property
+    def routine_message(self):
+        def get_ending(nums):
+            num = str(nums).split()[-1]
+            if num == '1':
+                return 'день'
+            if int(num) < 5:
+                return 'дня'
+            return 'дней'
+        if self.routine:
+            return (f'Рутина. Раз в {self.regularity}'
+                    f'{get_ending(self.regularity)}')
+        pass
+
     def __str__(self):
         return f"Задача - {self.name} - Дедлайн - {self.deadline}"
 

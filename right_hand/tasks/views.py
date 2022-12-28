@@ -245,14 +245,17 @@ def task_delete(request, pk):
 
 def task_in_progress(request, pk):
     task = get_object_or_404(Task, pk=pk)
-    if task.status == "Не выполнен":
-        task.status = "В работе"
-        task.save()
-        return redirect('tasks:tasks')
     if task.status == "В работе":
         task.status = "Не выполнен"
         task.save()
         return redirect('tasks:tasks')
+    if Task.objects.filter(status="В работе"):
+        return redirect('tasks:tasks')
+    if task.status == "Не выполнен":
+        task.status = "В работе"
+        task.save()
+        return redirect('tasks:tasks')
+
 
 
 def task_done(request, pk):
