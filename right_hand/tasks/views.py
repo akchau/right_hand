@@ -255,7 +255,7 @@ def task_in_progress(request, pk):
         task.status = "В работе"
         task.save()
         return redirect('tasks:tasks')
-
+    return redirect('tasks:tasks')
 
 
 def task_done(request, pk):
@@ -286,12 +286,19 @@ def task_done(request, pk):
             routine=True,
             regularity=task.regularity,
             done=False,
-            status = "Не выполнен",
+            status="Не выполнен",
             plan_pomodoro=task.plan_pomodoro
         )
         new_task.save()
     task.done_date = datetime.today()
     task.save()
+    return redirect('tasks:tasks')
+
+
+def task_routine_end(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+# ----------------- Если задача не выполнена --------------------
+    task.delete()
     return redirect('tasks:tasks')
 
 

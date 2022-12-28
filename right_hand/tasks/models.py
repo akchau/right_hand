@@ -235,6 +235,16 @@ class Task(models.Model):
                     f'{get_ending(self.regularity)}')
         pass
 
+
+    @property
+    def pomodoro_message(self):
+        num = self.plan_pomodoro
+        if num == 1:
+            return '30 минут'
+        if num % 2 == 1:
+            return f'{num//2} часов 30 минут'
+        return f'{num//2} часов'
+
     def __str__(self):
         return f"Задача - {self.name} - Дедлайн - {self.deadline}"
 

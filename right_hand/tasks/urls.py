@@ -22,6 +22,11 @@ urlpatterns = [
         views.task_in_progress,
         name='task_in_progres'
     ),
+    path(
+        '<int:pk>/task_routine_end/',
+        views.task_routine_end,
+        name='task_routine_end'
+    ),
     path('', views.tasks, name='tasks'),
     # Адреса категорий задач---------------------------------------------------
     path('category/<int:pk>/delete/',

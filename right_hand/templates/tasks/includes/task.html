@@ -3,9 +3,10 @@
       <div class="card-header">
         <h5>
           <p>{{ task.name }}</p>
-          {% if task.routine %}<p>
-            <small>{{ task.routine_message }}</small>
+          <small>{% if task.routine %}<p>
+            {{ task.routine_message }}
           </p>{% endif %}
+          <p>{{ task.pomodoro_message }}</p></small>
           {% if task.project %}
             <p><span class="badge rounded-pill text-bg-warning"><a href={% url 'tasks:project_profile' task.project.pk %}>{{ task.project.name }}</a></span>
             </p>{% endif %}
@@ -36,6 +37,11 @@
             <a href={% url 'tasks:task_in_progres' pk=task.pk %} class="btn btn-primary">
               В работу
             </a>
+            {% if task.routine %}
+              <a href={% url 'tasks:task_routine_end' pk=task.pk %} class="btn btn-primary">
+                Завершить рутину
+              </a>
+            {% endif %}
         {% else %}
           <div class="alert alert-success" role="alert">
             <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-success">
@@ -43,6 +49,9 @@
             </a>
         {% endif %}
           Статус: {{ task.status }}
+          {% if task.status == "Завершен" %}
+             - {{task.done_date }}
+          {% endif %}
         </div>
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
           Описание задачи
