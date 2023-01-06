@@ -67,5 +67,5 @@ class PartnerForm(forms.ModelForm):
             "cor_acount",
             "bic",
             "head_of_company",
-            "mobile_number_of_head"
+            "mobile_number_of_head",
         )

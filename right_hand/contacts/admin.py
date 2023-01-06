@@ -68,7 +68,7 @@ class PartnerAdmin(admin.ModelAdmin):
         'cor_acount',
         'bic',
         'head_of_company',
-        "mobile_number_of_head"
+        "mobile_number_of_head",
     )
     list_editable = (
         'inn',
