@@ -53,6 +53,7 @@ class PartnerForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = (
+            "test_field",
             "inn",
             "kpp",
             "ogrn",

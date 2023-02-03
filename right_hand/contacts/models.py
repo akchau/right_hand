@@ -4,29 +4,31 @@ from django.db import models
 
 from . import validators
 
-
 TYPE_OF_COMMUNICATIONS = [
-    ('Звонок', 'Звонок'),
-    ('Встреча', 'Встреча'),
-    ('Переписка', 'Переписка'),
-    ('Видео-звонок', 'Видео-звонок'),
+    ('call', 'Звонок'),
+    ('meeting', 'Встреча'),
+    ('chat', 'Переписка'),
+    ('video', 'Видео-звонок'),
 ]
+
 CONTACT_ROLE = [
-    ('Член семьи', 'Член семьи'),
-    ('Подчиненый', 'Подчиненый'),
-    ('Товарищ', 'Товарищ'),
-    ('Коллега', 'Коллега'),
-    ('Деловой партнер', 'Деловой партнер'),
+    ('family', 'Член семьи'),
+    ('slave', 'Подчиненый'),
+    ('comrade', 'Товарищ'),
+    ('collegue', 'Коллега'),
+    ('master', 'Руководитель'),
+    ('partner', 'Деловой партнер'),
 ]
 
 COMMUNICATOIN_STATUS = [
-    ('Выполнено', 'Выполнено'),
-    ('Запланировано', 'Запланировано'),
+    ('done', 'Выполнено'),
+    ('plan', 'Запланировано'),
 ]
 
 
 class Company(models.Model):
     """Модель компании."""
+    test_field = models.CharField(max_length=10, null=True)
     inn = models.CharField(
         "ИНН",
         max_length=12,
@@ -257,6 +259,14 @@ class Contact(models.Model):
                                         f'{self.mobile_phone_number[7:9]}-'
                                         f'{self.mobile_phone_number[9:11]}')
         super().save(*args, **kwargs)
+
+
+#class RegularCommunication(models.Model):
+#    contact = models.ForeignKey(
+#        Contact,
+#        verbose_name="Контакт для регулярного общения"
+#        
+#    )
 
 
 class Communication(models.Model):
