@@ -28,7 +28,7 @@ COMMUNICATOIN_STATUS = [
 
 class Company(models.Model):
     """Модель компании."""
-    test_field = models.CharField(max_length=10, null=True)
+    test_field = models.IntegerField(blank=True)
     inn = models.CharField(
         "ИНН",
         max_length=12,
