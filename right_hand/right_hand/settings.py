@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'contacts.apps.ContactsConfig',
     'tasks.apps.TasksConfig',
     'products.apps.ProductsConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

@@ -1,10 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
 app_name = 'contacts'
 
 urlpatterns = [
+    path(
+        'debug_api/',
+        include('contacts.api.urls')
+    ),
     path('', views.contacts, name='contacts'),
     path(
         '<int:pk>/',
