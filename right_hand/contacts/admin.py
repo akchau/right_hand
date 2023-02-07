@@ -53,7 +53,6 @@ class CommunicationAdmin(admin.ModelAdmin):
 
 class PartnerAdmin(admin.ModelAdmin):
     list_display = (
-        'test_field',
         'pk',
         'inn',
         'kpp',

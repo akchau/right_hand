@@ -4,6 +4,10 @@ from django.db import models
 
 from . import validators
 
+
+DAY_OF_DAY = [(1, 1), (2, 2)]
+
+
 TYPE_OF_COMMUNICATIONS = [
     ('call', 'Звонок'),
     ('meeting', 'Встреча'),
@@ -28,6 +32,9 @@ COMMUNICATOIN_STATUS = [
 
 class Company(models.Model):
     """Модель компании."""
+    choice_int = models.IntegerField(
+        choices=DAY_OF_DAY
+    )
     inn = models.CharField(
         "ИНН",
         max_length=12,
