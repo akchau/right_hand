@@ -267,11 +267,10 @@ class Contact(models.Model):
         super().save(*args, **kwargs)
 
 
-#class RegularCommunication(models.Model):
+# class RegularCommunication(models.Model):
 #    contact = models.ForeignKey(
 #        Contact,
 #        verbose_name="Контакт для регулярного общения"
-#        
 #    )
 
 

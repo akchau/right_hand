@@ -11,7 +11,8 @@ PROJECT_STATUS = [
 ]
 
 TASK_STATUS = [
-    ('Не выполнен', 'Не выполнен'),
+    ('Создан', 'Создан'),
+    ('Требуется разбить на подзадачи', 'Требуется разбить на подзадачи'),
     ('В работе', 'В работе'),
     ('Завершен', 'Завершен'),
 ]
@@ -25,12 +26,28 @@ INTEREST_STATUS = [
 ]
 
 
-class CategoryTask(models.Model):
-    """Модель категориии задач."""
+class Criterion(models.Model):
+    """Критерий цели."""
     name = models.CharField(
-        "Название категории.",
+        "Критерий",
         max_length=200,
-        help_text="Название категории.",
+        help_text="Уажите критерий.",
+    )
+
+
+class Goal(models.Model):
+    """Модель цели"""
+    name = models.CharField(
+        "Цель",
+        max_length=200,
+        help_text="Уажите цель.",
+    )
+    deadline = models.DateTimeField(
+        "Дедлайн цели",
+        help_text="Дедлайн цели.",
+    )
+    criterion = models.ManyToManyField(
+        Criterion
     )
 
 
@@ -132,15 +149,15 @@ class Task(models.Model):
     name = models.CharField(
         "Тескт задачи",
         max_length=200,
-        help_text="Что нужно сделать.",
+        help_text="Что нужно сделать?",
     )
     deadline = models.DateTimeField(
         "Дедлайн задачи",
-        help_text="Дедлайн задачи.",
+        help_text="Когда дедлайн?",
     )
     description = models.TextField(
         "Описание задачи",
-        help_text="Добавьте описание задачи",
+        help_text="Добавьте описание",
         null=True,
         blank=True,
     )
@@ -149,7 +166,7 @@ class Task(models.Model):
         on_delete=models.CASCADE,
         related_name="tasks",
         verbose_name="Проект",
-        help_text="Укажите к какому проекту относится задача.",
+        help_text="Задача проекта.",
         null=True,
         blank=True,
     )
@@ -163,23 +180,14 @@ class Task(models.Model):
         blank=True,
     )
     routine = models.BooleanField(
-        verbose_name="Регулярная задача?"
+        verbose_name="Повторяющаяся задача?"
     )
     regularity = models.SmallIntegerField(
-        "Регулярность задачи",
+        "Регулярность",
         default=1,
     )
     done = models.BooleanField(
         verbose_name="Выполнена?",
-    )
-    category = models.ForeignKey(
-        CategoryTask,
-        on_delete=models.SET_NULL,
-        related_name="tasks",
-        verbose_name="Категория задачи",
-        help_text="Укажите категорию задачи.",
-        null=True,
-        blank=True,
     )
     pub_date = models.DateTimeField(
         'Дата создания',
@@ -193,15 +201,20 @@ class Task(models.Model):
         "Временная сложность задачи",
         help_text="Укажите, кол-во 30-минутных отрезков на задачу."
     )
+    priority = models.PositiveSmallIntegerField(
+        "Приоритет задачи",
+        null=True,
+        blank=True,
+    )
     done_date = models.DateTimeField(
         "Дата выполнения",
         null=True,
         blank=True
-    )
+    ),
     status = models.CharField(
         "Статус задачи",
         choices=TASK_STATUS,
-        max_length=20
+        max_length=40
     )
 
     class Meta:
@@ -235,7 +248,6 @@ class Task(models.Model):
                     f'{get_ending(self.regularity)}')
         pass
 
-
     @property
     def pomodoro_message(self):
         num = self.plan_pomodoro
@@ -243,7 +255,47 @@ class Task(models.Model):
             return '30 минут'
         if num % 2 == 1:
             return f'{num//2} часов 30 минут'
+        if num == 2:
+            return '1 час'
         return f'{num//2} часов'
+
+    @property
+    def time_left(self):
+        now = datetime.now()
+        print(now)
+        deadline = datetime(
+            self.deadline.year,
+            self.deadline.month,
+            self.deadline.day,
+            self.deadline.hour,
+            self.deadline.minute,
+            self.deadline.second,
+        )
+        print(type(deadline))
+        left_time = deadline - now
+        print(left_time.days)
+        print(left_time)
+        # 
+        # months = left_time.month
+        # days = left_time.day
+        # if left_time.day:
+            # years = left_time.year
+            # if years < 2:
+                # mess = f'{years} год'
+            # elif years < 5:
+                # mess = f'{years} года'
+            # else:
+                # mess = f'{years} лет'
+            # message_params.append(mess)
+        # if months > 0:
+            # mess = f'{months} мес.'
+            # message_params.append(mess)
+        # if days > 0:
+            # mess = f'{days} д.'
+            # message_params.append(mess)
+        message = 'Осталось '
+        message = f'{message} {left_time}'
+        return message
 
     def __str__(self):
         return f"Задача - {self.name} - Дедлайн - {self.deadline}"

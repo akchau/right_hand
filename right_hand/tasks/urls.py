@@ -9,7 +9,6 @@ urlpatterns = [
     # Адреса задач-------------------------------------------------------------
     path('<int:pk>/delete/', views.task_delete, name='task_delete'),
     path('<int:pk>/edit/', views.task_edit, name='task_edit'),
-    path('<int:pk>/', views.task_profile, name='task_profile'),
     path(
         'new_with_project/<int:pk>/',
         task_views.task_new_with_project,
@@ -28,22 +27,6 @@ urlpatterns = [
         name='task_routine_end'
     ),
     path('', views.tasks, name='tasks'),
-    # Адреса категорий задач---------------------------------------------------
-    path('category/<int:pk>/delete/',
-         views.category_of_task_delete,
-         name='category_of_task_delete'),
-    path('category/<int:pk>/edit/',
-         views.category_of_task_edit,
-         name='category_of_task_edit'),
-    path('category/<int:pk>/',
-         views.category_of_task_profile,
-         name='category_of_task_profile'),
-    path('category/new/',
-         views.category_of_task_new,
-         name='category_of_task_new'),
-    path('category/',
-         views.categories_of_tasks,
-         name='categories_of_tasks'),
     # Адреса проектов ---------------------------------------------------------
     path(
         'project/<int:pk>/delete/',

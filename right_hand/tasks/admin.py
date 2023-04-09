@@ -18,7 +18,7 @@ class TaskAdmin(admin.ModelAdmin):
         'routine',
         'regularity',
         'done',
-        'category',
+        # 'category',
     )
     list_editable = (
         'name',
@@ -30,7 +30,7 @@ class TaskAdmin(admin.ModelAdmin):
         'routine',
         'regularity',
         'done',
-        'category',
+        # 'category',
     )
     search_fields = ("name", "description", "pk")
     list_filter = ('deadline',)
