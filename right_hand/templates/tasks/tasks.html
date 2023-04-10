@@ -15,7 +15,7 @@
       </div>
       <div class="col">
         <h1>Предстоящие</h1>
-        {% for task in tasks_done %}
+        {% for task in upcoming_tasks %}
           {% include 'tasks/includes/task.html' %}
         {% endfor %}
       </div>
@@ -27,6 +27,9 @@
       </div>
       <div class="col">
         <h1>Новое</h1>
+        {% for task in tasks_new %}
+          {% include 'tasks/includes/task.html' %}
+        {% endfor %}
       </div>
     </div>
   </div>

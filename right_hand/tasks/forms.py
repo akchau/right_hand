@@ -27,6 +27,7 @@ class TaskForm(forms.ModelForm):
             'routine',
             'regularity',
             'plan_pomodoro',
+            'new',
         )
 
     def __init__(self, *args, **kwargs):

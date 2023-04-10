@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.db import models
 
@@ -216,6 +216,9 @@ class Task(models.Model):
         choices=TASK_STATUS,
         max_length=40
     )
+    new = models.BooleanField(
+        verbose_name="Новые"
+    )
 
     class Meta:
         ordering = ("deadline",)
@@ -262,6 +265,15 @@ class Task(models.Model):
     @property
     def time_left(self):
         now = datetime.now()
+        deadline = datetime(
+            self.deadline.year,
+            self.deadline.month,
+            self.deadline.day,
+            self.deadline.hour,
+            self.deadline.minute,
+            self.deadline.second,
+        )
+
         print(now)
         deadline = datetime(
             self.deadline.year,
@@ -271,10 +283,8 @@ class Task(models.Model):
             self.deadline.minute,
             self.deadline.second,
         )
-        print(type(deadline))
         left_time = deadline - now
-        print(left_time.days)
-        print(left_time)
+        left_time = left_time
         # 
         # months = left_time.month
         # days = left_time.day
@@ -294,7 +304,7 @@ class Task(models.Model):
             # mess = f'{days} д.'
             # message_params.append(mess)
         message = 'Осталось '
-        message = f'{message} {left_time}'
+        message = f'{message} {left_time} нед.'
         return message
 
     def __str__(self):

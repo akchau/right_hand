@@ -1,54 +1,70 @@
-      <div class="card">
-        <div class="card-header">
-          <h5><a href={% url 'tasks:task_edit' task.pk %}>{{ task.name }}</a>
-          {% if task.project %}
-            <span class="badge rounded-pill text-bg-warning">
-              <a href={% url 'tasks:project_profile' task.project.pk %}>
-                {{ task.project.name }}
-              </a>
-            </span>
-          {% endif %}
-          {% if task.interest %}
-              <span class="badge rounded-pill text-bg-info">
-                <a href={% url 'tasks:interest_profile' task.interest.pk %}>
-                  {{ task.interest.name }}
-                </a>
-              </span>
-            {% endif %}
-          </h5>
-          <p>{{ task.pomodoro_message }}</small>
-          <p>{% if task.is_expired %}
-            Просрочено! Дедлайн - {{ task.deadline }}
-          {% else %}
-            Дедлайн - {{ task.deadline }} {{ task.time_left }}
-          {% endif %}
-          <div class="btn-group" role="group">
-            {% if task.status == "В работе" %}
-              <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-primary">
-                Выполнен
-              </a>
-              <a href={% url 'tasks:task_in_progres' pk=task.pk %} class="btn btn-primary">
-                Не в работе
-              </a>
-            {% elif task.status == "Не выполнен" %}
-              <a href={% url 'tasks:task_in_progres' pk=task.pk %} class="btn btn-primary">
-                В работу
-              </a>
-              {% if task.routine %}
-                <a href={% url 'tasks:task_routine_end' pk=task.pk %} class="btn btn-primary">
-                  Остановить
-                </a>
-              {% endif %}
-            {% else %}
-              <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-success">
-                Не выполнен
-              </a>
-            {% endif %}
+<div class="card">
+  <div class="card-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-8">
+          <b>
+            <a href={% url 'tasks:task_edit' task.pk %}>
+              {{ task.name }}
+            </a>
+          </b>
+        </div>
+        <div class="col-4">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href={% url 'tasks:task_delete' task.pk %}>
+              <button class="btn btn-outline-danger btn-sm" type="button">
+                x
+              </button>
+            </a>
           </div>
+        </div>
       </div>
-      
+      {% if task.project %}
+        <span class="badge rounded-pill text-bg-warning">
+          <a href={% url 'tasks:project_profile' task.project.pk %}>
+            {{ task.project.name }}
+          </a>
+        </span>
+      {% endif %}
+      {% if task.interest %}
+        <span class="badge rounded-pill text-bg-info">
+          <a href={% url 'tasks:interest_profile' task.interest.pk %}>
+            {{ task.interest.name }}
+          </a>
+        </span>
+      {% endif %}
+      <p>{{ task.pomodoro_message }}</small>
+      <p>{% if task.is_expired %}
+        {{ task.deadline }}
+      {% else %}
+        {{ task.time_left }}
+      {% endif %}
+      <div class="btn-group" role="group">
+        {% if task.status == "В работе" %}
+          <a href={% url 'tasks:task_done' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
+            Выполнен
+          </a>
+          <a href={% url 'tasks:task_in_progres' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
+            Не в работе
+          </a>
+        {% elif task.status == "Не выполнен" %}
+          <a href={% url 'tasks:task_in_progres' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
+            В работу
+          </a>
+          {% if task.routine %}
+            <a href={% url 'tasks:task_routine_end' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
+              Остановить
+            </a>
+          {% endif %}
+        {% else %}
+          <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-success">
+            Не выполнен
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
       {{ task.description }}
-      <a href={% url 'tasks:task_delete' task.pk %}>Удал.</a>
       <small><small>Изм: {{ task.last_edit_date }} - Alex Popov.
         <br>Создано: {{ task.pub_date }} - Mark Aparin</small></small>
     </div>

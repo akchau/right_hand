@@ -21,59 +21,27 @@ def tasks(request):
     template = "tasks/tasks.html"
     title = 'Бэклог.'
     header = title
-    tasks = Task.objects.filter(done=False).order_by(
-        "deadline")
+    tasks = Task.objects.filter(
+        done=False,
+        deadline__lt=datetime.now()+timedelta(days=2),
+        new=False,
+    ).order_by(
+        "deadline").order_by("deadline")
     tasks_done = Task.objects.filter(done=True).order_by(
         "-deadline")
-    tasks_routine = Task.objects.filter(routine=True, done=False)
-    if tasks:
-        numbers_pomodoro = tasks.aggregate(
-            sum_pomodoro=Sum('plan_pomodoro')
-        )
-        pomodoro = int(numbers_pomodoro['sum_pomodoro'])
-    else:
-        pomodoro = 0
-    if tasks_routine:
-        numbers_pomodoro_routine = tasks_routine.aggregate(
-            sum_pomodoro=Sum('plan_pomodoro')
-        )
-        pomodoro_routine = int(numbers_pomodoro_routine['sum_pomodoro'])
-        numbers_pomodoro_routine_day = sum(
-            [item.time_routine_in_day for item in tasks_routine]
-        )
-    else:
-        pomodoro_routine = 0
-        numbers_pomodoro_routine_day = 0
+    upcoming_tasks = Task.objects.filter(
+        done=False,
+        deadline__gte=datetime.now()+timedelta(days=2),
+        new=False,
+    ).order_by("deadline")
+    tasks_new = Task.objects.filter(done=False, new=True).order_by("deadline")
     context = {
         'title': title,
         'header': header,
         'tasks': tasks,
         'tasks_done': tasks_done,
-        'numbers_pomodoro_hours': pomodoro // 2,
-        'numbers_pomodoro_minutes': (pomodoro % 2) * 30,
-        'numbers_pomodoro_routine_hours': pomodoro_routine // 2,
-        'numbers_pomodoro_routine_minutes': (pomodoro_routine % 2) * 30,
-        'numbers_pomodoro_routine_day_hours':
-            numbers_pomodoro_routine_day // 2,
-        'numbers_pomodoro_routine_day_minutes': (
-            numbers_pomodoro_routine_day % 2
-        ) * 30
-    }
-    return render(request, template, context)
-
-
-def task_profile(request, pk):
-    """Страничка задачи."""
-    template = "tasks/task_profile.html"
-    task = get_object_or_404(Task, pk=pk)
-    project = task.project
-    title = task.name
-    header = title
-    context = {
-        'title': title,
-        'header': header,
-        'task': task,
-        'project': project,
+        'upcoming_tasks': upcoming_tasks,
+        'tasks_new': tasks_new,
     }
     return render(request, template, context)
 
@@ -137,7 +105,7 @@ def task_edit(request, pk):
     )
     if form.is_valid():
         form.save()
-        return redirect("tasks:task_profile", pk=pk)
+        return redirect("tasks:tasks")
     title = "Редактирование задачи."
     header = title
     action = "Редактируйте задачу"
@@ -202,6 +170,7 @@ def task_done(request, pk):
             regularity=task.regularity,
             done=False,
             status="Не выполнен",
+            new=False,
             plan_pomodoro=task.plan_pomodoro
         )
         new_task.save()
