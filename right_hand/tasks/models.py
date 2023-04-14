@@ -1,8 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from django.db import models
 
-from django.db.models import Avg, Sum
+from django.core.exceptions import ValidationError
+from django.db.models import Sum
 
 from contacts.models import Contact, Company, Communication
 
@@ -230,6 +231,11 @@ class Task(models.Model):
         related_name='down_tasks',
         verbose_name='Родительская задача',
     )
+
+    def clean(self):
+        if self.top_task and self.top_task.deadline < self.deadline:
+            raise ValidationError(
+                "Дедлайн не может быть позже родительской")
 
     class Meta:
         ordering = ("deadline",)
