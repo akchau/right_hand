@@ -18,7 +18,8 @@ class TaskAdmin(admin.ModelAdmin):
         'routine',
         'regularity',
         'done',
-        # 'category',
+        'top_task',
+        'status',
     )
     list_editable = (
         'name',

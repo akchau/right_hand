@@ -2,6 +2,8 @@ from datetime import datetime, timedelta
 
 from django.db import models
 
+from django.db.models import Avg, Sum
+
 from contacts.models import Contact, Company, Communication
 
 
@@ -12,9 +14,9 @@ PROJECT_STATUS = [
 
 TASK_STATUS = [
     ('Создан', 'Создан'),
-    ('Требуется разбить на подзадачи', 'Требуется разбить на подзадачи'),
     ('В работе', 'В работе'),
     ('Завершен', 'Завершен'),
+    ('Отменен', 'Отменен'),
 ]
 
 INTEREST_STATUS = [
@@ -219,6 +221,15 @@ class Task(models.Model):
     new = models.BooleanField(
         verbose_name="Новые"
     )
+    top_task = models.ForeignKey(
+        'self',
+        default=None,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='down_tasks',
+        verbose_name='Родительская задача',
+    )
 
     class Meta:
         ordering = ("deadline",)
@@ -253,7 +264,11 @@ class Task(models.Model):
 
     @property
     def pomodoro_message(self):
-        num = self.plan_pomodoro
+        real_num_pom = 0
+        if self.down_tasks.exists():
+            real_num_pom = self.down_tasks.aggregate(
+                num_pom=Sum('plan_pomodoro'))["num_pom"]
+        num = max([real_num_pom, self.plan_pomodoro])
         if num == 1:
             return '30 минут'
         if num % 2 == 1:
@@ -273,38 +288,16 @@ class Task(models.Model):
             self.deadline.minute,
             self.deadline.second,
         )
-
-        print(now)
-        deadline = datetime(
-            self.deadline.year,
-            self.deadline.month,
-            self.deadline.day,
-            self.deadline.hour,
-            self.deadline.minute,
-            self.deadline.second,
-        )
         left_time = deadline - now
         left_time = left_time
-        # 
-        # months = left_time.month
-        # days = left_time.day
-        # if left_time.day:
-            # years = left_time.year
-            # if years < 2:
-                # mess = f'{years} год'
-            # elif years < 5:
-                # mess = f'{years} года'
-            # else:
-                # mess = f'{years} лет'
-            # message_params.append(mess)
-        # if months > 0:
-            # mess = f'{months} мес.'
-            # message_params.append(mess)
-        # if days > 0:
-            # mess = f'{days} д.'
-            # message_params.append(mess)
+        if left_time.days >= 1:
+            measurement_unit = "д"
+            time = left_time.days
+        else:
+            measurement_unit = "ч"
+            time = left_time.seconds // 1200
         message = 'Осталось '
-        message = f'{message} {left_time} нед.'
+        message = f'{message} {time} {measurement_unit}'
         return message
 
     def __str__(self):

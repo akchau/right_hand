@@ -19,35 +19,34 @@
           </div>
         </div>
       </div>
+      {% if task.top_task %}
+      <a href={% url 'tasks:task_edit' task.top_task.pk %}>{{ task.top_task.name }}</a>
+      {% endif %}
       {% if task.project %}
-        <span class="badge rounded-pill text-bg-warning">
-          <a href={% url 'tasks:project_profile' task.project.pk %}>
-            {{ task.project.name }}
-          </a>
-        </span>
+        {% include 'tasks/includes/pills/project_pill.html' %}
       {% endif %}
       {% if task.interest %}
-        <span class="badge rounded-pill text-bg-info">
-          <a href={% url 'tasks:interest_profile' task.interest.pk %}>
-            {{ task.interest.name }}
-          </a>
-        </span>
+        {% include 'tasks/includes/pills/interest_pill.html' %}
       {% endif %}
-      <p>{{ task.pomodoro_message }}</small>
-      <p>{% if task.is_expired %}
-        {{ task.deadline }}
-      {% else %}
-        {{ task.time_left }}
-      {% endif %}
+      <p>{{ task.pomodoro_message }}
+      <p>{{ task.time_left }}
       <div class="btn-group" role="group">
-        {% if task.status == "В работе" %}
+        {% if task.plan_pomodoro > 1 and task.status == "Не выполнен" %}
+          <a href={% url 'tasks:task_decomp' pk=task.pk %} class="btn btn-warning">
+            Подзадача
+          </a>
+          <a href={% url 'tasks:task_decomp' pk=task.pk %} class="btn btn-warning">
+            Выполнено
+          </a>
+        {% endif %}
+        {% if task.status == "В работе" and task.plan_pomodoro == 1 %}
           <a href={% url 'tasks:task_done' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
-            Выполнен
+            Выполнено
           </a>
           <a href={% url 'tasks:task_in_progres' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
-            Не в работе
+            Вернуть
           </a>
-        {% elif task.status == "Не выполнен" %}
+        {% elif task.status == "Не выполнен" and task.plan_pomodoro == 1 %}
           <a href={% url 'tasks:task_in_progres' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
             В работу
           </a>
@@ -56,7 +55,7 @@
               Остановить
             </a>
           {% endif %}
-        {% else %}
+        {% elif task.plan_pomodoro == 1 %}
           <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-success">
             Не выполнен
           </a>

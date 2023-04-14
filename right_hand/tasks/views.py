@@ -186,6 +186,32 @@ def task_routine_end(request, pk):
     return redirect('tasks:tasks')
 
 
+def task_decomp(request, pk):
+    task_top = get_object_or_404(Task, pk=pk)
+    form = TaskForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        new_task = form.save(commit=False)
+        new_task.done = False
+        new_task.status = "Не выполнен"
+        new_task.top_task = task_top
+        new_task.save()
+        return redirect("tasks:tasks")
+    template = "tasks/task_new.html"
+    title = "Подзадача."
+    action = "Добавьте подзадачу."
+    context = {
+        "title": title,
+        "header": title,
+        "form": form,
+        "action": action,
+        "decomp": True,
+        "pk": pk
+    }
+    return render(request, template, context)
+
+
 def projects(request):
     """Все проекты."""
     template = "tasks/projects.html"
