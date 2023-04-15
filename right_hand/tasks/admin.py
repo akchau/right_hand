@@ -17,7 +17,6 @@ class TaskAdmin(admin.ModelAdmin):
         'interest',
         'routine',
         'regularity',
-        'done',
         'top_task',
         'status',
     )
@@ -30,8 +29,6 @@ class TaskAdmin(admin.ModelAdmin):
         'interest',
         'routine',
         'regularity',
-        'done',
-        # 'category',
     )
     search_fields = ("name", "description", "pk")
     list_filter = ('deadline',)

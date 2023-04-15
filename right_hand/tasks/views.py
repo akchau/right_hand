@@ -6,6 +6,7 @@ from contacts.models import Communication, Company
 from contacts.forms import CommunicationForm
 from contacts.views import plan_communication
 from .forms import (TaskForm,
+                    RegularityForm,
                     ProjectForm,
                     InterestForm,
                     InterestFormWithPartner,
@@ -21,7 +22,7 @@ def tasks(request):
     template = "tasks/tasks.html"
     title = 'Бэклог.'
     header = title
-    tasks = Task.objects.filter(
+    current_tasks = Task.objects.filter(
         done=False,
         deadline__lt=datetime.now()+timedelta(days=2),
         new=False,
@@ -30,8 +31,8 @@ def tasks(request):
     tasks_done = Task.objects.filter(done=True).order_by(
         "-deadline")
     upcoming_tasks = Task.objects.filter(
-        done=False,
-        deadline__gte=datetime.now()+timedelta(days=2),
+        status="Создана",
+        deadline__gte=datetime.now()+timedelta(days=1),
         new=False,
     ).order_by("deadline")
     tasks_new = Task.objects.filter(done=False, new=True).order_by("deadline")
@@ -41,13 +42,24 @@ def tasks(request):
     context = {
         'title': title,
         'header': header,
-        'tasks': tasks,
+        'tasks': current_tasks,
         'tasks_done': tasks_done,
         'upcoming_tasks': upcoming_tasks,
         'tasks_new': tasks_new,
         'no_blocked': no_blocked
     }
     return render(request, template, context)
+
+
+def add_regularity_to_routine_task(request, pk):
+    form = RegularityForm(
+        request.POST or None,
+    )
+    if form.is_valid():
+        task = Task.objects.filter(pk=pk)
+        task.regularity = form.regularity
+        task.save(commit=True)
+        return redirect("tasks:tasks")
 
 
 def task_new(request):
@@ -57,9 +69,10 @@ def task_new(request):
     )
     if form.is_valid():
         new_task = form.save(commit=False)
-        new_task.done = False
-        new_task.status = "Не выполнен"
+        new_task.status = "Создана"
         form.save(commit=True)
+        if form.routine:
+            return redirect("tasks:tasks")
         return redirect("tasks:tasks")
     template = "tasks/task_new.html"
     title = "Новая задача."
@@ -150,7 +163,7 @@ def task_done(request, pk):
 # ------------------- Если задача выполнена --------------------
     if task.done:
         task.done = False
-        task.status = "Не выполнен"
+        task.status = "Создана"
         if task.routine:
             if Task.objects.filter(name=task.name,
                                    done=False).exists():

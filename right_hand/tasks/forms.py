@@ -27,13 +27,16 @@ class TaskForm(forms.ModelForm):
             'routine',
             'regularity',
             'plan_pomodoro',
-            'new',
         )
 
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['description'].required = False
         self.fields['regularity'].required = False
+
+
+class RegularityForm(forms.Form):
+    regularity = forms.IntegerField(label='Выполнять раз в, дней')
 
 
 class TaskFormWithProject(forms.ModelForm):

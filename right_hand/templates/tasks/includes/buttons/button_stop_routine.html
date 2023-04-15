@@ -1,0 +1,3 @@
+<a href={% url 'tasks:task_routine_end' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
+  Остановить
+</a>

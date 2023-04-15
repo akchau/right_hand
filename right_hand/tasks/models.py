@@ -14,10 +14,10 @@ PROJECT_STATUS = [
 ]
 
 TASK_STATUS = [
-    ('Создан', 'Создан'),
+    ('Создана', 'Создана'),
     ('В работе', 'В работе'),
-    ('Завершен', 'Завершен'),
-    ('Отменен', 'Отменен'),
+    ('Завершена', 'Завершена'),
+    ('Отменена', 'Отменена'),
 ]
 
 INTEREST_STATUS = [
@@ -164,6 +164,17 @@ class Task(models.Model):
         null=True,
         blank=True,
     )
+    routine = models.BooleanField(
+        verbose_name="Повторяющаяся задача?"
+    )
+    plan_pomodoro = models.SmallIntegerField(
+        "Временная сложность задачи",
+        help_text="Укажите, кол-во 30-минутных отрезков на задачу."
+    )
+    regularity = models.SmallIntegerField(
+        "Регулярность",
+        default=1,
+    )
     project = models.ForeignKey(
         Project,
         on_delete=models.CASCADE,
@@ -182,16 +193,6 @@ class Task(models.Model):
         null=True,
         blank=True,
     )
-    routine = models.BooleanField(
-        verbose_name="Повторяющаяся задача?"
-    )
-    regularity = models.SmallIntegerField(
-        "Регулярность",
-        default=1,
-    )
-    done = models.BooleanField(
-        verbose_name="Выполнена?",
-    )
     pub_date = models.DateTimeField(
         'Дата создания',
         auto_now_add=True,
@@ -199,15 +200,6 @@ class Task(models.Model):
     last_edit_date = models.DateTimeField(
         'Дата последнего сохранения.',
         auto_now=True,
-    )
-    plan_pomodoro = models.SmallIntegerField(
-        "Временная сложность задачи",
-        help_text="Укажите, кол-во 30-минутных отрезков на задачу."
-    )
-    priority = models.PositiveSmallIntegerField(
-        "Приоритет задачи",
-        null=True,
-        blank=True,
     )
     done_date = models.DateTimeField(
         "Дата выполнения",
@@ -218,9 +210,6 @@ class Task(models.Model):
         "Статус задачи",
         choices=TASK_STATUS,
         max_length=40
-    )
-    new = models.BooleanField(
-        verbose_name="Новые"
     )
     top_task = models.ForeignKey(
         'self',
