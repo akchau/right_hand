@@ -7,6 +7,7 @@ app_name = 'tasks'
 
 urlpatterns = [
     # Адреса задач-------------------------------------------------------------
+    path('', views.tasks, name='tasks'),
     path('<int:pk>/decomp/', views.task_decomp, name='task_decomp'),
     path('<int:pk>/delete/', views.task_delete, name='task_delete'),
     path('<int:pk>/edit/', views.task_edit, name='task_edit'),
@@ -27,7 +28,6 @@ urlpatterns = [
         views.task_routine_end,
         name='task_routine_end'
     ),
-    path('', views.tasks, name='tasks'),
     # Адреса проектов ---------------------------------------------------------
     path(
         'project/<int:pk>/delete/',

@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Sum
 
 from contacts.models import Contact, Company, Communication
-
+from tasks.timer.timer import get_time_left_message
 
 PROJECT_STATUS = [
     ('В работе', 'В работе'),
@@ -285,26 +285,7 @@ class Task(models.Model):
 
     @property
     def time_left(self):
-        now = datetime.now()
-        deadline = datetime(
-            self.deadline.year,
-            self.deadline.month,
-            self.deadline.day,
-            self.deadline.hour,
-            self.deadline.minute,
-            self.deadline.second,
-        )
-        left_time = deadline - now
-        left_time = left_time
-        if left_time.days >= 1:
-            measurement_unit = "д"
-            time = left_time.days
-        else:
-            measurement_unit = "ч"
-            time = left_time.seconds // 1200
-        message = 'Осталось '
-        message = f'{message} {time} {measurement_unit}'
-        return message
+        return get_time_left_message(self.deadline)
 
     def __str__(self):
         return f"Задача - {self.name} - Дедлайн - {self.deadline}"
