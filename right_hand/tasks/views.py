@@ -35,6 +35,9 @@ def tasks(request):
         new=False,
     ).order_by("deadline")
     tasks_new = Task.objects.filter(done=False, new=True).order_by("deadline")
+    no_blocked = True
+    if Task.objects.filter(status="В работе").exists():
+        no_blocked = False
     context = {
         'title': title,
         'header': header,
@@ -42,6 +45,7 @@ def tasks(request):
         'tasks_done': tasks_done,
         'upcoming_tasks': upcoming_tasks,
         'tasks_new': tasks_new,
+        'no_blocked': no_blocked
     }
     return render(request, template, context)
 

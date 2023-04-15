@@ -5,9 +5,8 @@ SEC_IN_MIN = 60
 DAY_IN_WEEK = 7
 
 
-def get_time_left_message(time):
-    now = datetime.now()
-    deadline = datetime(
+def get_format_datetime(time):
+    time_if_format = datetime(
         time.year,
         time.month,
         time.day,
@@ -15,6 +14,24 @@ def get_time_left_message(time):
         time.minute,
         time.second,
     )
+    return time_if_format
+
+
+def get_is_expired(time):
+    deadline = get_format_datetime(time)
+    now = datetime.now()
+    return now > deadline
+
+
+def check_deadline_subtask(main, sub):
+    main_time = datetime(main)
+    sub_time = datetime(sub)
+    return sub_time > main_time
+
+
+def get_time_left_message(time):
+    now = datetime.now()
+    deadline = get_format_datetime(time)
     if deadline >= now:
         prefix = "Осталось "
     else:

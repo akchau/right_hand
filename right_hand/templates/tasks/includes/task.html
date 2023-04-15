@@ -28,9 +28,9 @@
       {% if task.interest %}
         {% include 'tasks/includes/pills/interest_pill.html' %}
       {% endif %}
-      <p>{{ task.pomodoro_message }}
-      <p>{{ task.time_left }}
-      <div class="btn-group" role="group">
+      <br>{{ task.pomodoro_message }}
+      <br>{{ task.time_left }}
+      <BR><div class="btn-group" role="group">
         {% if task.plan_pomodoro > 1 and task.status == "Не выполнен" %}
           <a href={% url 'tasks:task_decomp' pk=task.pk %} class="btn btn-warning">
             Подзадача
@@ -39,14 +39,14 @@
             Выполнено
           </a>
         {% endif %}
-        {% if task.status == "В работе" and task.plan_pomodoro == 1 %}
+        {% if task.status == "В работе" and task.plan_pomodoro == 1%}
           <a href={% url 'tasks:task_done' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
             Выполнено
           </a>
           <a href={% url 'tasks:task_in_progres' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
             Вернуть
           </a>
-        {% elif task.status == "Не выполнен" and task.plan_pomodoro == 1 %}
+        {% elif task.status == "Не выполнен" and task.plan_pomodoro == 1 and no_blocked %}
           <a href={% url 'tasks:task_in_progres' pk=task.pk %} {% if task.is_expired %}class="btn btn-danger" {% else%} class="btn btn-primary" {% endif %}>
             В работу
           </a>
@@ -55,7 +55,7 @@
               Остановить
             </a>
           {% endif %}
-        {% elif task.plan_pomodoro == 1 %}
+        {% elif task.plan_pomodoro == 1 and task.status == "Выполнен"%}
           <a href={% url 'tasks:task_done' pk=task.pk %} class="btn btn-success">
             Не выполнен
           </a>

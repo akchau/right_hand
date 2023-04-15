@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Sum
 
 from contacts.models import Contact, Company, Communication
-from tasks.timer.timer import get_time_left_message
+from tasks.timer.timer import get_time_left_message, get_is_expired, check_deadline_subtask
 
 PROJECT_STATUS = [
     ('В работе', 'В работе'),
@@ -233,7 +233,7 @@ class Task(models.Model):
     )
 
     def clean(self):
-        if self.top_task and self.top_task.deadline < self.deadline:
+        if self.top_task and check_deadline_subtask(self.top_task.deadline, self.deadline):
             raise ValidationError(
                 "Дедлайн не может быть позже родительской")
 
@@ -244,9 +244,7 @@ class Task(models.Model):
 
     @property
     def is_expired(self):
-        if datetime.today().timestamp() > self.deadline.timestamp():
-            return True
-        return False
+        return get_is_expired(self.deadline)
 
     @property
     def time_routine_in_day(self):
