@@ -6,28 +6,17 @@ from tasks import views as task_views
 app_name = 'tasks'
 
 urlpatterns = [
-    # Адреса задач-------------------------------------------------------------
+    # Адреса задач ------------------------------------------------------------
     path('', views.tasks, name='tasks'),
-    path('<int:pk>/decomp/', views.task_decomp, name='task_decomp'),
-    path('<int:pk>/delete/', views.task_delete, name='task_delete'),
-    path('<int:pk>/edit/', views.task_edit, name='task_edit'),
-    path(
-        'new_with_project/<int:pk>/',
-        task_views.task_new_with_project,
-        name='task_new_with_project'
-    ),
-    path('new/', views.task_new, name='task_new'),
-    path('<int:pk>/done/', views.task_done, name='task_done'),
-    path(
-        '<int:pk>/in_progress/',
-        views.task_in_progress,
-        name='task_in_progres'
-    ),
-    path(
-        '<int:pk>/task_routine_end/',
-        views.task_routine_end,
-        name='task_routine_end'
-    ),
+    path('<int:pk>/', views.task, name='task'),
+    path('new/', views.new, name='new'),
+    # Кнопки управления -------------------------------------------------------
+    path('<int:pk>/delete/', views.delete, name='delete'),
+    path('<int:pk>/subtask/', views.subtask, name='subtask'),
+    path('<int:pk>/done/', views.done, name='done'),
+    path('<int:pk>/in_work/', views.in_work, name='in_work'),
+    path('<int:pk>/stop/', views.stop, name='stop'),
+    path('<int:pk>/cancel/', views.cancel, name='cancel'),
     # Адреса проектов ---------------------------------------------------------
     path(
         'project/<int:pk>/delete/',

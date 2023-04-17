@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'contacts.apps.ContactsConfig',
     'tasks.apps.TasksConfig',
-    'products.apps.ProductsConfig',
+    'core.apps.CoreConfig',
     'rest_framework',
 ]
 

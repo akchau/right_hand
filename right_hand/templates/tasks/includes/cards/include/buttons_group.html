@@ -1,0 +1,16 @@
+{% if task.status == "Создана"%}
+  {% if task.plan_pomodoro > 2 %}
+    {% include 'tasks/includes/buttons/button_subtask.html' %}
+    {% include 'tasks/includes/buttons/button_done_comlex_task.html' %}
+  {% else %}
+    {% include 'tasks/includes/buttons/button_in_process.html' %}
+  {% endif %}
+  {% if task.routine %}
+    {% include 'tasks/includes/buttons/button_stop_routine.html' %}
+  {% endif %}
+{% elif task.status == "В работе"%}
+  {% include 'tasks/includes/buttons/button_done_unit_task.html' %}
+  {% include 'tasks/includes/buttons/button_return.html' %}
+{% elif task.status == "Завершена"%}
+  {% include 'tasks/includes/buttons/button_not_done.html' %}
+{% endif %}

@@ -1,0 +1,8 @@
+<a href={% url 'tasks:done' pk=task.pk %}
+  {% if task.is_expired %}
+    class="btn btn-danger"
+  {% else%}
+    class="btn btn-primary"
+  {% endif %}>
+  Выполнено
+</a>

@@ -22,31 +22,36 @@ def tasks(request):
     template = "tasks/tasks.html"
     title = 'Бэклог.'
     header = title
-    current_tasks = Task.objects.filter(
-        done=False,
+
+    overrude = Task.objects.filter(
+        status="Создана",
+        deadline__lt=datetime.now(),
+    )
+    current = Task.objects.filter(
+        status="Создана",
         deadline__lt=datetime.now()+timedelta(days=2),
-        new=False,
+    ).exclude(
+        deadline__lt=datetime.now(),
     ).order_by(
         "deadline").order_by("deadline")
-    tasks_done = Task.objects.filter(done=True).order_by(
-        "-deadline")
-    upcoming_tasks = Task.objects.filter(
+    upcoming = Task.objects.filter(
         status="Создана",
         deadline__gte=datetime.now()+timedelta(days=1),
-        new=False,
     ).order_by("deadline")
-    tasks_new = Task.objects.filter(done=False, new=True).order_by("deadline")
-    no_blocked = True
-    if Task.objects.filter(status="В работе").exists():
-        no_blocked = False
+    done = Task.objects.filter(
+        status="Выполнена",
+    ).order_by(
+        "-deadline")
+
+    block = Task.objects.filter(status="В работе").exists()
     context = {
         'title': title,
         'header': header,
-        'tasks': current_tasks,
-        'tasks_done': tasks_done,
-        'upcoming_tasks': upcoming_tasks,
-        'tasks_new': tasks_new,
-        'no_blocked': no_blocked
+        'overrude': overrude,
+        'current': current,
+        'upcoming': upcoming,
+        'done': done,
+        'block': block,
     }
     return render(request, template, context)
 
@@ -62,7 +67,7 @@ def add_regularity_to_routine_task(request, pk):
         return redirect("tasks:tasks")
 
 
-def task_new(request):
+def new(request):
     """Добавление нового контакта."""
     form = TaskForm(
         request.POST or None,
@@ -113,7 +118,7 @@ def task_new_with_project(request, pk):
     return render(request, template, context)
 
 
-def task_edit(request, pk):
+def task(request, pk):
     task = get_object_or_404(Task, pk=pk)
     form = TaskForm(
         request.POST or None,
@@ -138,12 +143,12 @@ def task_edit(request, pk):
     return render(request, template, context)
 
 
-def task_delete(request, pk):
+def delete(request, pk):
     Task.objects.get(pk=pk).delete()
     return redirect("tasks:tasks")
 
 
-def task_in_progress(request, pk):
+def in_work(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if task.status == "В работе":
         task.status = "Не выполнен"
@@ -158,7 +163,7 @@ def task_in_progress(request, pk):
     return redirect('tasks:tasks')
 
 
-def task_done(request, pk):
+def done(request, pk):
     task = get_object_or_404(Task, pk=pk)
 # ------------------- Если задача выполнена --------------------
     if task.done:
@@ -196,14 +201,14 @@ def task_done(request, pk):
     return redirect('tasks:tasks')
 
 
-def task_routine_end(request, pk):
+def stop(request, pk):
     task = get_object_or_404(Task, pk=pk)
 # ----------------- Если задача не выполнена --------------------
     task.delete()
     return redirect('tasks:tasks')
 
 
-def task_decomp(request, pk):
+def subtask(request, pk):
     task_top = get_object_or_404(Task, pk=pk)
     form = TaskForm(
         request.POST or None,

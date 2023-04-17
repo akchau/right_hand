@@ -1,0 +1,38 @@
+<div class="card">
+  <div class="card-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-8">
+          <b>
+            <a href={% url 'tasks:task_edit' task.pk %}>
+              {{ task.name }}
+            </a>
+          </b>
+        </div>
+        <div class="col-4">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            {% include 'tasks/includes/buttons/detlete.html' %}
+          </div>
+        </div>
+      </div>
+      {% if task.top_task %}
+        <a href={% url 'tasks:task_edit' task.top_task.pk %}>{{ task.top_task.name }}</a>
+      {% endif %}
+      {% if task.project %}
+        {% include 'tasks/includes/pills/project_pill.html' %}
+      {% endif %}
+      {% if task.interest %}
+        {% include 'tasks/includes/interest_pill.html' %}
+      {% endif %}
+      <br>{{ task.pomodoro_message }}
+      <br>{{ task.time_left_message }}
+      {}
+        <br><div class="btn-group" role="group">
+          {% include 'tasks/includes/cards/includes/buttons_group.html' %}
+        </div>
+    </div>
+  </div>
+  {{ task.description }}
+  <small><small>{{ task.created_time_message }}-Alex Popov
+  <br>{{ task.updated_time_message }}-Mark Aparin</small></small>
+</div>
