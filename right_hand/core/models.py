@@ -1,9 +1,9 @@
 from django.db import models
 
 from core.timer.timer import (get_is_expired,
-                               get_time_created_message,
-                               get_time_left_message,
-                               get_time_updtaed_message)
+                              get_time_created_message,
+                              get_time_left_message,
+                              get_time_updtaed_message)
 
 
 class AbstarctTaskModel(models.Model):

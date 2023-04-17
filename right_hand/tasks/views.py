@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from django.db.models import Sum
 from django.shortcuts import render, get_object_or_404, redirect
 
 from contacts.models import Communication, Company

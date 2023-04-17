@@ -1,7 +1,5 @@
 from datetime import datetime
 
-
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Sum
 
@@ -213,19 +211,6 @@ class Task(models.Model):
         related_name='down_tasks',
         verbose_name='Родительская задача',
     )
-
-    def clean(self):
-
-        if self.status not in self.TASK_STATUS.values():
-            raise ValidationError(
-                "Такого статуса нет.")
-
-        if self.top_task and check_deadline_subtask(
-            self.top_task.deadline,
-            self.deadline
-        ):
-            raise ValidationError(
-                "Дедлайн не может быть позже родительской")
 
     class Meta:
         ordering = ("deadline",)
