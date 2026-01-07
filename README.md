@@ -1,5 +1,7 @@
+[Перейти к остальным проектам](https://github.com/akchau/akchau/blob/main/content_table.md)
+
 # right_hand
-Your right hand that does not fail.
+*Личная СRM-система*
 
 Развертывания 
 - создайте в корневой папке файл окружения *.env*
